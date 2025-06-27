@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Online_A2.sln"
+    "dotnet.defaultSolution": "Online_Final.sln"
 }
