@@ -519,9 +519,9 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
     [PunRPC]
     void PlayGunshotSound()
     {
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Gun Shot");
+            PlayerAudio.Instance.PlaySFX("Gun Shot");
         }
     }
 }

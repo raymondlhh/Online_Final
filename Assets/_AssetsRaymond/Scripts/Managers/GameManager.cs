@@ -94,10 +94,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // The GameManager is specific to the GameScene, so this is the most reliable
         // place to trigger BGM changes when using PhotonNetwork.LoadLevel.
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
             Debug.Log("<color=orange>GameManager:</color> Starting GameScene, setting BGM volume to 0.1.");
-            AudioManager.Instance.SetBGMVolume(0.1f);
+            PlayerAudio.Instance.SetBGMVolume(0.1f);
         }
 
         if (PhotonNetwork.IsMasterClient)

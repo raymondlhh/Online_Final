@@ -8,7 +8,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using TMPro;
 
-public class UIManager : MonoBehaviourPunCallbacks
+public class PlayerUI : MonoBehaviourPunCallbacks
 {
     [Header("Player Choosing Panel")]
     public GameObject choosePlayerPanel;
@@ -71,9 +71,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     void OnSelectCharacter(string key)
     {
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Button Pressed");
+            PlayerAudio.Instance.PlaySFX("Button Pressed");
         }
         
         if (!IsCharacterTaken(key) && !LocalPlayerHasChosenCharacter())
@@ -94,9 +94,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     void OnCancelCharacter(string key)
     {
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Button Pressed");
+            PlayerAudio.Instance.PlaySFX("Button Pressed");
         }
 
         if (IsCharacterTakenByMe(key))

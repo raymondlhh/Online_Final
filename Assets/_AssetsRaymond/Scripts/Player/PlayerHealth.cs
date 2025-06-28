@@ -617,9 +617,9 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
     public void ExitToMainMenu()
     {
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Button Pressed");
+            PlayerAudio.Instance.PlaySFX("Button Pressed");
         }
 
         // Tell the persistent GameManager to handle the exit process.

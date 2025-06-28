@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AudioManager : MonoBehaviour
+public class PlayerAudio : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static PlayerAudio Instance { get; private set; }
 
     [Header("Sound Effects")]
     public Sound[] sfxSounds;

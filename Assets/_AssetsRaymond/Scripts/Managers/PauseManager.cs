@@ -80,9 +80,9 @@ public class PauseManager : MonoBehaviour
     private void OnContinueButtonPressed()
     {
         // Play sound, then unpause.
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Button Pressed");
+            PlayerAudio.Instance.PlaySFX("Button Pressed");
         }
         TogglePause();
     }
@@ -90,17 +90,17 @@ public class PauseManager : MonoBehaviour
     private void OnMuteButtonPressed()
     {
         // Play sound, then toggle mute.
-        if (AudioManager.Instance != null)
+        if (PlayerAudio.Instance != null)
         {
-            AudioManager.Instance.PlaySFX("Button Pressed");
-            AudioManager.Instance.ToggleMasterMute();
+            PlayerAudio.Instance.PlaySFX("Button Pressed");
+            PlayerAudio.Instance.ToggleMasterMute();
         }
         UpdateMuteButtonText();
     }
 
     private void UpdateMuteButtonText()
     {
-        if (muteButtonText != null && AudioManager.Instance != null)
+        if (muteButtonText != null && PlayerAudio.Instance != null)
         {
             // Check the global mute state from the AudioListener.
             if (AudioListener.pause)
