@@ -301,6 +301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_Mummy_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4831699300985857885, guid: c26d7f0281c0d9543bd19a0cbe6bd907, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5207977865956802023, guid: c26d7f0281c0d9543bd19a0cbe6bd907, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -711,6 +715,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_God_02
       objectReference: {fileID: 0}
+    - target: {fileID: 2132350712152019702, guid: a318b48f89dcd824cb845a222f442a42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -794,6 +802,10 @@ PrefabInstance:
     - target: {fileID: 2645067093416761404, guid: c81317454aaaa1849a2ef45e7ddd0e41, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Villager_Male_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645067093416761404, guid: c81317454aaaa1849a2ef45e7ddd0e41, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3458476636198797958, guid: c81317454aaaa1849a2ef45e7ddd0e41, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1078,6 +1090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_Guard_Male_01
       objectReference: {fileID: 0}
+    - target: {fileID: 5157473077322130592, guid: e9ef2ef215108454a9015a64576fb4bb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5537411984965598746, guid: e9ef2ef215108454a9015a64576fb4bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1201,6 +1217,10 @@ PrefabInstance:
     - target: {fileID: 193593376047229822, guid: 59d166cf0fc23fc4ca01ca957b440644, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Pharaoh_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 193593376047229822, guid: 59d166cf0fc23fc4ca01ca957b440644, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 712721625247232452, guid: 59d166cf0fc23fc4ca01ca957b440644, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2635,6 +2655,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_God_03
       objectReference: {fileID: 0}
+    - target: {fileID: 2059232923331350972, guid: 82f0e52b09a46ed4994a65d73161f917, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2696,6 +2720,10 @@ PrefabInstance:
     - target: {fileID: 4136399962344076960, guid: a7ac62660cc290546bc0e69d8e76904f, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Mummy_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136399962344076960, guid: a7ac62660cc290546bc0e69d8e76904f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2780,6 +2808,10 @@ PrefabInstance:
     - target: {fileID: 6972063662470157641, guid: b4246ca3e9e42574087bb3705a8f31c3, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Fancy_Villager_Male_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972063662470157641, guid: b4246ca3e9e42574087bb3705a8f31c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7749127444795297779, guid: b4246ca3e9e42574087bb3705a8f31c3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2904,6 +2936,10 @@ PrefabInstance:
     - target: {fileID: 1217950334707485346, guid: 95e2d00fa446c5e4ba66ed71bed57e2d, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Queen_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217950334707485346, guid: 95e2d00fa446c5e4ba66ed71bed57e2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1994206009496604696, guid: 95e2d00fa446c5e4ba66ed71bed57e2d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3201,6 +3237,10 @@ PrefabInstance:
     - target: {fileID: 5172647814793535897, guid: 60fe1792f49033c47aa8cfb43158fa4f, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Guard_Female_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172647814793535897, guid: 60fe1792f49033c47aa8cfb43158fa4f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5513320069813795619, guid: 60fe1792f49033c47aa8cfb43158fa4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3928,6 +3968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_Priest_01
       objectReference: {fileID: 0}
+    - target: {fileID: 7865456076744498893, guid: 7f7d2f69eab547846943793043578d00, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3949,6 +3993,10 @@ PrefabInstance:
     - target: {fileID: 2497527090648627918, guid: 5e0e7c8c9d3d5dd4da2d66bbedbca832, type: 3}
       propertyPath: m_Name
       value: SM_Chr_God_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2497527090648627918, guid: 5e0e7c8c9d3d5dd4da2d66bbedbca832, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3018307872006529140, guid: 5e0e7c8c9d3d5dd4da2d66bbedbca832, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4051,6 +4099,10 @@ PrefabInstance:
     - target: {fileID: 1808720347656225334, guid: 409fe45ed9f74884a8d917aecd144a87, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Mummy_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808720347656225334, guid: 409fe45ed9f74884a8d917aecd144a87, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5104,6 +5156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_God_05
       objectReference: {fileID: 0}
+    - target: {fileID: 7036577275526365276, guid: ec1bbeb1e3957c645a739339788c0d0b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7704851288275917542, guid: ec1bbeb1e3957c645a739339788c0d0b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5392,6 +5448,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_God_04
       objectReference: {fileID: 0}
+    - target: {fileID: 3075093231120251009, guid: 08dabddf80091284a928e6b0698f4ceb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5631,6 +5691,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Chr_Priestess_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4167973271510365688, guid: 55d01c102b56a3c40b7a2c6cda23a6ca, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5656,7 +5720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1815353088
 Transform:
   m_ObjectHideFlags: 0
@@ -6861,6 +6925,10 @@ PrefabInstance:
     - target: {fileID: 1163412231892760618, guid: 63dc64be15d4838499f1ab46334f67ad, type: 3}
       propertyPath: m_Name
       value: SM_Chr_Fancy_Villager_Female_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1163412231892760618, guid: 63dc64be15d4838499f1ab46334f67ad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1976682137306243728, guid: 63dc64be15d4838499f1ab46334f67ad, type: 3}
       propertyPath: m_LocalPosition.x
