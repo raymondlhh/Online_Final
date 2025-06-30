@@ -29,6 +29,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();   
         playerMovementController = GetComponent<PlayerMovement>();
 
+        // Always set IsSoldier true in ChooseCharacterScene
+        if (animator != null)
+            animator.SetBool("IsSoldier", true);
+
         if(photonView.IsMine)
         {
             Debug.Log("I am the local player, showing FPS hands.");
@@ -41,8 +45,6 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             //playerUIGameobject.transform.Find("FireButton").GetComponent<Button>().onClick.AddListener(() => shooter.Fire());
 
             FPSCamera.enabled = true;
-            if (animator != null)
-                animator.SetBool("IsSoldier", false);
         }
         else
         {
@@ -54,8 +56,6 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             playerMovementController.enabled = false;
 
             FPSCamera.enabled = false;
-            if (animator != null)
-                animator.SetBool("IsSoldier", true);
         }
 
         // Find the PlayerNameText in the hierarchy

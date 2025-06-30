@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -45,9 +46,20 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         currentSpeed = walkSpeed;
 
-        // Lock and hide cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Unlock and show cursor if in ChooseCharacterScene
+        if (SceneManager.GetActiveScene().name == "ChooseCharacterScene")
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            CanMove = false;
+            CanLook = false;
+        }
+        else
+        {
+            // Lock and hide cursor
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         // If no camera is assigned, try to find it
         if (playerCamera == null)

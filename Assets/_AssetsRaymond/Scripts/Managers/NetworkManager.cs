@@ -103,13 +103,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
         // Validate and get max players
-        int maxPlayers = 3; // Default value
+        int maxPlayers = 6; // Default value
         if (!string.IsNullOrEmpty(maxPlayerInputField.text))
         {
             int parsedValue;
             if (int.TryParse(maxPlayerInputField.text, out parsedValue))
             {
-                maxPlayers = Mathf.Clamp(parsedValue, 1, 3);
+                maxPlayers = Mathf.Clamp(parsedValue, 1, 6);
             }
         }
 
@@ -130,7 +130,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // Generate a new room name and try again
         string newRoomName = "Room" + Random.Range(1000, 10000);
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 3;
+        roomOptions.MaxPlayers = 6;
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
         PhotonNetwork.CreateRoom(newRoomName, roomOptions);
@@ -260,7 +260,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             playerListGameobject.transform.SetParent(playerListContent.transform);
             playerListGameobject.transform.localScale = Vector3.one;
 
-            playerListGameobject.transform.Find("PlayerNameText").GetComponent<Text>().text = player.NickName;
+            var playerNameText = playerListGameobject.transform.Find("PlayerNameText").GetComponent<Text>();
+            playerNameText.text = player.NickName;
+            if (player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                playerNameText.color = Color.green; // Local player sees their name in green
+            }
+            else
+            {
+                playerNameText.color = Color.white; // Others are white
+            }
 
             playerListGameobject.transform.Find("PlayerIndicator").gameObject.SetActive(
                 player.ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber
@@ -333,7 +342,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log(message);
         string roomName = "Room" + Random.Range(1000, 10000);
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 3;
+        roomOptions.MaxPlayers = 6;
 
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }

@@ -85,9 +85,6 @@ public class PlayerUI : MonoBehaviourPunCallbacks
             // Change skin locally
             if (appearance != null)
             {
-                if (key == JADEN_KEY) appearance.SetJaden();
-                else if (key == ALICE_KEY) appearance.SetAlice();
-                else if (key == JACK_KEY) appearance.SetJack();
             }
         }
     }

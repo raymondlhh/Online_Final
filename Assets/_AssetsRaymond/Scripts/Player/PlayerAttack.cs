@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 public class PlayerAttack : MonoBehaviourPunCallbacks
 {
@@ -151,6 +152,9 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().name == "ChooseCharacterScene")
+            return;
+
         if (!photonView.IsMine) return;
 
         if (isSwordActive)

@@ -2,138 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerAppearance : MonoBehaviourPun
+public class PlayerAppearance : MonoBehaviourPunCallbacks
 {
-    [Header("Body Mesh & Decorations")]
+    [Header("Body Mesh & Materials")]
     public SkinnedMeshRenderer bodyRenderer;
-    public Mesh JadenMesh;
-    public Mesh AliceMesh;
-    public Mesh JackMesh;
-    public GameObject JadenDecoration;
-    public GameObject AliceDecoration;
-    public GameObject JackDecoration;
+    public Mesh maleMesh;
+    public Mesh femaleMesh;
+    public Material[] colorMaterials; // 8 materials, assign in Inspector
 
-    // call this from your UIManager
-    public void SetJaden()  
-    { 
-        if (photonView.IsMine) 
-        {
-            Debug.Log("PlayerAppearanceController: Setting Jaden appearance via RPC");
-            photonView.RPC(nameof(RPC_ChangeAppearance), RpcTarget.AllBuffered, 0); 
-        }
-        else
-        {
-            Debug.LogWarning("PlayerAppearanceController: Cannot set appearance - not mine!");
-        }
-    }
-    
-    public void SetAlice()  
-    { 
-        if (photonView.IsMine) 
-        {
-            Debug.Log("PlayerAppearanceController: Setting Alice appearance via RPC");
-            photonView.RPC(nameof(RPC_ChangeAppearance), RpcTarget.AllBuffered, 1); 
-        }
-        else
-        {
-            Debug.LogWarning("PlayerAppearanceController: Cannot set appearance - not mine!");
-        }
-    }
-    
-    public void SetJack()   
-    { 
-        if (photonView.IsMine) 
-        {
-            Debug.Log("PlayerAppearanceController: Setting Jack appearance via RPC");
-            photonView.RPC(nameof(RPC_ChangeAppearance), RpcTarget.AllBuffered, 2); 
-        }
-        else
-        {
-            Debug.LogWarning("PlayerAppearanceController: Cannot set appearance - not mine!");
-        }
-    }
+    [Header("Decorations")]
+    public GameObject maleDecoration;
+    public GameObject femaleDecoration;
 
-    [PunRPC]
-    void RPC_ChangeAppearance(int skinIndex)
-    {
-        Debug.Log($"PlayerAppearanceController: RPC_ChangeAppearance called with skinIndex: {skinIndex} on {gameObject.name}");
-        
-        // pick the right mesh+decoration
-        switch (skinIndex)
-        {
-            case 0: 
-                ChangeAppearance(JadenMesh, JadenDecoration); 
-                //Debug.Log("PlayerAppearanceController: Applied Jaden appearance");
-                break;
-            case 1: 
-                ChangeAppearance(AliceMesh, AliceDecoration); 
-                //Debug.Log("PlayerAppearanceController: Applied Alice appearance");
-                break;
-            case 2: 
-                ChangeAppearance(JackMesh, JackDecoration);  
-                //Debug.Log("PlayerAppearanceController: Applied Jack appearance");
-                break;
-            default:
-                Debug.LogError($"PlayerAppearanceController: Invalid skinIndex: {skinIndex}");
-                break;
-        }
-    }
-
-    void ChangeAppearance(Mesh newMesh, GameObject activeDecoration)
+    // Set gender (0 = male, 1 = female)
+    public void SetGender(int genderIndex)
     {
         if (bodyRenderer != null)
-        {
-            bodyRenderer.sharedMesh = newMesh;
-            //Debug.Log($"PlayerAppearanceController: Changed mesh to {newMesh.name}");
-        }
-        else
-        {
-            Debug.LogError("PlayerAppearanceController: bodyRenderer is null!");
-        }
+            bodyRenderer.sharedMesh = (genderIndex == 0) ? maleMesh : femaleMesh;
 
-        // turn off all, then on the one we want
-        if (JadenDecoration != null) JadenDecoration.SetActive(false);
-        if (AliceDecoration != null) AliceDecoration.SetActive(false);
-        if (JackDecoration != null) JackDecoration.SetActive(false);
-        
-        if (activeDecoration != null) 
+        // Decorations
+        if (maleDecoration != null)
+            maleDecoration.SetActive(genderIndex == 0);
+        if (femaleDecoration != null)
+            femaleDecoration.SetActive(genderIndex == 1);
+    }
+
+    // Set color by index
+    public void SetColor(int colorIndex)
+    {
+        if (bodyRenderer != null && colorIndex >= 0 && colorIndex < colorMaterials.Length)
+            bodyRenderer.material = colorMaterials[colorIndex];
+    }
+
+    // Called when Photon custom properties are updated
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (photonView.Owner == targetPlayer && changedProps.ContainsKey("ColorIndex"))
         {
-            activeDecoration.SetActive(true);
-            //Debug.Log($"PlayerAppearanceController: Activated decoration {activeDecoration.name}");
+            int colorIndex = (int)targetPlayer.CustomProperties["ColorIndex"];
+            SetColor(colorIndex);
         }
-        else
+        if (photonView.Owner == targetPlayer && changedProps.ContainsKey("GenderIndex"))
         {
-            Debug.LogWarning("PlayerAppearanceController: activeDecoration is null!");
+            int genderIndex = (int)targetPlayer.CustomProperties["GenderIndex"];
+            SetGender(genderIndex);
         }
     }
 
     void Start()
     {
-        // // Verify that we have a PhotonView
-        // if (photonView == null)
-        // {
-        //     Debug.LogError("PlayerAppearanceController: No PhotonView found on this GameObject!");
-        // }
-        // else
-        // {
-        //     Debug.Log($"PlayerAppearanceController: PhotonView found. IsMine: {photonView.IsMine}, ViewID: {photonView.ViewID}");
-        // }
-
-        // // Verify that we have the required components
-        // if (bodyRenderer == null)
-        // {
-        //     Debug.LogError("PlayerAppearanceController: bodyRenderer is not assigned!");
-        // }
-
-        // if (JadenMesh == null || AliceMesh == null || JackMesh == null)
-        // {
-        //     Debug.LogError("PlayerAppearanceController: One or more meshes are not assigned!");
-        // }
-
-        // if (JadenDecoration == null || AliceDecoration == null || JackDecoration == null)
-        // {
-        //     Debug.LogError("PlayerAppearanceController: One or more decorations are not assigned!");
-        // }
+        // On spawn, set appearance from custom properties if available
+        if (photonView.Owner.CustomProperties.TryGetValue("GenderIndex", out object genderObj))
+        {
+            SetGender((int)genderObj);
+        }
+        if (photonView.Owner.CustomProperties.TryGetValue("ColorIndex", out object colorObj))
+        {
+            SetColor((int)colorObj);
+        }
     }
 }
