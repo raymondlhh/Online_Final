@@ -180,7 +180,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             ActivatePanel(LoadingPanel.name);
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel("ChooseCharacterScene");
         }
     }
 
