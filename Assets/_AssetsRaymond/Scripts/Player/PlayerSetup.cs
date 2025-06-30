@@ -76,6 +76,15 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         if (playerNameText != null)
         {
             playerNameText.text = photonView.Owner.NickName;
+            // Set color: green if this is the local player, white otherwise
+            if (photonView.IsMine)
+            {
+                playerNameText.color = Color.green;
+            }
+            else
+            {
+                playerNameText.color = Color.white;
+            }
         }
     }
 

@@ -8,17 +8,17 @@ public class PlayerAudio : MonoBehaviour
     public static PlayerAudio Instance { get; private set; }
 
     [Header("Sound Effects")]
-    public Sound[] sfxSounds;
+    public PlayerSound[] sfxSounds;
     
     [Header("Background Music")]
-    public Sound[] bgmSounds;
+    public PlayerSound[] bgmSounds;
     
     [Header("Audio Sources")]
     public AudioSource sfxSource;
     public AudioSource bgmSource;
 
-    private Dictionary<string, Sound> sfxDictionary = new Dictionary<string, Sound>();
-    private Dictionary<string, Sound> bgmDictionary = new Dictionary<string, Sound>();
+    private Dictionary<string, PlayerSound> sfxDictionary = new Dictionary<string, PlayerSound>();
+    private Dictionary<string, PlayerSound> bgmDictionary = new Dictionary<string, PlayerSound>();
 
     void Awake()
     {
@@ -99,7 +99,7 @@ public class PlayerAudio : MonoBehaviour
     void InitializeSoundDictionaries()
     {
         // Initialize SFX dictionary
-        foreach (Sound sound in sfxSounds)
+        foreach (PlayerSound sound in sfxSounds)
         {
             if (sound != null && !string.IsNullOrEmpty(sound.name))
             {
@@ -108,7 +108,7 @@ public class PlayerAudio : MonoBehaviour
         }
 
         // Initialize BGM dictionary
-        foreach (Sound sound in bgmSounds)
+        foreach (PlayerSound sound in bgmSounds)
         {
             if (sound != null && !string.IsNullOrEmpty(sound.name))
             {
@@ -121,7 +121,7 @@ public class PlayerAudio : MonoBehaviour
     {
         if (sfxDictionary.ContainsKey(soundName))
         {
-            Sound sound = sfxDictionary[soundName];
+            PlayerSound sound = sfxDictionary[soundName];
             sfxSource.PlayOneShot(sound.clip, sound.volume);
         }
         else
@@ -135,7 +135,7 @@ public class PlayerAudio : MonoBehaviour
         Debug.Log($"<color=green>AudioManager.PlayBGM():</color> Received request to play '{soundName}'.");
         if (bgmDictionary.ContainsKey(soundName))
         {
-            Sound sound = bgmDictionary[soundName];
+            PlayerSound sound = bgmDictionary[soundName];
             Debug.Log($"<color=green>AudioManager.PlayBGM():</color> Sound '{soundName}' found. Playing clip '{sound.clip.name}'.");
             
             // Stop current BGM if playing and it's a different clip
