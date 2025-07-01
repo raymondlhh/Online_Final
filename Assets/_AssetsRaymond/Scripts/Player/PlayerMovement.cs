@@ -39,12 +39,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Animation Settings")]
     public Animator FPAnimator;  // First Person Animator
     public Animator TPAnimator;  // Third Person Animator
+    private PhotonView photonView;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         currentSpeed = walkSpeed;
+        photonView = GetComponent<PhotonView>();
 
         // Unlock and show cursor if in ChooseCharacterScene
         if (SceneManager.GetActiveScene().name == "ChooseCharacterScene")
@@ -75,6 +77,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (photonView != null && !photonView.IsMine)
+            return;
+
         // Ground Check
         if (groundCheck != null)
         {

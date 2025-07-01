@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayerVisibility : MonoBehaviourPunCallbacks
 {
+    public GameObject fpViewObject;
+    public GameObject fpPlayerUI;
     public GameObject tpViewObject;
     public GameObject tpPlayerUI;
     private Coroutine visibilityCoroutine;
@@ -17,7 +19,19 @@ public class PlayerVisibility : MonoBehaviourPunCallbacks
         cloakedPlayerLayer = LayerMask.NameToLayer("CloakedPlayer");
     }
 
-    public void SetPlayerVisible(bool isVisible)
+    public void SetFirstPersonVisibility(bool isVisible)
+    {
+        if (fpViewObject != null)
+        {
+            fpViewObject.SetActive(isVisible);
+        }
+        if (fpPlayerUI != null)
+        {
+            fpPlayerUI.SetActive(isVisible);
+        }
+    }
+
+    public void SetThirdPersonVisibility(bool isVisible)
     {
         if (tpViewObject != null)
         {
@@ -27,6 +41,11 @@ public class PlayerVisibility : MonoBehaviourPunCallbacks
         {
             tpPlayerUI.SetActive(isVisible);
         }
+    }
+
+    public void SetPlayerVisible(bool isVisible)
+    {
+        SetThirdPersonVisibility(isVisible);
     }
 
     public void ActivateGhostCloak(float duration)

@@ -21,7 +21,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Text gameOverDescriptionText;
     [SerializeField] private GameObject succeedPanel;
-    [SerializeField] private GameObject deadMark;
     [SerializeField] private Button exitButton;
     [SerializeField] private TextMeshProUGUI victimsText;
 
@@ -245,17 +244,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     {
         IsDowned = true;
 
-        if (deadMark != null)
-        {
-            deadMark.SetActive(true);
-        }
-
-        // Hide the TP_View for everyone when downed
-        if (tpView != null)
-        {
-            tpView.SetActive(false);
-        }
-
         if (animator != null)
             animator.SetBool("IsDead", true);
 
@@ -449,12 +437,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     {
         IsDowned = false;
 
-        if (deadMark != null)
-        {
-            deadMark.SetActive(false);
-        }
-
-        // Set IsDead to false first to begin the transition to Idle
         if (animator != null)
         {
             animator.SetBool("IsDead", false);
@@ -638,11 +620,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         // This method resets the player's visual state for returning to a menu-like screen
         // without affecting their networked "IsAlive" status, which will be reset on scene reload.
         IsDowned = false;
-
-        if (deadMark != null)
-        {
-            deadMark.SetActive(false);
-        }
 
         if (animator != null)
         {
