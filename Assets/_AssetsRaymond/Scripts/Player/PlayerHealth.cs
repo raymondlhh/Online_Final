@@ -35,8 +35,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     private Vignette vignette;
     private Coroutine damageEffectCoroutine;
 
-    // Revive UI is now handled by PlayerReviver script
-
     private float health;
     private Animator animator;
     private bool isLocalPlayer;

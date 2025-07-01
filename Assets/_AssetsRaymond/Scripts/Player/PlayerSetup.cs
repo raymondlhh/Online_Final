@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
@@ -45,6 +46,14 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             //playerUIGameobject.transform.Find("FireButton").GetComponent<Button>().onClick.AddListener(() => shooter.Fire());
 
             FPSCamera.enabled = true;
+
+            // Handle visibility for different scenes
+            if (SceneManager.GetActiveScene().name == "TestCharacterScene")
+            {
+                // In TestCharacterScene: Show FP_View and FP_PlayerUI, hide TP_View and TP_PlayerUI
+                SetFPViewVisibility(true);
+                SetTPViewVisibility(false);
+            }
         }
         else
         {
@@ -56,6 +65,14 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             playerMovementController.enabled = false;
 
             FPSCamera.enabled = false;
+
+            // Handle visibility for different scenes
+            if (SceneManager.GetActiveScene().name == "TestCharacterScene")
+            {
+                // In TestCharacterScene: Show only TP_View and TP_PlayerUI, hide FP_View and FP_PlayerUI
+                SetFPViewVisibility(false);
+                SetTPViewVisibility(true);
+            }
         }
 
         // Find the PlayerNameText in the hierarchy
@@ -85,6 +102,40 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             {
                 playerNameText.color = Color.white;
             }
+        }
+    }
+
+    void SetFPViewVisibility(bool isVisible)
+    {
+        // Find and set FP_View visibility
+        Transform fpView = transform.Find("FP_View");
+        if (fpView != null)
+        {
+            fpView.gameObject.SetActive(isVisible);
+        }
+
+        // Find and set FP_PlayerUI visibility
+        Transform fpPlayerUI = transform.Find("FP_PlayerUI");
+        if (fpPlayerUI != null)
+        {
+            fpPlayerUI.gameObject.SetActive(isVisible);
+        }
+    }
+
+    void SetTPViewVisibility(bool isVisible)
+    {
+        // Find and set TP_View visibility
+        Transform tpView = transform.Find("TP_View");
+        if (tpView != null)
+        {
+            tpView.gameObject.SetActive(isVisible);
+        }
+
+        // Find and set TP_PlayerUI visibility
+        Transform tpPlayerUI = transform.Find("TP_PlayerUI");
+        if (tpPlayerUI != null)
+        {
+            tpPlayerUI.gameObject.SetActive(isVisible);
         }
     }
 

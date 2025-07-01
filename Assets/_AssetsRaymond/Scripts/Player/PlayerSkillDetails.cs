@@ -33,7 +33,7 @@ public class PlayerSkillDetails : MonoBehaviour
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovementController;
     private PlayerVisibility playerVisibilityController;
-    private PlayerConnector playerConnector;
+
 
     private bool slowFallActive = false;
     private Coroutine timedSkillUICoroutine;
@@ -74,7 +74,7 @@ public class PlayerSkillDetails : MonoBehaviour
         playerHealth = GetComponentInParent<PlayerHealth>();
         playerMovementController = GetComponentInParent<PlayerMovement>();
         playerVisibilityController = GetComponentInParent<PlayerVisibility>();
-        playerConnector = GetComponentInParent<PlayerConnector>();
+
 
         if (isShadowSwapSkill && shadowSwapFXPrefab == null)
         {
@@ -89,10 +89,6 @@ public class PlayerSkillDetails : MonoBehaviour
         {
             if (isConnectMovementSkill && isConnectSkillActive)
             {
-                if (playerConnector != null)
-                {
-                    playerConnector.CancelConnection();
-                }
                 isConnectSkillActive = false;
                 
                 if (timedSkillUICoroutine != null) StopCoroutine(timedSkillUICoroutine);
@@ -177,15 +173,7 @@ public class PlayerSkillDetails : MonoBehaviour
             slowFallActive = true;
             isTimedSkill = true;
 
-            // If a player is connected, apply slow fall to them too
-            if (playerConnector != null && playerConnector.ConnectedPlayerMovement != null)
-            {
-                var connectedPlayerView = playerConnector.ConnectedPlayerMovement.GetComponent<PhotonView>();
-                if (connectedPlayerView != null)
-                {
-                    connectedPlayerView.RPC("SetKinematicState", RpcTarget.All, true);
-                }
-            }
+
         }
         if (isTimedGhostCloak && playerVisibilityController != null)
         {
@@ -195,17 +183,10 @@ public class PlayerSkillDetails : MonoBehaviour
 
         if (isConnectMovementSkill)
         {
-            if (playerConnector != null)
-            {
-                var connectResult = playerConnector.TryConnect(skillDuration);
-                
-                if (connectResult == PlayerConnector.ConnectionResult.Success)
-                {
-                    isConnectSkillActive = true;
-                    timedSkillUICoroutine = StartCoroutine(HandleTimedSkillUI(skillDuration));
-                    StartCooldown();
-                }
-            }
+            // Connect movement skill functionality removed
+            isConnectSkillActive = true;
+            timedSkillUICoroutine = StartCoroutine(HandleTimedSkillUI(skillDuration));
+            StartCooldown();
         }
         else
         {
@@ -330,15 +311,6 @@ public class PlayerSkillDetails : MonoBehaviour
         
         if (isTimedSlowFall)
         {
-            // If a player was connected, reset their physics
-            if (playerConnector != null && playerConnector.ConnectedPlayerMovement != null)
-            {
-                var connectedPlayerView = playerConnector.ConnectedPlayerMovement.GetComponent<PhotonView>();
-                if (connectedPlayerView != null)
-                {
-                    connectedPlayerView.RPC("SetKinematicState", RpcTarget.All, false);
-                }
-            }
             slowFallActive = false;
         }
         timedSkillUICoroutine = null;

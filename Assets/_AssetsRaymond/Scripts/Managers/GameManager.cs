@@ -361,7 +361,32 @@ public class GameManager : MonoBehaviourPunCallbacks
             props["IsAlive"] = true;
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
-            SpawnPlayerAtSpawner(PhotonNetwork.LocalPlayer.ActorNumber);
+            SpawnPlayerAtSpawnerByIndex();
+        }
+    }
+
+    // Spawn player at spawner based on their index in the player list
+    public void SpawnPlayerAtSpawnerByIndex()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+        int myIndex = -1;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].ActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                myIndex = i;
+                break;
+            }
+        }
+
+        if (myIndex >= 0 && myIndex < playerSpawners.Length)
+        {
+            Transform spawnPoint = playerSpawners[myIndex];
+            PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, spawnPoint.rotation);
+        }
+        else
+        {
+            Debug.LogError("Player index out of range or spawner not set up!");
         }
     }
 

@@ -129,11 +129,7 @@ public class Victim : MonoBehaviour
             PhotonView playerView = PhotonView.Find(connectedPlayerViewID);
             if (playerView != null)
             {
-                PlayerConnector connector = playerView.GetComponent<PlayerConnector>();
-                if (connector != null)
-                {
-                    playerView.RPC("RPC_ForceReleaseVictim", RpcTarget.All);
-                }
+                playerView.RPC("RPC_ForceReleaseVictim", RpcTarget.All);
             }
         }
         
@@ -190,12 +186,9 @@ public class Victim : MonoBehaviour
 
         PhotonView connectorView = PhotonView.Find(connectorViewID);
         if (connectorView == null) return;
-        
-        PlayerConnector connector = connectorView.GetComponent<PlayerConnector>();
-        if (connector == null || connector.connectionSlot == null) return;
 
         if (connectionCoroutine != null) StopCoroutine(connectionCoroutine);
-        connectionCoroutine = StartCoroutine(VictimConnectionLifetime(connector.connectionSlot, duration));
+        connectionCoroutine = StartCoroutine(VictimConnectionLifetime(connectorView.transform, duration));
     }
 
     [PunRPC]

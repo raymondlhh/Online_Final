@@ -4328,8 +4328,6 @@ GameObject:
   - component: {fileID: 5442213345787577600}
   - component: {fileID: 5405361684138750077}
   - component: {fileID: 7449363326729837203}
-  - component: {fileID: 8810854934938615244}
-  - component: {fileID: 5200830198021754198}
   - component: {fileID: 4879276948505019439}
   - component: {fileID: 6671384928228441927}
   - component: {fileID: 1177513172182546020}
@@ -4593,41 +4591,6 @@ MonoBehaviour:
   damageVolume: {fileID: 8836683036895466176}
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   reviveColor: {r: 0, g: 1, b: 0, a: 1}
---- !u!114 &8810854934938615244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790435183651769597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf4a3daaf4c6b0459f5c30a656835a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reviveKey: 102
-  raycastDistance: 5
-  playerLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  revivePromptUI: {fileID: 6453599761486520269}
-  revivePromptText: {fileID: 1493916756104344982}
---- !u!114 &5200830198021754198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790435183651769597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b9e95e6451a0c1458e4f15694047530, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectionSlot: {fileID: 0}
-  connectRange: 15
-  connectedUI: {fileID: 2161979858182171591}
-  connectedDurationText: {fileID: 77638719065058393}
 --- !u!114 &4879276948505019439
 MonoBehaviour:
   m_ObjectHideFlags: 0
