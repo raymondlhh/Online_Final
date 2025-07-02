@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Victim
   - SaveZone
+  - Guard
+  - Village
   layers:
   - Default
   - TransparentFX

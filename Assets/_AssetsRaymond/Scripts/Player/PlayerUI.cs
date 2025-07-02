@@ -6,20 +6,23 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
-using TMPro;
 
 [System.Serializable]
 public class Skill
 {
     public string skillName;
     public GameObject skillImageObject; // Assign ImageIce, ImageInvisible, etc.
+    [TextArea]
+    public string skillDescription;
 }
 
 public class PlayerUI : MonoBehaviourPunCallbacks
 {
     [Header("Random Skill Selected")]
     public GameObject randomSkillPanel;
-    public TMP_Text skillNameText;
+    public Text skillNameText;
+    public Text skillDescriptionText;
+    public float delayTime;
     public List<Skill> allSkills; // Assign 6 skills in inspector
 
     private bool countdownStarted = false;
@@ -46,7 +49,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
                 players[i].SetCustomProperties(props);
             }
         }
-        StartCoroutine(ShowSkillUIAfterDelay(0.5f));
+        StartCoroutine(ShowSkillUIAfterDelay(delayTime));
     }
 
     IEnumerator ShowSkillUIAfterDelay(float delay)
@@ -69,6 +72,8 @@ public class PlayerUI : MonoBehaviourPunCallbacks
             allSkills[skillIndex].skillImageObject.SetActive(true);
             if (skillNameText != null)
                 skillNameText.text = allSkills[skillIndex].skillName;
+            if (skillDescriptionText != null)
+                skillDescriptionText.text = allSkills[skillIndex].skillDescription;
             StartCoroutine(HideRandomSkillPanelAfterDelay(5f));
         }
     }
