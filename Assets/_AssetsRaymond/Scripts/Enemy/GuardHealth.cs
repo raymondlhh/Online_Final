@@ -8,14 +8,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PhotonView))]
 public class GuardHealth : MonoBehaviour
 {
-    [Header("Health Settings")]
-    public float startHealth = 100f;
+    [Header("Guard Settings")]
+    [Tooltip("Guards are invulnerable and cannot be damaged")]
+    public bool isInvulnerable = true;
+    
     [Header("UI")]
-    [SerializeField] private Image healthBar;
     [SerializeField] private GameObject guardUICanvas;
-
-    private float health;
-    private bool isDead = false;
 
     private Animator animator;
     private NavMeshAgent navMeshAgent;
@@ -38,9 +36,8 @@ public class GuardHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = startHealth;
-        // The camera will be found in LateUpdate to ensure it's ready.
-        UpdateHealthBar(); // Set initial health bar state
+        // Guards are invulnerable by default
+        Debug.Log($"<color=green>Guard:</color> {gameObject.name} is invulnerable and cannot be damaged.");
     }
 
     void LateUpdate()
@@ -64,81 +61,17 @@ public class GuardHealth : MonoBehaviour
     [PunRPC]
     public void TakeDamage(float amount)
     {
-        if (isDead) return;
-
-        health -= amount;
-        UpdateHealthBar(); // Update UI on all clients
+        // Guards are invulnerable - ignore all damage
+        Debug.Log($"<color=green>Guard:</color> {gameObject.name} is invulnerable. Damage blocked: {amount}");
         
-        if (health <= 0)
-        {
-            health = 0;
-            Die();
-        }
+        // Optionally play a "blocked" sound or effect here
+        // You could add a shield effect or sound to indicate the guard blocked the attack
     }
 
-    void UpdateHealthBar()
+    // Public method to check if guard is invulnerable (for other scripts)
+    public bool IsInvulnerable()
     {
-        if (healthBar != null)
-        {
-            healthBar.fillAmount = health / startHealth;
-        }
-    }
-
-    void Die()
-    {
-        isDead = true;
-        
-        // Hide the health bar canvas
-        if(guardUICanvas != null)
-        {
-            guardUICanvas.SetActive(false);
-        }
-        
-        // Trigger death animation
-        if (animator != null)
-        {
-            animator.SetBool("IsDead", true);
-        }
-
-        // Disable components
-        if (guardMovement != null) guardMovement.enabled = false;
-        if (navMeshAgent != null) navMeshAgent.enabled = false;
-        if (guardShoot != null) guardShoot.enabled = false;
-        if (mainCollider != null) mainCollider.enabled = false;
-
-        // Start coroutine to destroy the object after a delay
-        StartCoroutine(DestroyAfterAnimation());
-    }
-
-    IEnumerator DestroyAfterAnimation()
-    {
-        // Wait for the length of the death animation
-        if (animator != null)
-        {
-            // Find the "Death" clip in the animator controller
-            AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-            float deathClipLength = 3f; // Default value
-            foreach (AnimationClip clip in clips)
-            {
-                if (clip.name == "Death") // Make sure your death animation clip is named "Death"
-                {
-                    deathClipLength = clip.length;
-                    break;
-                }
-            }
-            yield return new WaitForSeconds(deathClipLength);
-        }
-        else
-        {
-            // Fallback if no animator is found
-            yield return new WaitForSeconds(2.9f);
-        }
-        
-        // Only the master client should destroy networked objects
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
+        return isInvulnerable;
     }
 
     // Update is called once per frame
