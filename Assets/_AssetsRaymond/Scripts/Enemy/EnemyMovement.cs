@@ -36,14 +36,14 @@ public class EnemyMovement : MonoBehaviour
         
         navMeshAgent.speed = speed;
 
-        if (GameManager.Instance != null && GameManager.Instance.enemySpawners.Length > 0)
+        if (GameManager.Instance != null && GameManager.Instance.guardSpawners.Length > 0)
         {
-            patrolPoints = GameManager.Instance.enemySpawners;
+            patrolPoints = GameManager.Instance.guardSpawners;
             GoToNextPatrolPoint();
         }
         else
         {
-            Debug.LogError("No spawn points found for enemy patrol.", this);
+            Debug.LogError("No spawn points found for guard patrol.", this);
         }
     }
 

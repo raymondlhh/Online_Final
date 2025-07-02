@@ -239,15 +239,15 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
         {
             photonView.RPC("CreateHitEffect", RpcTarget.All, _hit.point);
 
-            // Damage Enemy
-            if (_hit.collider.gameObject.CompareTag("Enemy"))
+                    // Damage Guard
+        if (_hit.collider.gameObject.CompareTag("Guard"))
+        {
+            GuardHealth guardHealth = _hit.collider.gameObject.GetComponent<GuardHealth>();
+            if (guardHealth != null)
             {
-                EnemyHealth enemyHealth = _hit.collider.gameObject.GetComponent<EnemyHealth>();
-                if (enemyHealth != null)
-                {
-                    enemyHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
-                }
+                guardHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
             }
+        }
         }
 
         // Sync ammo across network
@@ -278,15 +278,15 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
         {
             photonView.RPC("CreateHitEffect", RpcTarget.All, _hit.point);
 
-            // Damage Enemy
-            if (_hit.collider.gameObject.CompareTag("Enemy"))
+                    // Damage Guard
+        if (_hit.collider.gameObject.CompareTag("Guard"))
+        {
+            GuardHealth guardHealth = _hit.collider.gameObject.GetComponent<GuardHealth>();
+            if (guardHealth != null)
             {
-                EnemyHealth enemyHealth = _hit.collider.gameObject.GetComponent<EnemyHealth>();
-                if (enemyHealth != null)
-                {
-                    enemyHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, swordDamage);
-                }
+                guardHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, swordDamage);
             }
+        }
         }
         
         yield return new WaitForSeconds(swordAttackRate * 0.9f); 

@@ -81,6 +81,8 @@ MonoBehaviour:
   - RPC_PrepareForRestart
   - SetKinematicState
   - PlayGunshotSound
+  - RPC_VillageEnteredSaveZone
+  - RPC_VillageLeftSaveZone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

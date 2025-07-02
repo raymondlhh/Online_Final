@@ -317,7 +317,7 @@ public class PlayerSkillDetails : MonoBehaviour
     }
 
     /// <summary>
-    /// Called by PlayerConnector when the victim connection is broken externally (e.g. victim saved).
+    /// Called by PlayerConnector when the village connection is broken externally (e.g. village saved).
     /// </summary>
     public void CancelConnectSkillUI()
     {

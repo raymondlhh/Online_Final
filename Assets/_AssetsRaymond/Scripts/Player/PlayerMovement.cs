@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
     public Animator TPAnimator;  // Third Person Animator
     private PhotonView photonView;
 
+    // Jump improvement variables
+    private bool jumpRequested = false;
+    private float jumpCooldown = 0.1f;
+    private float lastJumpTime = -1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         if (photonView != null && !photonView.IsMine)
             return;
 
-        // Ground Check
+        // Ground Check - moved to FixedUpdate for better physics sync
         if (groundCheck != null)
         {
             // Casts a ray straight down from the groundCheck position.
@@ -122,19 +127,53 @@ public class PlayerMovement : MonoBehaviour
             // Update both FP and TP animators
             UpdateAnimators();
 
-            // Handle jumping
-            if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || canMultiJump))
+            // Handle jumping input - moved to FixedUpdate for physics sync
+            if (Input.GetKeyDown(KeyCode.Space) && Time.time > lastJumpTime + jumpCooldown)
             {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                jumpRequested = true;
             }
-
-            // Apply movement
-            Vector3 movement = moveDirection * currentSpeed;
-            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
         }
         else
         {
-            // Ensure no movement is applied
+            // Reset inputs when movement is disabled
+            horizontalInput = 0f;
+            verticalInput = 0f;
+            moveDirection = Vector3.zero;
+            jumpRequested = false;
+        }
+    }
+
+    // FixedUpdate is called at a fixed time interval and is independent of frame rate
+    void FixedUpdate()
+    {
+        if (photonView != null && !photonView.IsMine)
+            return;
+
+        // Improved ground check using CheckSphere for better reliability
+        if (groundCheck != null)
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckDistance, LayerMask.GetMask("Default"));
+        }
+
+        if (CanMove)
+        {
+            // Apply movement - only set X and Z velocity to avoid interfering with jump
+            Vector3 movement = moveDirection * currentSpeed;
+            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
+
+            // Handle jumping in FixedUpdate for better physics sync
+            if (jumpRequested && (isGrounded || canMultiJump))
+            {
+                // Reset Y velocity before applying jump force for consistent jump height
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                lastJumpTime = Time.time;
+                jumpRequested = false;
+            }
+        }
+        else
+        {
+            // Ensure no horizontal movement is applied when movement is disabled
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
 

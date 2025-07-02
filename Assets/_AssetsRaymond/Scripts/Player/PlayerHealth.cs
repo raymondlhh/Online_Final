@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     [SerializeField] private Text gameOverDescriptionText;
     [SerializeField] private GameObject succeedPanel;
     [SerializeField] private Button exitButton;
-    [SerializeField] private TextMeshProUGUI victimsText;
+    [SerializeField] private TextMeshProUGUI villagesText;
 
     [Header("GameObjects for Visibility Control")]
     [SerializeField] private GameObject tpView; // Third-person view (the model)
@@ -91,7 +91,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.RegisterVictimText(victimsText);
+                GameManager.Instance.RegisterVillageText(villagesText);
             }
         }
 
@@ -336,8 +336,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
                 case "TIME_OUT":
                     gameOverDescriptionText.text = "TIME OUT";
                     break;
-                case "VICTIM_DEAD":
-                    gameOverDescriptionText.text = "VICTIM DIED";
+                        case "VILLAGE_DEAD":
+            gameOverDescriptionText.text = "VILLAGE DIED";
                     break;
                 case "ALL_DEBUGGERS_DEAD":
                 default:

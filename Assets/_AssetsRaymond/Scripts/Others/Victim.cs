@@ -118,7 +118,7 @@ public class Victim : MonoBehaviour
         Debug.Log($"<color=green>Victim:</color> Entered save zone. Connected to player: {connectedPlayerViewID}");
         
         // This runs on the Master Client to update the authoritative count.
-        GameManager.Instance.UpdateVictimsSavedCount(1);
+        GameManager.Instance.UpdateVillagesSavedCount(1);
 
         // Broadcast to all clients that this victim is saved and should detach.
         photonView.RPC(nameof(RPC_SetSavedState), RpcTarget.All, true);
@@ -148,7 +148,7 @@ public class Victim : MonoBehaviour
         Debug.Log($"<color=orange>Victim:</color> Left save zone.");
 
         // This runs on the Master Client.
-        GameManager.Instance.UpdateVictimsSavedCount(-1);
+        GameManager.Instance.UpdateVillagesSavedCount(-1);
 
         // Broadcast to all clients that this victim is no longer saved.
         photonView.RPC(nameof(RPC_SetSavedState), RpcTarget.All, false);
