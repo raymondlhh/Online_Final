@@ -2220,7 +2220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f47db03b1425142a48118336db2cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSkillPanel: {fileID: 0}
+  randomSkillPanel: {fileID: 2896365287941750743}
 --- !u!1 &1356805866148834770
 GameObject:
   m_ObjectHideFlags: 0
@@ -5984,7 +5984,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &955110197946019532
 RectTransform:
   m_ObjectHideFlags: 0

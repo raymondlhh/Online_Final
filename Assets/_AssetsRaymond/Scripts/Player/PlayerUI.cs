@@ -8,19 +8,67 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using TMPro;
 
+[System.Serializable]
+public class Skill
+{
+    public string skillName;
+    public GameObject skillImageObject; // Assign ImageIce, ImageInvisible, etc.
+}
+
 public class PlayerUI : MonoBehaviourPunCallbacks
 {
     [Header("Random Skill Selected")]
     public GameObject randomSkillPanel;
+    public TMP_Text skillNameText;
+    public List<Skill> allSkills; // Assign 6 skills in inspector
 
     private bool countdownStarted = false;
 
     void Start()
     {
-        // Show the randomSkillPanel for 5 seconds, then hide
+        if (photonView.IsMine)
+        {
+            AssignUniqueSkillToPlayer();
+        }
+    }
+
+    void AssignUniqueSkillToPlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            var players = PhotonNetwork.PlayerList;
+            var skillIndices = Enumerable.Range(0, allSkills.Count).OrderBy(x => Random.value).ToList();
+            for (int i = 0; i < players.Length; i++)
+            {
+                int skillIndex = skillIndices[i];
+                ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+                props["SkillIndex"] = skillIndex;
+                players[i].SetCustomProperties(props);
+            }
+        }
+        StartCoroutine(ShowSkillUIAfterDelay(0.5f));
+    }
+
+    IEnumerator ShowSkillUIAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SkillIndex"))
+        {
+            int skillIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["SkillIndex"];
+            ShowSkillUI(skillIndex);
+        }
+    }
+
+    void ShowSkillUI(int skillIndex)
+    {
         if (randomSkillPanel != null)
         {
             randomSkillPanel.SetActive(true);
+            foreach (var skill in allSkills)
+                skill.skillImageObject.SetActive(false);
+            allSkills[skillIndex].skillImageObject.SetActive(true);
+            if (skillNameText != null)
+                skillNameText.text = allSkills[skillIndex].skillName;
             StartCoroutine(HideRandomSkillPanelAfterDelay(5f));
         }
     }

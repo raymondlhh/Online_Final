@@ -292,7 +292,17 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
         {
             photonView.RPC("CreateHitEffect", RpcTarget.All, _hit.point);
 
-                    // Try to damage Guard with sword (but guards are invulnerable)
+                    // Damage Enemy with sword
+        if (_hit.collider.gameObject.CompareTag("Enemy"))
+        {
+            EnemyHealth enemyHealth = _hit.collider.gameObject.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, swordDamage);
+            }
+        }
+        
+        // Try to damage Guard with sword (but guards are invulnerable)
         if (_hit.collider.gameObject.CompareTag("Guard"))
         {
             GuardHealth guardHealth = _hit.collider.gameObject.GetComponent<GuardHealth>();
