@@ -1,45 +1,57 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.AI;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
 public class Village : MonoBehaviour
 {
+    public enum VillageType
+    {
+        Standing,
+        Walking
+    }
+
+    [Header("Village Type")]
+    [SerializeField] private VillageType villageType = VillageType.Standing;
+
     [Header("Components")]
     [SerializeField] private GameObject dangerMark;
-    [SerializeField] private GameObject safeMark;
 
     [Header("Player Detection")]
     [SerializeField] private float detectionRadius = 10f;
+    [SerializeField] private float detectionAngle = 120f; // Field of view angle in degrees
     [SerializeField] private LayerMask playerLayerMask = 1; // Default layer
-    [SerializeField] private float runSpeed = 3f;
-    [SerializeField] private float runAwayDistance = 15f;
-    [SerializeField] private float directionChangeInterval = 2f;
-    
-    private bool isSaved = false;
-    private bool isConnected = false;
-    private Coroutine connectionCoroutine;
-    private Transform playerConnectionSlot;
-    private PhotonView photonView;
-    private int connectedPlayerViewID = 0;
-    private Rigidbody rb;
-    
-    // Save zone detection
-    private bool wasInSaveZone = false;
-    private Collider[] saveZoneColliders;
-    private bool saveZoneRPCInProgress = false; // Prevent duplicate RPC calls
+    [SerializeField] private float runSpeed = 5f; // Increased run speed
+    [SerializeField] private float runAwayDistance = 25f; // Increased distance
+    [SerializeField] private float minimumSafeDistance = 20f; // Minimum distance to maintain from player
+    [SerializeField] private float directionChangeInterval = 1.5f; // Faster direction changes
+    [SerializeField] private float dangerMarkHideDelay = 3f; // Time to hide danger mark after no player detected
 
+    [Header("Walking Village Settings")]
+    [SerializeField] private float walkSpeed = 1.5f;
+    [SerializeField] private float patrolRadius = 10f;
+    [SerializeField] private float waypointReachDistance = 1f;
+    
+    private PhotonView photonView;
+    private Rigidbody rb;
+    private NavMeshAgent navAgent;
+    
     // Player detection and running behavior
     private bool isRunningFromPlayer = false;
     private Vector3 runDirection;
     private Coroutine runningCoroutine;
     private float lastDirectionChangeTime;
+    private float lastPlayerDetectionTime;
+    private bool dangerMarkVisible = false;
+    private Vector3 lastKnownPlayerPosition;
+    private float lastPlayerDistance;
 
-    public bool IsSaved()
-    {
-        return isSaved;
-    }
+    // Walking village specific
+    private Vector3 startPosition;
+    private Vector3 currentWaypoint;
+    private bool isPatrolling = false;
 
     void Awake()
     {
@@ -49,47 +61,84 @@ public class Village : MonoBehaviour
         {
             rb = gameObject.AddComponent<Rigidbody>();
         }
+
+        // Setup NavMeshAgent for walking villages
+        if (villageType == VillageType.Walking)
+        {
+            navAgent = GetComponent<NavMeshAgent>();
+            if (navAgent == null)
+            {
+                navAgent = gameObject.AddComponent<NavMeshAgent>();
+            }
+            SetupNavAgent();
+        }
     }
 
     void Start()
     {
         // Village should be affected by gravity by default.
-        // It will become kinematic only when connected to a player.
         rb.isKinematic = false;
 
-        // Set initial state for the marks.
+        // Set initial state for the danger mark (hidden by default)
         if (dangerMark != null)
         {
-            dangerMark.SetActive(true);
+            dangerMark.SetActive(false);
         }
-        if (safeMark != null)
+
+        // Initialize based on village type
+        if (villageType == VillageType.Walking)
         {
-            safeMark.SetActive(false);
+            startPosition = transform.position;
+            SetNewWaypoint();
+            StartCoroutine(PatrolRoutine());
         }
-        
-        // Find all save zone colliders in the scene
-        GameObject[] saveZones = GameObject.FindGameObjectsWithTag("SaveZone");
-        saveZoneColliders = new Collider[saveZones.Length];
-        for (int i = 0; i < saveZones.Length; i++)
-        {
-            saveZoneColliders[i] = saveZones[i].GetComponent<Collider>();
-        }
-        
-        // Start checking for save zone entry/exit
-        StartCoroutine(CheckSaveZoneStatus());
         
         // Start player detection
         StartCoroutine(PlayerDetectionRoutine());
+    }
+
+    private void SetupNavAgent()
+    {
+        if (navAgent != null)
+        {
+            navAgent.speed = walkSpeed;
+            navAgent.angularSpeed = 120f;
+            navAgent.acceleration = 8f;
+            navAgent.stoppingDistance = 0.1f;
+            navAgent.radius = 0.5f;
+            navAgent.height = 2f;
+        }
+    }
+
+    private void SetNewWaypoint()
+    {
+        Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
+        currentWaypoint = startPosition + new Vector3(randomCircle.x, 0, randomCircle.y);
+        
+        if (navAgent != null && !isRunningFromPlayer)
+        {
+            navAgent.SetDestination(currentWaypoint);
+        }
+    }
+
+    private IEnumerator PatrolRoutine()
+    {
+        while (villageType == VillageType.Walking && !isRunningFromPlayer)
+        {
+            if (navAgent != null && navAgent.remainingDistance <= waypointReachDistance)
+            {
+                SetNewWaypoint();
+            }
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     private IEnumerator PlayerDetectionRoutine()
     {
         while (true)
         {
-            if (!isConnected && !isSaved) // Only run if not connected to player and not saved
-            {
-                CheckForNearbyPlayers();
-            }
+            CheckForNearbyPlayers();
+            CheckDangerMarkVisibility();
             yield return new WaitForSeconds(0.5f); // Check every 0.5 seconds
         }
     }
@@ -99,13 +148,48 @@ public class Village : MonoBehaviour
         // Use Physics.OverlapSphere to detect players within range
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayerMask);
         
-        if (nearbyColliders.Length > 0)
+        bool playerDetected = false;
+        float closestDistance = float.MaxValue;
+        Vector3 closestPlayerPosition = Vector3.zero;
+        
+        foreach (Collider playerCollider in nearbyColliders)
         {
-            // Player detected! Start running
+            if (playerCollider != null)
+            {
+                // Calculate direction to player
+                Vector3 directionToPlayer = (playerCollider.transform.position - transform.position).normalized;
+                float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.transform.position);
+                
+                // Calculate angle between village's forward direction and direction to player
+                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+                
+                // Check if player is within the detection angle (half angle on each side)
+                if (angleToPlayer <= detectionAngle * 0.5f)
+                {
+                    playerDetected = true;
+                    
+                    // Track the closest player
+                    if (distanceToPlayer < closestDistance)
+                    {
+                        closestDistance = distanceToPlayer;
+                        closestPlayerPosition = playerCollider.transform.position;
+                    }
+                }
+            }
+        }
+        
+        if (playerDetected)
+        {
+            // Player detected! Start running and show danger mark
+            lastPlayerDetectionTime = Time.time;
+            lastKnownPlayerPosition = closestPlayerPosition;
+            lastPlayerDistance = closestDistance;
+            
             if (!isRunningFromPlayer)
             {
                 StartRunningFromPlayer();
             }
+            ShowDangerMark();
         }
         else
         {
@@ -117,10 +201,43 @@ public class Village : MonoBehaviour
         }
     }
 
+    private void CheckDangerMarkVisibility()
+    {
+        // Hide danger mark if no player has been detected for a while
+        if (dangerMarkVisible && Time.time - lastPlayerDetectionTime > dangerMarkHideDelay)
+        {
+            HideDangerMark();
+        }
+    }
+
+    private void ShowDangerMark()
+    {
+        if (dangerMark != null && !dangerMarkVisible)
+        {
+            dangerMark.SetActive(true);
+            dangerMarkVisible = true;
+        }
+    }
+
+    private void HideDangerMark()
+    {
+        if (dangerMark != null && dangerMarkVisible)
+        {
+            dangerMark.SetActive(false);
+            dangerMarkVisible = false;
+        }
+    }
+
     private void StartRunningFromPlayer()
     {
         isRunningFromPlayer = true;
         lastDirectionChangeTime = Time.time;
+        
+        // Stop patrolling if walking village
+        if (villageType == VillageType.Walking && navAgent != null)
+        {
+            navAgent.isStopped = true;
+        }
         
         // Set initial random direction
         runDirection = GetRandomDirection();
@@ -144,32 +261,68 @@ public class Village : MonoBehaviour
             runningCoroutine = null;
         }
         
-        // Stop movement
-        if (rb != null && !rb.isKinematic)
+        // Resume normal behavior based on village type
+        if (villageType == VillageType.Walking && navAgent != null)
         {
-            rb.velocity = Vector3.zero;
+            navAgent.isStopped = false;
+            navAgent.speed = walkSpeed; // Reset to walk speed
+            SetNewWaypoint();
+            StartCoroutine(PatrolRoutine());
+        }
+        else
+        {
+            // Stop movement for standing villages
+            if (rb != null && !rb.isKinematic)
+            {
+                rb.velocity = Vector3.zero;
+            }
         }
         
-        Debug.Log($"<color=yellow>Village:</color> No players nearby. Stopping movement.");
+        Debug.Log($"<color=yellow>Village:</color> No players nearby. Returning to normal behavior.");
     }
 
     private IEnumerator RunningBehavior()
     {
-        while (isRunningFromPlayer && !isConnected && !isSaved)
+        while (isRunningFromPlayer)
         {
-            // Change direction periodically
-            if (Time.time - lastDirectionChangeTime > directionChangeInterval)
+            // Calculate direction away from last known player position
+            Vector3 directionAwayFromPlayer = (transform.position - lastKnownPlayerPosition).normalized;
+            float currentDistanceFromPlayer = Vector3.Distance(transform.position, lastKnownPlayerPosition);
+            
+            // If too close to player, run directly away
+            if (currentDistanceFromPlayer < minimumSafeDistance)
             {
-                runDirection = GetRandomDirection();
-                lastDirectionChangeTime = Time.time;
+                runDirection = directionAwayFromPlayer;
+            }
+            else
+            {
+                // If at safe distance, add some randomness to make it harder to predict
+                if (Time.time - lastDirectionChangeTime > directionChangeInterval)
+                {
+                    // Mix running away with random direction
+                    Vector3 randomDirection = GetRandomDirection();
+                    runDirection = Vector3.Lerp(directionAwayFromPlayer, randomDirection, 0.3f).normalized;
+                    lastDirectionChangeTime = Time.time;
+                }
             }
             
-            // Apply movement
-            if (rb != null && !rb.isKinematic)
+            // Apply movement based on village type
+            if (villageType == VillageType.Walking && navAgent != null)
             {
-                Vector3 targetVelocity = runDirection * runSpeed;
-                // Keep Y velocity unchanged to maintain gravity
-                rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
+                // Use NavMeshAgent for walking villages - run to a point far away from player
+                Vector3 targetPosition = transform.position + runDirection * runSpeed * 2f;
+                navAgent.SetDestination(targetPosition);
+                navAgent.speed = runSpeed; // Ensure running speed
+            }
+            else
+            {
+                // Use Rigidbody for standing villages
+                if (rb != null && !rb.isKinematic)
+                {
+                    Vector3 targetVelocity = runDirection * runSpeed;
+                    // Keep Y velocity unchanged to maintain gravity
+                    rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
+                }
             }
             
             yield return new WaitForSeconds(0.1f);
@@ -183,11 +336,60 @@ public class Village : MonoBehaviour
         return randomDirection.normalized;
     }
 
-    // Visualize the detection radius in the editor
+    // Visualize the detection radius and angle in the editor
     private void OnDrawGizmosSelected()
     {
+        // Draw detection radius
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        
+        // Draw minimum safe distance
+        Gizmos.color = new Color(1f, 0.5f, 0f); // Orange color
+        Gizmos.DrawWireSphere(transform.position, minimumSafeDistance);
+        
+        // Draw detection angle cone
+        Gizmos.color = Color.red;
+        float halfAngle = detectionAngle * 0.5f;
+        Vector3 leftDirection = Quaternion.Euler(0, -halfAngle, 0) * transform.forward;
+        Vector3 rightDirection = Quaternion.Euler(0, halfAngle, 0) * transform.forward;
+        
+        Gizmos.DrawRay(transform.position, leftDirection * detectionRadius);
+        Gizmos.DrawRay(transform.position, rightDirection * detectionRadius);
+        
+        // Draw arc to show the detection cone
+        int segments = 20;
+        Vector3 previousPoint = transform.position + leftDirection * detectionRadius;
+        for (int i = 1; i <= segments; i++)
+        {
+            float t = (float)i / segments;
+            float currentAngle = Mathf.Lerp(-halfAngle, halfAngle, t);
+            Vector3 currentDirection = Quaternion.Euler(0, currentAngle, 0) * transform.forward;
+            Vector3 currentPoint = transform.position + currentDirection * detectionRadius;
+            Gizmos.DrawLine(previousPoint, currentPoint);
+            previousPoint = currentPoint;
+        }
+        
+        // Draw last known player position when running
+        if (isRunningFromPlayer && Application.isPlaying)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(lastKnownPlayerPosition, 1f);
+            Gizmos.DrawLine(transform.position, lastKnownPlayerPosition);
+        }
+        
+        // Draw patrol area for walking villages
+        if (villageType == VillageType.Walking)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, patrolRadius);
+            
+            if (Application.isPlaying)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(currentWaypoint, 0.5f);
+                Gizmos.DrawLine(transform.position, currentWaypoint);
+            }
+        }
         
         if (isRunningFromPlayer)
         {
@@ -196,208 +398,13 @@ public class Village : MonoBehaviour
         }
     }
     
-    private IEnumerator CheckSaveZoneStatus()
-    {
-        while (true)
-        {
-            bool currentlyInSaveZone = IsInSaveZone();
-            
-            // Check for entry
-            if (currentlyInSaveZone && !wasInSaveZone && !isSaved && !saveZoneRPCInProgress)
-            {
-                saveZoneRPCInProgress = true;
-                // Tell the Master Client a village has entered the save zone.
-                photonView.RPC(nameof(RPC_VillageEnteredSaveZone), RpcTarget.MasterClient);
-            }
-            // Check for exit
-            else if (!currentlyInSaveZone && wasInSaveZone && isSaved && !saveZoneRPCInProgress)
-            {
-                saveZoneRPCInProgress = true;
-                // Tell the Master Client a village has left the save zone.
-                photonView.RPC(nameof(RPC_VillageLeftSaveZone), RpcTarget.MasterClient);
-            }
-            
-            wasInSaveZone = currentlyInSaveZone;
-            yield return new WaitForSeconds(0.2f); // Check every 0.2 seconds
-        }
-    }
-    
-    private bool IsInSaveZone()
-    {
-        if (saveZoneColliders == null) return false;
-        
-        foreach (Collider saveZoneCollider in saveZoneColliders)
-        {
-            if (saveZoneCollider != null && saveZoneCollider.bounds.Contains(transform.position))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    [PunRPC]
-    private void RPC_VillageEnteredSaveZone()
-    {
-        if (isSaved) 
-        {
-            saveZoneRPCInProgress = false;
-            return;
-        }
-        
-        Debug.Log($"<color=green>Village:</color> Entered save zone. Connected to player: {connectedPlayerViewID}");
-        
-        // This runs on the Master Client to update the authoritative count.
-        GameManager.Instance.UpdateVillagesSavedCount(1);
-
-        // Broadcast to all clients that this village is saved and should detach.
-        photonView.RPC(nameof(RPC_SetSavedState), RpcTarget.All, true);
-        
-        // Notify the connected player to release this village
-        if (connectedPlayerViewID != 0)
-        {
-            PhotonView playerView = PhotonView.Find(connectedPlayerViewID);
-            if (playerView != null)
-            {
-                playerView.RPC("RPC_ForceReleaseVillage", RpcTarget.All);
-            }
-        }
-        
-        saveZoneRPCInProgress = false;
-    }
-
-    [PunRPC]
-    private void RPC_VillageLeftSaveZone()
-    {
-        if (!isSaved) 
-        {
-            saveZoneRPCInProgress = false;
-            return;
-        }
-
-        Debug.Log($"<color=orange>Village:</color> Left save zone.");
-
-        // This runs on the Master Client.
-        GameManager.Instance.UpdateVillagesSavedCount(-1);
-
-        // Broadcast to all clients that this village is no longer saved.
-        photonView.RPC(nameof(RPC_SetSavedState), RpcTarget.All, false);
-        
-        saveZoneRPCInProgress = false;
-    }
-
-    [PunRPC]
-    private void RPC_SetSavedState(bool state)
-    {
-        isSaved = state;
-        
-        Debug.Log($"<color=blue>Village:</color> Saved state changed to: {state}");
-
-        // Toggle the danger/safe marks based on the saved state.
-        if (dangerMark != null)
-        {
-            dangerMark.SetActive(!isSaved);
-        }
-        if (safeMark != null)
-        {
-            safeMark.SetActive(isSaved);
-        }
-
-        // Stop running if saved
-        if (isSaved && isRunningFromPlayer)
-        {
-            StopRunningFromPlayer();
-        }
-
-        // The logic for auto-detaching when entering the save zone has been removed.
-        // The village will now remain connected.
-    }
-
-    [PunRPC]
-    public void GetConnectedToPlayer(int connectorViewID, float duration)
-    {
-        // The check preventing connection to a saved village has been removed.
-        // Players can now connect to villages inside the save zone.
-        this.connectedPlayerViewID = connectorViewID;
-
-        PhotonView connectorView = PhotonView.Find(connectorViewID);
-        if (connectorView == null) return;
-
-        // Stop running when connected to player
-        if (isRunningFromPlayer)
-        {
-            StopRunningFromPlayer();
-        }
-
-        if (connectionCoroutine != null) StopCoroutine(connectionCoroutine);
-        connectionCoroutine = StartCoroutine(VillageConnectionLifetime(connectorView.transform, duration));
-    }
-
-    [PunRPC]
-    public void ForceDetachFromPlayer()
-    {
-        ForceDetachFromPlayer_Internal();
-    }
-
-    private void ForceDetachFromPlayer_Internal()
-    {
-        if (isConnected)
-        {
-            if (connectionCoroutine != null)
-            {
-                StopCoroutine(connectionCoroutine);
-            }
-            DetachFromPlayer();
-        }
-    }
-
-    private void DetachFromPlayer()
-    {
-        isConnected = false;
-        playerConnectionSlot = null;
-        connectionCoroutine = null;
-        connectedPlayerViewID = 0;
-
-        // Village is no longer controlled by a player, let physics take over.
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-        }
-    }
-
-    private IEnumerator VillageConnectionLifetime(Transform targetSlot, float duration)
-    {
-        isConnected = true;
-        playerConnectionSlot = targetSlot;
-
-        // When connected, the village should not be affected by physics.
-        // Its movement is controlled directly.
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
-        
-        float remainingDuration = duration;
-        while (remainingDuration > 0f && isConnected)
-        {
-            if (playerConnectionSlot != null)
-            {
-                transform.position = playerConnectionSlot.position;
-            }
-            yield return new WaitForSeconds(0.1f);
-            remainingDuration -= 0.1f;
-        }
-
-        DetachFromPlayer();
-    }
-    
     private void OnDestroy()
     {
-        Debug.Log($"<color=red>Village:</color> Being destroyed! Saved: {isSaved}, Connected: {isConnected}, ConnectedPlayer: {connectedPlayerViewID}");
+        Debug.Log($"<color=red>Village:</color> Being destroyed!");
     }
     
     private void OnDisable()
     {
-        Debug.Log($"<color=red>Village:</color> Being disabled! Saved: {isSaved}, Connected: {isConnected}, ConnectedPlayer: {connectedPlayerViewID}");
+        Debug.Log($"<color=red>Village:</color> Being disabled!");
     }
 } 

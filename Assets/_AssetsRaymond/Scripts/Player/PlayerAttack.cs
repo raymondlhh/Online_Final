@@ -240,28 +240,20 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
             photonView.RPC("CreateHitEffect", RpcTarget.All, _hit.point);
 
                     // Damage Enemy
-        if (_hit.collider.gameObject.CompareTag("Enemy"))
-        {
-            EnemyHealth enemyHealth = _hit.collider.gameObject.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
-            }
-        }
         
-        // Try to damage Guard (but guards are invulnerable)
-        if (_hit.collider.gameObject.CompareTag("Guard"))
-        {
-            GuardHealth guardHealth = _hit.collider.gameObject.GetComponent<GuardHealth>();
-            if (guardHealth != null)
+            // Try to damage Guard (but guards are invulnerable)
+            if (_hit.collider.gameObject.CompareTag("Guard"))
             {
-                // Guards are invulnerable, but we still call TakeDamage to show the blocked effect
-                guardHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
-                
-                // Optionally show a "blocked" message to the player
-                Debug.Log($"<color=yellow>Player:</color> Your attack was blocked by the invulnerable guard!");
+                GuardHealth guardHealth = _hit.collider.gameObject.GetComponent<GuardHealth>();
+                if (guardHealth != null)
+                {
+                    // Guards are invulnerable, but we still call TakeDamage to show the blocked effect
+                    guardHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, damage);
+                    
+                    // Optionally show a "blocked" message to the player
+                    Debug.Log($"<color=yellow>Player:</color> Your attack was blocked by the invulnerable guard!");
+                }
             }
-        }
         }
 
         // Sync ammo across network
@@ -293,14 +285,6 @@ public class PlayerAttack : MonoBehaviourPunCallbacks
             photonView.RPC("CreateHitEffect", RpcTarget.All, _hit.point);
 
                     // Damage Enemy with sword
-        if (_hit.collider.gameObject.CompareTag("Enemy"))
-        {
-            EnemyHealth enemyHealth = _hit.collider.gameObject.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.All, swordDamage);
-            }
-        }
         
         // Try to damage Guard with sword (but guards are invulnerable)
         if (_hit.collider.gameObject.CompareTag("Guard"))
