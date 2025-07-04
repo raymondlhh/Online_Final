@@ -18,6 +18,8 @@ public class Village : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private GameObject dangerMark;
+    [SerializeField] private Animator animator; // Reference to the Animator component
+    [SerializeField] private Transform safeZone; // Reference to the safezone transform
 
     [Header("Player Detection")]
     [SerializeField] private float detectionRadius = 10f;
@@ -33,6 +35,7 @@ public class Village : MonoBehaviour
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] private float patrolRadius = 10f;
     [SerializeField] private float waypointReachDistance = 1f;
+    [SerializeField] private PatrolPath patrolPath; // Optional patrol path for walking type
     
     private PhotonView photonView;
     private Rigidbody rb;
@@ -40,6 +43,7 @@ public class Village : MonoBehaviour
     
     // Player detection and running behavior
     private bool isRunningFromPlayer = false;
+    private bool hasSeenPlayer = false; // New flag to remember if the village has seen a player
     private Vector3 runDirection;
     private Coroutine runningCoroutine;
     private float lastDirectionChangeTime;
@@ -52,6 +56,19 @@ public class Village : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 currentWaypoint;
     private bool isPatrolling = false;
+    private bool isReturningToStart = false; // For standing villagers
+
+    // Animation parameters
+    private const string IS_WALKING_PARAM = "isWalking";
+    private const string IS_RUNNING_PARAM = "isRunning";
+
+    private Coroutine returnCoroutine; // Track return-to-start coroutine
+
+    private bool isInSafeZone = false; // Track if villager is in the safe zone
+
+    private bool hasReactedToPlayer = false; // For standing type: only react once
+
+    private int currentPatrolIndex = 0;
 
     void Awake()
     {
@@ -60,6 +77,17 @@ public class Village : MonoBehaviour
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody>();
+        }
+
+        // Get or add Animator component
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                animator = gameObject.AddComponent<Animator>();
+                Debug.LogWarning("No Animator component found on Village. Please assign the Villager_Animator controller.");
+            }
         }
 
         // Setup NavMeshAgent for walking villages
@@ -85,12 +113,23 @@ public class Village : MonoBehaviour
             dangerMark.SetActive(false);
         }
 
+        // Initialize animation state
+        UpdateAnimationState(false, false);
+
         // Initialize based on village type
         if (villageType == VillageType.Walking)
         {
             startPosition = transform.position;
             SetNewWaypoint();
             StartCoroutine(PatrolRoutine());
+            
+            // Start with walking animation for walking villages
+            UpdateAnimationState(true, false);
+        }
+        else
+        {
+            // For standing villagers, store their initial position
+            startPosition = transform.position;
         }
         
         // Start player detection
@@ -112,9 +151,18 @@ public class Village : MonoBehaviour
 
     private void SetNewWaypoint()
     {
-        Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
-        currentWaypoint = startPosition + new Vector3(randomCircle.x, 0, randomCircle.y);
-        
+        if (patrolPath != null && patrolPath.waypoints.Count > 0)
+        {
+            // Use patrol path waypoints
+            currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPath.waypoints.Count;
+        }
+        else
+        {
+            // Use random patrol if no path assigned
+            Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
+            currentWaypoint = startPosition + new Vector3(randomCircle.x, 0, randomCircle.y);
+        }
         if (navAgent != null && !isRunningFromPlayer)
         {
             navAgent.SetDestination(currentWaypoint);
@@ -129,6 +177,10 @@ public class Village : MonoBehaviour
             {
                 SetNewWaypoint();
             }
+            
+            // Update animation state during patrol
+            UpdatePatrolAnimation();
+            
             yield return new WaitForSeconds(1f);
         }
     }
@@ -145,6 +197,14 @@ public class Village : MonoBehaviour
 
     private void CheckForNearbyPlayers()
     {
+        // For standing type: if already reacted, do nothing
+        if (villageType == VillageType.Standing && hasReactedToPlayer)
+            return;
+        if (hasSeenPlayer)
+        {
+            // Already seen a player, ignore further detection
+            return;
+        }
         // Use Physics.OverlapSphere to detect players within range
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayerMask);
         
@@ -180,6 +240,16 @@ public class Village : MonoBehaviour
         
         if (playerDetected)
         {
+            // For standing type: react by crouching, hide danger mark, and stop further detection
+            if (villageType == VillageType.Standing && !hasReactedToPlayer)
+            {
+                if (animator != null)
+                    animator.SetBool("isCrouching", true);
+                if (dangerMark != null)
+                    dangerMark.SetActive(false);
+                hasReactedToPlayer = true;
+                return;
+            }
             // Player detected! Start running and show danger mark
             lastPlayerDetectionTime = Time.time;
             lastKnownPlayerPosition = closestPlayerPosition;
@@ -187,24 +257,18 @@ public class Village : MonoBehaviour
             
             if (!isRunningFromPlayer)
             {
+                hasSeenPlayer = true; // Mark as seen
                 StartRunningFromPlayer();
             }
             ShowDangerMark();
-        }
-        else
-        {
-            // No players nearby, stop running
-            if (isRunningFromPlayer)
-            {
-                StopRunningFromPlayer();
-            }
         }
     }
 
     private void CheckDangerMarkVisibility()
     {
         // Hide danger mark if no player has been detected for a while
-        if (dangerMarkVisible && Time.time - lastPlayerDetectionTime > dangerMarkHideDelay)
+        // Only hide if not running to safe zone
+        if (dangerMarkVisible && !isRunningFromPlayer && Time.time - lastPlayerDetectionTime > dangerMarkHideDelay)
         {
             HideDangerMark();
         }
@@ -232,101 +296,143 @@ public class Village : MonoBehaviour
     {
         isRunningFromPlayer = true;
         lastDirectionChangeTime = Time.time;
-        
-        // Stop patrolling if walking village
+        Debug.Log($"[Village] StartRunningFromPlayer called. isRunningFromPlayer={isRunningFromPlayer}, hasSeenPlayer={hasSeenPlayer}");
+
+        // For walking villages, do not stop the NavMeshAgent. Set its speed and destination to the safe zone.
         if (villageType == VillageType.Walking && navAgent != null)
         {
-            navAgent.isStopped = true;
+            navAgent.enabled = true;
+            navAgent.isStopped = false;
+            navAgent.speed = runSpeed;
+            if (safeZone != null)
+                navAgent.SetDestination(safeZone.position);
         }
-        
-        // Set initial random direction
-        runDirection = GetRandomDirection();
-        
-        if (runningCoroutine != null)
+        else // For standing villagers, enable NavMeshAgent for pathfinding
         {
-            StopCoroutine(runningCoroutine);
+            if (navAgent != null)
+            {
+                navAgent.enabled = true;
+                navAgent.Warp(transform.position); // Ensure agent is on the NavMesh
+                bool onNavMesh = UnityEngine.AI.NavMesh.SamplePosition(transform.position, out var hit, 0.1f, UnityEngine.AI.NavMesh.AllAreas);
+                Debug.Log($"[Village] Standing agent onNavMesh: {onNavMesh}");
+                navAgent.isStopped = false;
+                navAgent.speed = runSpeed;
+                if (safeZone != null)
+                {
+                    navAgent.SetDestination(safeZone.position);
+                    Debug.Log($"[Village] (Standing) NavMeshAgent enabled, warped, and destination set to {safeZone.position}");
+                }
+                // Disable Rigidbody physics while using NavMeshAgent
+                rb.isKinematic = true;
+            }
         }
-        runningCoroutine = StartCoroutine(RunningBehavior());
-        
-        Debug.Log($"<color=yellow>Village:</color> Player detected! Starting to run away.");
-    }
 
-    private void StopRunningFromPlayer()
-    {
-        isRunningFromPlayer = false;
-        
+        // Stop any existing movement coroutines
         if (runningCoroutine != null)
         {
             StopCoroutine(runningCoroutine);
             runningCoroutine = null;
         }
-        
-        // Resume normal behavior based on village type
+        if (returnCoroutine != null)
+        {
+            StopCoroutine(returnCoroutine);
+            returnCoroutine = null;
+        }
+        runningCoroutine = StartCoroutine(RunningBehavior());
+
+        // Set animation to running while going to safe zone
+        UpdateAnimationState(false, true);
+
+        // Ensure danger mark is visible
+        ShowDangerMark();
+
+        Debug.Log($"<color=yellow>Village:</color> Player detected! Going to safe zone.");
+    }
+
+    private void StopRunningFromPlayer()
+    {
+        isRunningFromPlayer = false;
+        Debug.Log($"[Village] StopRunningFromPlayer called. isRunningFromPlayer={isRunningFromPlayer}, hasSeenPlayer={hasSeenPlayer}");
+        // Do not reset hasSeenPlayer here, so village doesn't react to new players
+        if (runningCoroutine != null)
+        {
+            StopCoroutine(runningCoroutine);
+            runningCoroutine = null;
+        }
         if (villageType == VillageType.Walking && navAgent != null)
         {
-            navAgent.isStopped = false;
+            navAgent.isStopped = true;
             navAgent.speed = walkSpeed; // Reset to walk speed
-            SetNewWaypoint();
-            StartCoroutine(PatrolRoutine());
+            // If in safe zone, always remain idle and hide danger mark
+            if (isInSafeZone)
+            {
+                UpdateAnimationState(false, false);
+                if (dangerMark != null)
+                    dangerMark.SetActive(false);
+                return;
+            }
+            // (If not in safe zone, do nothing else)
         }
         else
         {
-            // Stop movement for standing villages
-            if (rb != null && !rb.isKinematic)
+            // For standing villagers, after reaching safe zone, return to initial position
+            if (!isReturningToStart)
             {
-                rb.velocity = Vector3.zero;
+                if (returnCoroutine != null)
+                {
+                    StopCoroutine(returnCoroutine);
+                }
+                returnCoroutine = StartCoroutine(ReturnToStartPosition());
             }
         }
-        
         Debug.Log($"<color=yellow>Village:</color> No players nearby. Returning to normal behavior.");
     }
 
     private IEnumerator RunningBehavior()
     {
+        Debug.Log("[Village] RunningBehavior coroutine started.");
         while (isRunningFromPlayer)
         {
-            // Calculate direction away from last known player position
-            Vector3 directionAwayFromPlayer = (transform.position - lastKnownPlayerPosition).normalized;
-            float currentDistanceFromPlayer = Vector3.Distance(transform.position, lastKnownPlayerPosition);
-            
-            // If too close to player, run directly away
-            if (currentDistanceFromPlayer < minimumSafeDistance)
+            Vector3 targetPosition;
+            if (safeZone != null)
             {
-                runDirection = directionAwayFromPlayer;
+                // Run towards the safezone
+                targetPosition = safeZone.position;
             }
             else
             {
-                // If at safe distance, add some randomness to make it harder to predict
-                if (Time.time - lastDirectionChangeTime > directionChangeInterval)
-                {
-                    // Mix running away with random direction
-                    Vector3 randomDirection = GetRandomDirection();
-                    runDirection = Vector3.Lerp(directionAwayFromPlayer, randomDirection, 0.3f).normalized;
-                    lastDirectionChangeTime = Time.time;
-                }
+                // Fallback: run away from player as before
+                targetPosition = transform.position + (transform.position - lastKnownPlayerPosition).normalized * runSpeed * 2f;
             }
-            
-            // Apply movement based on village type
+            // For standing villagers, update NavMeshAgent destination
+            if (villageType == VillageType.Standing && navAgent != null && navAgent.enabled)
+            {
+                navAgent.SetDestination(targetPosition);
+                Debug.Log($"[Village] (Standing) NavMeshAgent destination updated to {targetPosition}");
+            }
+            // For walking villagers, update NavMeshAgent destination
             if (villageType == VillageType.Walking && navAgent != null)
             {
-                // Use NavMeshAgent for walking villages - run to a point far away from player
-                Vector3 targetPosition = transform.position + runDirection * runSpeed * 2f;
                 navAgent.SetDestination(targetPosition);
                 navAgent.speed = runSpeed; // Ensure running speed
-            }
-            else
-            {
-                // Use Rigidbody for standing villages
-                if (rb != null && !rb.isKinematic)
+                // Robust arrival check using NavMeshAgent
+                if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
                 {
-                    Vector3 targetVelocity = runDirection * runSpeed;
-                    // Keep Y velocity unchanged to maintain gravity
-                    rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
+                    Debug.Log("[Village] (Walking) Robust arrival at safe zone detected. Destroying villager.");
+                    Destroy(gameObject);
+                    yield break;
                 }
             }
-            
-            yield return new WaitForSeconds(0.1f);
+            // Fallback: Optional, keep old check for standing type
+            if (villageType == VillageType.Standing && safeZone != null && Vector3.Distance(transform.position, safeZone.position) < 1.5f)
+            {
+                Debug.Log("[Village] Reached safe zone. Stopping running behavior.");
+                StopRunningFromPlayer();
+                yield break;
+            }
+            yield return new WaitForFixedUpdate();
         }
+        Debug.Log("[Village] RunningBehavior coroutine ended.");
     }
 
     private Vector3 GetRandomDirection()
@@ -334,6 +440,84 @@ public class Village : MonoBehaviour
         // Get a random direction on the XZ plane (horizontal)
         Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
         return randomDirection.normalized;
+    }
+
+    /// <summary>
+    /// Updates the animation state based on the village's current behavior
+    /// </summary>
+    /// <param name="isWalking">Whether the village is currently walking</param>
+    /// <param name="isRunning">Whether the village is currently running</param>
+    private void UpdateAnimationState(bool isWalking, bool isRunning)
+    {
+        if (animator != null)
+        {
+            animator.SetBool(IS_WALKING_PARAM, isWalking);
+            animator.SetBool(IS_RUNNING_PARAM, isRunning);
+        }
+    }
+
+    /// <summary>
+    /// Updates animation state for walking villages during patrol
+    /// </summary>
+    private void UpdatePatrolAnimation()
+    {
+        if (villageType == VillageType.Walking && !isRunningFromPlayer)
+        {
+            // Check if the village is actually moving
+            bool isMoving = navAgent != null && navAgent.velocity.magnitude > 0.1f;
+            UpdateAnimationState(isMoving, false);
+        }
+    }
+
+    private IEnumerator ReturnToStartPosition()
+    {
+        isReturningToStart = true;
+        Debug.Log("[Village] ReturnToStartPosition coroutine started.");
+        // Set animation to running while returning
+        UpdateAnimationState(false, true);
+        if (dangerMark != null)
+            dangerMark.SetActive(true);
+        // For standing villagers, use NavMeshAgent to return
+        if (villageType == VillageType.Standing && navAgent != null)
+        {
+            navAgent.enabled = true;
+            navAgent.Warp(transform.position); // Ensure agent is on the NavMesh
+            bool onNavMesh = UnityEngine.AI.NavMesh.SamplePosition(transform.position, out var hit, 0.1f, UnityEngine.AI.NavMesh.AllAreas);
+            Debug.Log($"[Village] Standing agent onNavMesh: {onNavMesh}");
+            navAgent.isStopped = false;
+            navAgent.speed = runSpeed;
+            navAgent.SetDestination(startPosition);
+            rb.isKinematic = true;
+            Debug.Log($"[Village] (Standing) NavMeshAgent enabled, warped, and returning to {startPosition}");
+            while (Vector3.Distance(transform.position, startPosition) > 0.5f)
+            {
+                navAgent.SetDestination(startPosition);
+                yield return new WaitForFixedUpdate();
+            }
+            navAgent.isStopped = true;
+            navAgent.enabled = false;
+            rb.isKinematic = false;
+        }
+        else // fallback for walking villagers
+        {
+            while (Vector3.Distance(transform.position, startPosition) > 0.5f)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        // Stop movement
+        if (rb != null && !rb.isKinematic)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        // Set animation to walking and hide danger mark
+        UpdateAnimationState(true, false);
+        if (dangerMark != null)
+            dangerMark.SetActive(false);
+        // Reset hasSeenPlayer so the process can repeat
+        hasSeenPlayer = false;
+        isReturningToStart = false;
+        Debug.Log("[Village] ReturnToStartPosition coroutine ended.");
     }
 
     // Visualize the detection radius and angle in the editor
