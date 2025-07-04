@@ -35682,6 +35682,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -50217,9 +50218,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerPrefabFinal (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 2326011723387394518, guid: 5229f9663bf831442adcc316cf24e2fa, type: 3}
-      propertyPath: delayTime
-      value: 0.2
+    - target: {fileID: 1790435183651769597, guid: 5229f9663bf831442adcc316cf24e2fa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5050347356501455672, guid: 5229f9663bf831442adcc316cf24e2fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -50260,6 +50261,10 @@ PrefabInstance:
     - target: {fileID: 5050347356501455672, guid: 5229f9663bf831442adcc316cf24e2fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5500483667674794883, guid: 5229f9663bf831442adcc316cf24e2fa, type: 3}
+      propertyPath: jadenSkillsUI
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -52702,6 +52707,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -61478,6 +61484,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -77301,6 +77308,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -82048,6 +82056,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -87657,6 +87666,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -93077,6 +93087,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -93343,6 +93354,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -95310,6 +95322,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -96630,6 +96643,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -99066,6 +99080,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -101571,6 +101586,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -107344,6 +107360,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -109465,6 +109482,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
@@ -111676,6 +111694,7 @@ MonoBehaviour:
     m_Bits: 128
   runSpeed: 3
   runAwayDistance: 15
+  minimumSafeDistance: 20
   directionChangeInterval: 2
   dangerMarkHideDelay: 3
   walkSpeed: 1.5
