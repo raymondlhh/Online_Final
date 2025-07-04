@@ -5,20 +5,20 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
-public class Village : MonoBehaviour
+public class Villager : MonoBehaviour
 {
-    public enum VillageType
+    public enum VillagerType
     {
         Standing,
         Walking
     }
 
-    [Header("Village Type")]
-    [SerializeField] private VillageType villageType = VillageType.Standing;
+    [Header("Villager Type")]
+    [SerializeField] private VillagerType villagerType = VillagerType.Standing;
 
     [Header("Components")]
     [SerializeField] private GameObject dangerMark;
-    [SerializeField] private Animator animator; // Reference to the Animator component
+    private Animator animator; // Reference to the Animator component
     [SerializeField] private Transform safeZone; // Reference to the safezone transform
 
     [Header("Player Detection")]
@@ -31,11 +31,11 @@ public class Village : MonoBehaviour
     [SerializeField] private float directionChangeInterval = 1.5f; // Faster direction changes
     [SerializeField] private float dangerMarkHideDelay = 3f; // Time to hide danger mark after no player detected
 
-    [Header("Walking Village Settings")]
+    [Header("Walking Villager Settings")]
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] private float patrolRadius = 10f;
     [SerializeField] private float waypointReachDistance = 1f;
-    [SerializeField] private PatrolPath patrolPath; // Optional patrol path for walking type
+    public PatrolPath patrolPath; // Optional patrol path for walking type
     
     private PhotonView photonView;
     private Rigidbody rb;
@@ -70,6 +70,9 @@ public class Village : MonoBehaviour
 
     private int currentPatrolIndex = 0;
 
+    private AudioSource audioSource;
+    private bool hasPlayedScream = false;
+
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
@@ -78,6 +81,7 @@ public class Village : MonoBehaviour
         {
             rb = gameObject.AddComponent<Rigidbody>();
         }
+        audioSource = GetComponent<AudioSource>();
 
         // Get or add Animator component
         if (animator == null)
@@ -91,7 +95,7 @@ public class Village : MonoBehaviour
         }
 
         // Setup NavMeshAgent for walking villages
-        if (villageType == VillageType.Walking)
+        if (villagerType == VillagerType.Walking)
         {
             navAgent = GetComponent<NavMeshAgent>();
             if (navAgent == null)
@@ -117,7 +121,7 @@ public class Village : MonoBehaviour
         UpdateAnimationState(false, false);
 
         // Initialize based on village type
-        if (villageType == VillageType.Walking)
+        if (villagerType == VillagerType.Walking)
         {
             startPosition = transform.position;
             SetNewWaypoint();
@@ -171,7 +175,7 @@ public class Village : MonoBehaviour
 
     private IEnumerator PatrolRoutine()
     {
-        while (villageType == VillageType.Walking && !isRunningFromPlayer)
+        while (villagerType == VillagerType.Walking && !isRunningFromPlayer)
         {
             if (navAgent != null && navAgent.remainingDistance <= waypointReachDistance)
             {
@@ -198,7 +202,7 @@ public class Village : MonoBehaviour
     private void CheckForNearbyPlayers()
     {
         // For standing type: if already reacted, do nothing
-        if (villageType == VillageType.Standing && hasReactedToPlayer)
+        if (villagerType == VillagerType.Standing && hasReactedToPlayer)
             return;
         if (hasSeenPlayer)
         {
@@ -240,8 +244,14 @@ public class Village : MonoBehaviour
         
         if (playerDetected)
         {
+            // Play scream SFX once per detection event
+            if (!hasPlayedScream && audioSource != null && audioSource.clip != null)
+            {
+                audioSource.Play();
+                hasPlayedScream = true;
+            }
             // For standing type: react by crouching, hide danger mark, and stop further detection
-            if (villageType == VillageType.Standing && !hasReactedToPlayer)
+            if (villagerType == VillagerType.Standing && !hasReactedToPlayer)
             {
                 if (animator != null)
                     animator.SetBool("isCrouching", true);
@@ -299,7 +309,7 @@ public class Village : MonoBehaviour
         Debug.Log($"[Village] StartRunningFromPlayer called. isRunningFromPlayer={isRunningFromPlayer}, hasSeenPlayer={hasSeenPlayer}");
 
         // For walking villages, do not stop the NavMeshAgent. Set its speed and destination to the safe zone.
-        if (villageType == VillageType.Walking && navAgent != null)
+        if (villagerType == VillagerType.Walking && navAgent != null)
         {
             navAgent.enabled = true;
             navAgent.isStopped = false;
@@ -359,7 +369,7 @@ public class Village : MonoBehaviour
             StopCoroutine(runningCoroutine);
             runningCoroutine = null;
         }
-        if (villageType == VillageType.Walking && navAgent != null)
+        if (villagerType == VillagerType.Walking && navAgent != null)
         {
             navAgent.isStopped = true;
             navAgent.speed = walkSpeed; // Reset to walk speed
@@ -405,13 +415,13 @@ public class Village : MonoBehaviour
                 targetPosition = transform.position + (transform.position - lastKnownPlayerPosition).normalized * runSpeed * 2f;
             }
             // For standing villagers, update NavMeshAgent destination
-            if (villageType == VillageType.Standing && navAgent != null && navAgent.enabled)
+            if (villagerType == VillagerType.Standing && navAgent != null && navAgent.enabled)
             {
                 navAgent.SetDestination(targetPosition);
                 Debug.Log($"[Village] (Standing) NavMeshAgent destination updated to {targetPosition}");
             }
             // For walking villagers, update NavMeshAgent destination
-            if (villageType == VillageType.Walking && navAgent != null)
+            if (villagerType == VillagerType.Walking && navAgent != null)
             {
                 navAgent.SetDestination(targetPosition);
                 navAgent.speed = runSpeed; // Ensure running speed
@@ -419,12 +429,12 @@ public class Village : MonoBehaviour
                 if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
                 {
                     Debug.Log("[Village] (Walking) Robust arrival at safe zone detected. Destroying villager.");
-                    Destroy(gameObject);
+                    Photon.Pun.PhotonNetwork.Destroy(gameObject);
                     yield break;
                 }
             }
             // Fallback: Optional, keep old check for standing type
-            if (villageType == VillageType.Standing && safeZone != null && Vector3.Distance(transform.position, safeZone.position) < 1.5f)
+            if (villagerType == VillagerType.Standing && safeZone != null && Vector3.Distance(transform.position, safeZone.position) < 1.5f)
             {
                 Debug.Log("[Village] Reached safe zone. Stopping running behavior.");
                 StopRunningFromPlayer();
@@ -461,7 +471,7 @@ public class Village : MonoBehaviour
     /// </summary>
     private void UpdatePatrolAnimation()
     {
-        if (villageType == VillageType.Walking && !isRunningFromPlayer)
+        if (villagerType == VillagerType.Walking && !isRunningFromPlayer)
         {
             // Check if the village is actually moving
             bool isMoving = navAgent != null && navAgent.velocity.magnitude > 0.1f;
@@ -478,7 +488,7 @@ public class Village : MonoBehaviour
         if (dangerMark != null)
             dangerMark.SetActive(true);
         // For standing villagers, use NavMeshAgent to return
-        if (villageType == VillageType.Standing && navAgent != null)
+        if (villagerType == VillagerType.Standing && navAgent != null)
         {
             navAgent.enabled = true;
             navAgent.Warp(transform.position); // Ensure agent is on the NavMesh
@@ -562,7 +572,7 @@ public class Village : MonoBehaviour
         }
         
         // Draw patrol area for walking villages
-        if (villageType == VillageType.Walking)
+        if (villagerType == VillagerType.Walking)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, patrolRadius);
