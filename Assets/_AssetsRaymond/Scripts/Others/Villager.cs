@@ -17,7 +17,6 @@ public class Villager : MonoBehaviour
     [SerializeField] private VillagerType villagerType = VillagerType.Standing;
 
     [Header("Components")]
-    [SerializeField] private GameObject dangerMark;
     private Animator animator; // Reference to the Animator component
     [SerializeField] private Transform safeZone; // Reference to the safezone transform
 
@@ -111,12 +110,6 @@ public class Villager : MonoBehaviour
         // Village should be affected by gravity by default.
         rb.isKinematic = false;
 
-        // Set initial state for the danger mark (hidden by default)
-        if (dangerMark != null)
-        {
-            dangerMark.SetActive(false);
-        }
-
         // Initialize animation state
         UpdateAnimationState(false, false);
 
@@ -194,7 +187,6 @@ public class Villager : MonoBehaviour
         while (true)
         {
             CheckForNearbyPlayers();
-            CheckDangerMarkVisibility();
             yield return new WaitForSeconds(0.5f); // Check every 0.5 seconds
         }
     }
@@ -255,8 +247,6 @@ public class Villager : MonoBehaviour
             {
                 if (animator != null)
                     animator.SetBool("isCrouching", true);
-                if (dangerMark != null)
-                    dangerMark.SetActive(false);
                 hasReactedToPlayer = true;
                 return;
             }
@@ -270,35 +260,6 @@ public class Villager : MonoBehaviour
                 hasSeenPlayer = true; // Mark as seen
                 StartRunningFromPlayer();
             }
-            ShowDangerMark();
-        }
-    }
-
-    private void CheckDangerMarkVisibility()
-    {
-        // Hide danger mark if no player has been detected for a while
-        // Only hide if not running to safe zone
-        if (dangerMarkVisible && !isRunningFromPlayer && Time.time - lastPlayerDetectionTime > dangerMarkHideDelay)
-        {
-            HideDangerMark();
-        }
-    }
-
-    private void ShowDangerMark()
-    {
-        if (dangerMark != null && !dangerMarkVisible)
-        {
-            dangerMark.SetActive(true);
-            dangerMarkVisible = true;
-        }
-    }
-
-    private void HideDangerMark()
-    {
-        if (dangerMark != null && dangerMarkVisible)
-        {
-            dangerMark.SetActive(false);
-            dangerMarkVisible = false;
         }
     }
 
@@ -353,9 +314,6 @@ public class Villager : MonoBehaviour
         // Set animation to running while going to safe zone
         UpdateAnimationState(false, true);
 
-        // Ensure danger mark is visible
-        ShowDangerMark();
-
         Debug.Log($"<color=yellow>Village:</color> Player detected! Going to safe zone.");
     }
 
@@ -377,8 +335,6 @@ public class Villager : MonoBehaviour
             if (isInSafeZone)
             {
                 UpdateAnimationState(false, false);
-                if (dangerMark != null)
-                    dangerMark.SetActive(false);
                 return;
             }
             // (If not in safe zone, do nothing else)
@@ -485,8 +441,6 @@ public class Villager : MonoBehaviour
         Debug.Log("[Village] ReturnToStartPosition coroutine started.");
         // Set animation to running while returning
         UpdateAnimationState(false, true);
-        if (dangerMark != null)
-            dangerMark.SetActive(true);
         // For standing villagers, use NavMeshAgent to return
         if (villagerType == VillagerType.Standing && navAgent != null)
         {
@@ -522,8 +476,6 @@ public class Villager : MonoBehaviour
         }
         // Set animation to walking and hide danger mark
         UpdateAnimationState(true, false);
-        if (dangerMark != null)
-            dangerMark.SetActive(false);
         // Reset hasSeenPlayer so the process can repeat
         hasSeenPlayer = false;
         isReturningToStart = false;

@@ -783,7 +783,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 4418094899875985526}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -2294,7 +2293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 6565893048418440994}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -4639,7 +4637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 3603774630682993830}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -5092,7 +5089,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 1641320356397698072}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -6121,7 +6117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 426283484684034966}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -6482,7 +6477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 4678055641829948660}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -8934,7 +8928,7 @@ GameObject:
   - component: {fileID: 3935839533468104357}
   - component: {fileID: 3876632519622345430}
   m_Layer: 0
-  m_Name: PatrolPaths
+  m_Name: VillagerPaths
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9611,7 +9605,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 7001210686611417139}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -13307,7 +13300,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 2036571840863029909}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -17380,7 +17372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 3768851927956499982}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -21264,7 +21255,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 5665170343962254547}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -21592,7 +21582,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  dangerMark: {fileID: 1259186552115258770}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -22370,7 +22359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 3625670804609037260}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -23980,7 +23968,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 3108830849203211835}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -32863,7 +32850,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 3599348378316315581}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -33900,7 +33886,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  dangerMark: {fileID: 6257302884317678671}
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
