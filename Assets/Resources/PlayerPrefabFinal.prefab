@@ -1651,13 +1651,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 0}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -1674,11 +1674,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &4243270875449751734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,6 +1738,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1236851216205815930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9190025303013153989}
+  - component: {fileID: 4536314042459764930}
+  - component: {fileID: 7056743462697171782}
+  m_Layer: 7
+  m_Name: TeleportPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &9190025303013153989
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236851216205815930}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5292661166079755046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_SizeDelta: {x: 1920, y: 1079.7766}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4536314042459764930
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236851216205815930}
+  m_CullTransparentMesh: 1
+--- !u!114 &7056743462697171782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236851216205815930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1285860788904331212
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,6 +4197,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7315203462810474950}
+  - {fileID: 6112113565002764503}
+  - {fileID: 9190025303013153989}
   - {fileID: 4833218455540151240}
   - {fileID: 7290828577687677524}
   - {fileID: 4843216244439666342}
@@ -4643,13 +4731,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 0}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -4666,11 +4754,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &3669203696348102129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7261,13 +7360,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 0}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -7284,11 +7383,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &4207933106205388783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7769,13 +7879,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 0}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -7792,11 +7902,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &6358162430219961052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9017,6 +9138,81 @@ Transform:
   - {fileID: 4404358796428137470}
   m_Father: {fileID: 8913260664306835432}
   m_LocalEulerAnglesHint: {x: 36.949368, y: -44.641632, z: -35.990326}
+--- !u!1 &6757833649815834366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6112113565002764503}
+  - component: {fileID: 8370343697525300475}
+  - component: {fileID: 8271144317427771337}
+  m_Layer: 7
+  m_Name: SprintBoostPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &6112113565002764503
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6757833649815834366}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5292661166079755046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
+  m_SizeDelta: {x: 1920, y: 1079.7766}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8370343697525300475
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6757833649815834366}
+  m_CullTransparentMesh: 1
+--- !u!114 &8271144317427771337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6757833649815834366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6779807193894492860
 GameObject:
   m_ObjectHideFlags: 0
@@ -10354,13 +10550,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 0}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -10377,11 +10573,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &5764516038505287600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11254,13 +11461,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  timerText: {fileID: 1532522461648728525}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 10
   BlackHole: {fileID: 4858669027747474354}
@@ -11277,11 +11484,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 10
+  FreezeGun: {fileID: 8553617264119795456}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  freezeGunMoveForce: 10
+  FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &7949036973899032396
 MonoBehaviour:
   m_ObjectHideFlags: 0

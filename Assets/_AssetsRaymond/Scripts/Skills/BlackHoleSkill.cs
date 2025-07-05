@@ -8,7 +8,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
 {
     [Header("Skill UI")]
     public Image CooldownBar; // Assign an Image with fillAmount for the skill bar
-    public TextMeshProUGUI timerText; // Shows countdown
+    public TextMeshProUGUI CooldownTime; // Shows countdown
 
     [Header("Skill Timing")]
     [Tooltip("How long the skill stays active when triggered (seconds)")]
@@ -175,10 +175,10 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
             else
                 CooldownBar.fillAmount = t / max; // Increase from 0 to 1
         }
-        if (timerText != null)
+        if (CooldownTime != null)
         {
             int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
-            timerText.text = seconds.ToString();
+            CooldownTime.text = seconds.ToString();
         }
     }
 
@@ -195,7 +195,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     private void ResetUI()
     {
         if (CooldownBar != null) CooldownBar.fillAmount = 1f;
-        if (timerText != null) timerText.text = "";
+        if (CooldownTime != null) CooldownTime.text = "";
         if (BlackHole != null) BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
     }
