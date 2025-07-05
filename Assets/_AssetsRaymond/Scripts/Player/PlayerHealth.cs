@@ -223,6 +223,11 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             // Tell all clients that this player is now dead.
             photonView.RPC("GoDown", RpcTarget.All);
+            // Show the deadPanel if not already in game over
+            if (deadPanel != null && (gameOverPanel == null || !gameOverPanel.activeInHierarchy))
+            {
+                deadPanel.SetActive(true);
+            }
         }
     }
 
@@ -569,6 +574,11 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
                 health = 0;
                 UpdateHealthBars();
                 Die();
+                // Show the deadPanel if not already in game over
+                if (deadPanel != null && (gameOverPanel == null || !gameOverPanel.activeInHierarchy))
+                {
+                    deadPanel.SetActive(true);
+                }
             }
         }
     }
