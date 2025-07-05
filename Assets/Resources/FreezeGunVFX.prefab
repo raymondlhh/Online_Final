@@ -9806,7 +9806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
-  triggerCollider: {fileID: 0}
+  triggerCollider: {fileID: 4544301397424778637}
   guardTag: Guard
   freezeDuration: 10
 --- !u!1 &4058102163309549954

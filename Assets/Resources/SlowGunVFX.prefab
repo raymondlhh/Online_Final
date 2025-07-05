@@ -29279,6 +29279,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1698cb8f54b65e34eabb22f932d5fd90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  duration: 10
+  triggerCollider: {fileID: 8314707592525171842}
+  guardTag: Guard
+  slowMultiplier: 0.5
 --- !u!1 &6310008558979564279
 GameObject:
   m_ObjectHideFlags: 0

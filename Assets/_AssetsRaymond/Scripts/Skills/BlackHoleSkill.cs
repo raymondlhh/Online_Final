@@ -25,10 +25,11 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
 
     // Black Hole Skill
     [Header("Black Hole Skill")]
-    public GameObject BlackHole; // Assign in inspector or via hierarchy
+    public GameObject TP_BlackHole; // Assign in inspector or via hierarchy (TP_View)
+    public GameObject FP_BlackHole; // Assign in inspector or via hierarchy (FP_View)
     public GameObject WeaponCrosshair; // Assign in inspector or via hierarchy
-    public float holeMoveForce = 10f; // How fast the decoy moves forward
-    private bool holeReadyToThrow = false;
+    public float BlackHoleMoveForce = 10f; // How fast the decoy moves forward
+    private bool BlackHoleReadyToThrow = false;
 
     [Header("Black Hole VFX")]
     public GameObject BlackHoleVFXPrefab; // Assign the VFX prefab in inspector
@@ -41,11 +42,10 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     void Start()
     {
         ResetUI();
-        // Set initial cooldown bar to full (ready) and sync to Photon
         SyncCooldownBarToPhoton();
-        // Hide DecoyDevice and WeaponCrosshair at start
-        if (BlackHole != null) BlackHole.SetActive(false);
+        if (TP_BlackHole != null) TP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+        if (FP_BlackHole != null) FP_BlackHole.SetActive(false);
     }
 
     void Update()
@@ -57,9 +57,13 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         {
             if (skillRoutine != null) StopCoroutine(skillRoutine);
             skillRoutine = StartCoroutine(SkillActiveAndCooldownRoutine());
-            if (BlackHole != null) BlackHole.SetActive(true);
+            // Show in TP_View for all clients
+            photonView.RPC("ShowTPBlackHole", RpcTarget.All, true);
+            // Show in FP_View only for local player
+            if (photonView.IsMine && FP_BlackHole != null)
+                FP_BlackHole.SetActive(true);
             if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
-            holeReadyToThrow = true;
+            BlackHoleReadyToThrow = true;
         }
     }
 
@@ -69,20 +73,20 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         isOnCooldown = false;
         timer = activeDuration;
         bool decoyThrown = false;
-        if (BlackHole != null && !BlackHole.activeSelf)
-            BlackHole.SetActive(true);
+        if (TP_BlackHole != null && !TP_BlackHole.activeSelf)
+            TP_BlackHole.SetActive(true);
         if (WeaponCrosshair != null && !WeaponCrosshair.activeSelf)
             WeaponCrosshair.SetActive(true);
-        if (isThirdPersonView && BlackHole != null)
-            BlackHole.SetActive(true);
-        holeReadyToThrow = true;
+        if (isThirdPersonView && TP_BlackHole != null)
+            TP_BlackHole.SetActive(true);
+        BlackHoleReadyToThrow = true;
         while (timer > 0f && isActive && !decoyThrown)
         {
             timer -= Time.deltaTime;
             UpdateUI(timer, activeDuration, true);
             SyncCooldownBarToPhoton();
             // Check for left mouse click to throw decoy
-            if (holeReadyToThrow && Input.GetMouseButtonDown(0))
+            if (BlackHoleReadyToThrow && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("[PlayerSkillDetails] Left mouse clicked - attempting to spawn black hole");
                 
@@ -112,7 +116,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
                     try
                     {
                         GameObject spawnedBlackHole = PhotonNetwork.Instantiate(BlackHoleVFXPrefab.name, hit.point, Quaternion.identity);
-                        Debug.Log($"[PlayerSkillDetails] Successfully spawned black hole: {spawnedBlackHole.name}");
+                        // Debug.Log($"[PlayerSkillDetails] Successfully spawned black hole: {spawnedBlackHole.name}");
                     }
                     catch (System.Exception e)
                     {
@@ -126,11 +130,12 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
                 // TP_View: Play animation and hide BlackHole
                 if (isThirdPersonView && TP_Animator != null)
                     TP_Animator.SetBool("isSwordAttacking", true);
-                if (isThirdPersonView && BlackHole != null)
-                    BlackHole.SetActive(false);
+                photonView.RPC("ShowTPBlackHole", RpcTarget.All, false);
+                if (photonView.IsMine && FP_BlackHole != null)
+                    FP_BlackHole.SetActive(false);
                 if (isThirdPersonView && TP_Animator != null)
                     StartCoroutine(ResetSwordAttackAnim());
-                holeReadyToThrow = false;
+                BlackHoleReadyToThrow = false;
                 decoyThrown = true;
                 break; // Immediately end active phase and go to cooldown
             }
@@ -140,9 +145,11 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         UpdateUI(0, activeDuration, true);
         SyncCooldownBarToPhoton();
         // Always hide BlackHole and WeaponCrosshair at end of active phase
-        if (BlackHole != null) BlackHole.SetActive(false);
+        photonView.RPC("ShowTPBlackHole", RpcTarget.All, false);
+        if (photonView.IsMine && FP_BlackHole != null)
+            FP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
-        holeReadyToThrow = false;
+        BlackHoleReadyToThrow = false;
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
@@ -196,7 +203,15 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     {
         if (CooldownBar != null) CooldownBar.fillAmount = 1f;
         if (CooldownTime != null) CooldownTime.text = "";
-        if (BlackHole != null) BlackHole.SetActive(false);
+        if (TP_BlackHole != null) TP_BlackHole.SetActive(false);
+        if (FP_BlackHole != null) FP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+    }
+
+    [PunRPC]
+    public void ShowTPBlackHole(bool show)
+    {
+        if (TP_BlackHole != null)
+            TP_BlackHole.SetActive(show);
     }
 }

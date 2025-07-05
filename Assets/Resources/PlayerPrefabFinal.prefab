@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224951718138562067}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.055138987, y: 0.62712115, z: 0.39048326, w: 0.6717155}
+  m_LocalRotation: {x: 0.24151155, y: 0.31090984, z: 0.5787471, w: 0.71418417}
   m_LocalPosition: {x: 0.1319786, y: 0.0000065064523, z: 0.000000059604645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -708,7 +708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682540896494973878}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.087037705, y: 0.71521366, z: 0.16588421, w: 0.67333233}
+  m_LocalRotation: {x: -0.10940731, y: 0.035830304, z: -0.014052242, w: 0.9932516}
   m_LocalPosition: {x: 0.3394746, y: 0.0014475826, z: 0.0014362596}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -825,7 +825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730104109602123861}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07016724, y: 0.009022123, z: 0.019974267, w: 0.9972944}
+  m_LocalRotation: {x: -0.062349316, y: -0.2613724, z: 0.019049067, w: 0.9630339}
   m_LocalPosition: {x: -0.063702144, y: -0.00000002142042, z: -0.0000000037252903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -857,7 +857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790798060065118143}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.031519383, y: 0.30157882, z: 0.23976056, w: -0.92226434}
+  m_LocalRotation: {x: 0.07126421, y: 0.13155043, z: 0.22879393, w: -0.9619092}
   m_LocalPosition: {x: 0.056655094, y: 0.000000070780516, z: -0.00000020861626}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1004,7 +1004,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969125502102514864}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.060067475, y: 0.17045431, z: 0.38212347, w: 0.90626645}
+  m_LocalRotation: {x: 0.24236608, y: 0.25157967, z: 0.6164502, w: 0.7056597}
   m_LocalPosition: {x: -0.13197875, y: 0.000000027110218, z: 0.000000004656613}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1555,7 +1555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164780185587573101}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.98433304, y: -0.17403056, z: 0.025972286, w: 0.011287857}
+  m_LocalRotation: {x: 0.9951031, y: -0.098830104, z: -0.0008460117, w: 0.0013165919}
   m_LocalPosition: {x: -0.10393268, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1651,21 +1651,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 0}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
-  TP_Animator: {fileID: 0}
+  TP_Animator: {fileID: 8468228504353719678}
   isThirdPersonView: 1
 --- !u!114 &8740710439415445057
 MonoBehaviour:
@@ -1674,7 +1675,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -1682,8 +1683,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -1714,6 +1716,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &6892621644811249380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1837,7 +1851,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285860788904331212}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.99518615, y: -0.09800273, z: 0.000000004381063, w: 2.1519497e-10}
+  m_LocalRotation: {x: 0.9951599, y: -0.09826691, z: 0.00018577847, w: 0.0005939679}
   m_LocalPosition: {x: -0.18151172, y: -0.000000029802322, z: 0.000000013969839}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2093,7 +2107,7 @@ GameObject:
   - component: {fileID: 1189199770550351528}
   - component: {fileID: 208647951949290117}
   m_Layer: 0
-  m_Name: SlowGun
+  m_Name: TP_SlowGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2107,14 +2121,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371873559034358521}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.15555325, y: -0.67471886, z: 0.71331084, w: 0.108376406}
-  m_LocalPosition: {x: -0.3254588, y: -0.27312496, z: -0.16160363}
-  m_LocalScale: {x: 0.7999993, y: 0.7999995, z: 0.79999936}
+  m_LocalRotation: {x: 0.00000006891783, y: -0.14946079, z: 0.00000011548393, w: 0.9887676}
+  m_LocalPosition: {x: 0.232, y: 1.189, z: 0.355}
+  m_LocalScale: {x: 0.8000001, y: 0.7999999, z: 0.80000013}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5188096948350152743}
   - {fileID: 3202062037187097474}
-  m_Father: {fileID: 6728648896202843254}
+  m_Father: {fileID: 2994123774830660503}
   m_LocalEulerAnglesHint: {x: 0, y: -17.191, z: 0}
 --- !u!33 &2194316240635027051
 MeshFilter:
@@ -2386,7 +2400,7 @@ GameObject:
   - component: {fileID: 4629345904569692509}
   - component: {fileID: 6948423280301724928}
   m_Layer: 0
-  m_Name: FreezeGun
+  m_Name: TP_FreezeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2400,13 +2414,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474984331454214552}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.15555325, y: -0.67471886, z: 0.71331084, w: 0.108376406}
-  m_LocalPosition: {x: -0.32722875, y: -0.2710124, z: -0.12972222}
-  m_LocalScale: {x: 0.7999993, y: 0.7999995, z: 0.79999936}
+  m_LocalRotation: {x: 0.00000006891783, y: -0.14946079, z: 0.00000011548393, w: 0.9887676}
+  m_LocalPosition: {x: 0.23, y: 1.14, z: 0.368}
+  m_LocalScale: {x: 0.8000001, y: 0.7999999, z: 0.80000013}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7009648155560432806}
-  m_Father: {fileID: 6728648896202843254}
+  m_Father: {fileID: 2994123774830660503}
   m_LocalEulerAnglesHint: {x: 0, y: -17.191, z: 0}
 --- !u!33 &1277679747914632680
 MeshFilter:
@@ -2504,7 +2518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1629498539009627857}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.037875377, y: -0.004739762, z: 0.4762983, w: 0.87845486}
+  m_LocalRotation: {x: -0.045083996, y: -0.026293816, z: 0.067250706, w: 0.99637014}
   m_LocalPosition: {x: -0.03791188, y: -0.000000022962922, z: 7.057679e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2719,6 +2733,7 @@ GameObject:
   - component: {fileID: 6671384928228441927}
   - component: {fileID: 1177513172182546020}
   - component: {fileID: 4216607742752735030}
+  - component: {fileID: 804536862679568409}
   m_Layer: 7
   m_Name: PlayerPrefabFinal
   m_TagString: Player
@@ -3020,6 +3035,25 @@ MonoBehaviour:
   fpPlayerUI: {fileID: 1302375653486968075}
   tpViewObject: {fileID: 8879048617901895282}
   tpPlayerUI: {fileID: 4316939473528546819}
+--- !u!114 &804536862679568409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790435183651769597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e68f59a2d89a646be7ef651a9a4f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillUIs:
+  - {fileID: 5492982195643207434}
+  - {fileID: 8576658885732800330}
+  - {fileID: 3353284695428829236}
+  - {fileID: 1227757498648772118}
+  - {fileID: 8095085395685819545}
+  - {fileID: 5183864331561327358}
 --- !u!1 &1801564305961108042
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,7 +3308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1974786335360594717}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.01741889, y: -0.05247406, z: -0.07249783, w: 0.99583495}
+  m_LocalRotation: {x: -0.040814135, y: 0.061862536, z: 0.005562308, w: 0.99723434}
   m_LocalPosition: {x: -0.103965625, y: 0.0039871437, z: 0.026726495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4160,7 +4194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2786295430030031490}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.25298223, y: 0.6596126, z: -0.70686764, w: -0.035347953}
+  m_LocalRotation: {x: 0.04587166, y: 0.7140614, z: -0.69566995, w: -0.06368274}
   m_LocalPosition: {x: 0.041157685, y: -0.026920708, z: -0.09896705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4270,8 +4304,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5409837371493815107}
-  - {fileID: 6880379893827910953}
   - {fileID: 602116909392948810}
   - {fileID: 294369821184258586}
   - {fileID: 7400504296681213750}
@@ -4301,7 +4333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2872536682230402677}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.4575796, y: -0.71521217, z: 0.41937533, w: 0.32127386}
+  m_LocalRotation: {x: 0.45841277, y: -0.53751016, z: 0.45903784, w: 0.53872526}
   m_LocalPosition: {x: -0.121644385, y: -0.000000044703484, z: 0.000000037252903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4338,7 +4370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2874760680724111257}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.021809226, y: 0.03258949, z: -0.15582514, w: -0.987006}
+  m_LocalRotation: {x: -0.035037693, y: 0.068597876, z: -0.111058295, w: -0.9908243}
   m_LocalPosition: {x: 0.09982499, y: 0.0011600524, z: 0.032833412}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4636,7 +4668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3346437815147496309}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.080125086, y: -0.09168102, z: -0.22521505, w: 0.96667105}
+  m_LocalRotation: {x: -0.065154664, y: -0.15865402, z: -0.2310139, w: 0.9577142}
   m_LocalPosition: {x: -0.056655698, y: -0.000000041909516, z: 0.0000000018626451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4731,21 +4763,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 0}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
-  TP_Animator: {fileID: 0}
+  TP_Animator: {fileID: 8468228504353719678}
   isThirdPersonView: 1
 --- !u!114 &7885293140560807553
 MonoBehaviour:
@@ -4754,7 +4787,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -4762,8 +4795,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -4794,6 +4828,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &4173901721610734013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4847,6 +4893,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2994123774830660503}
   - {fileID: 4586845377022220691}
   - {fileID: 6179759420643672504}
   m_Father: {fileID: 4736983574244050741}
@@ -4875,7 +4922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3403997779153795350}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.8177972, y: 0.55291635, z: -0.040711224, w: -0.1543826}
+  m_LocalRotation: {x: 0.8470112, y: 0.4741729, z: 0.11338709, w: -0.2118386}
   m_LocalPosition: {x: 0.3771233, y: 0.00000014901161, z: -0.0000008493662}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4907,7 +4954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3440744223847013813}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.004900412, y: 0.27645937, z: 0.16954125, w: 0.9459397}
+  m_LocalRotation: {x: 0.032525886, y: 0.21016802, z: 0.20070118, w: 0.95629}
   m_LocalPosition: {x: -0.035140473, y: -0.011706892, z: 0.045055393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5472,7 +5519,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3662387382841180783}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.43909043, y: 0.5639367, z: 0.56676936, w: -0.40981406}
+  m_LocalRotation: {x: 0.6059569, y: 0.5120775, z: 0.4292907, w: -0.43162754}
   m_LocalPosition: {x: -0.05801531, y: -0.041914195, z: 0.07447152}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5504,7 +5551,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3794120946373549876}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.042800125, y: 0.008951834, z: 0.5074787, w: 0.86055416}
+  m_LocalRotation: {x: -0.040453807, y: -0.012036688, z: 0.15087245, w: 0.9876518}
   m_LocalPosition: {x: -0.04093632, y: 0.000000029340299, z: -0.0000000011241355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5640,7 +5687,7 @@ GameObject:
   - component: {fileID: 3921597488182269949}
   - component: {fileID: 3953210454721825549}
   m_Layer: 0
-  m_Name: SlowGun
+  m_Name: FP_SlowGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6056,7 +6103,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4175323807460578449}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.026506294, y: -0.009546841, z: -0.59147346, w: -0.8058322}
+  m_LocalRotation: {x: -0.018221084, y: -0.02178021, z: -0.13902608, w: -0.9898815}
   m_LocalPosition: {x: 0.04248807, y: 0.00000028964132, z: -0.000000016763806}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6241,7 +6288,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5041791010453900184}
-  - component: {fileID: 2675001752976737070}
   m_Layer: 5
   m_Name: PlayerSkills
   m_TagString: Untagged
@@ -6274,25 +6320,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000019073486, y: 0}
   m_SizeDelta: {x: 46.677635, y: 46.67764}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2675001752976737070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4221659296878628402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3e68f59a2d89a646be7ef651a9a4f69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillUIs:
-  - {fileID: 5492982195643207434}
-  - {fileID: 8576658885732800330}
-  - {fileID: 3353284695428829236}
-  - {fileID: 1227757498648772118}
-  - {fileID: 8095085395685819545}
-  - {fileID: 5183864331561327358}
 --- !u!1 &4250964781011516486
 GameObject:
   m_ObjectHideFlags: 0
@@ -6430,7 +6457,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4281518940031530273}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.45133543, y: 0.5872683, z: -0.49020198, w: -0.45947185}
+  m_LocalRotation: {x: -0.54962444, y: 0.5972862, z: -0.3977091, w: -0.42777288}
   m_LocalPosition: {x: -0.058011733, y: -0.041914493, z: -0.07447155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6525,7 +6552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4372368282557582021}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06527339, y: -0.20917958, z: -0.26613718, w: -0.93869823}
+  m_LocalRotation: {x: -0.072904006, y: -0.17554398, z: -0.26895145, w: -0.94421107}
   m_LocalPosition: {x: 0.035140004, y: 0.011709972, z: -0.04505541}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6838,7 +6865,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4806618331594683088}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.038300887, y: 0.018896835, z: -0.022485578, w: -0.99883455}
+  m_LocalRotation: {x: 0.040423837, y: 0.012155294, z: -0.1486646, w: -0.9879864}
   m_LocalPosition: {x: 0.04093589, y: 0.000000921078, z: -0.00000005401671}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6870,7 +6897,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4827362392932344799}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.35874736, y: -0.18089697, z: -0.2820397, w: 0.87122345}
+  m_LocalRotation: {x: -0.07429539, y: -0.039514538, z: 0.009197255, w: 0.9964107}
   m_LocalPosition: {x: -0.27114528, y: 0.000000054948032, z: -0.00038136134}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6893,7 +6920,7 @@ GameObject:
   - component: {fileID: 168001641032214000}
   - component: {fileID: 3003965802181431368}
   m_Layer: 0
-  m_Name: BlackHole
+  m_Name: FP_BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7042,7 +7069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4930430713393873782}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.063980065, y: 0.21747571, z: -0.01925081, w: -0.97377634}
+  m_LocalRotation: {x: 0.06201738, y: 0.26986715, z: -0.018944126, w: -0.96071154}
   m_LocalPosition: {x: 0.06370147, y: -0.000007764436, z: 0.0000004172325}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7232,7 +7259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5081380680831275386}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.79577327, y: 0.5953369, z: -0.05575557, w: -0.095970154}
+  m_LocalRotation: {x: 0.8511913, y: 0.49914953, z: 0.07623567, w: -0.1432174}
   m_LocalPosition: {x: -0.3771235, y: 0, z: -0.0000000018626451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7360,21 +7387,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 0}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
-  TP_Animator: {fileID: 0}
+  TP_Animator: {fileID: 8468228504353719678}
   isThirdPersonView: 1
 --- !u!114 &6426627315964069860
 MonoBehaviour:
@@ -7383,7 +7411,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -7391,8 +7419,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -7423,6 +7452,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &2595701317677959546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7471,7 +7512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5195188535350263099}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.002825717, y: -0.70710117, z: -0.002825717, w: 0.70710117}
+  m_LocalRotation: {x: 0.00042880396, y: -0.70710665, z: 0.00042880396, w: 0.70710665}
   m_LocalPosition: {x: -0.072957575, y: -7.1024786e-10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7502,7 +7543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5229848558913643608}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.007011589, y: 0.0065722903, z: 0.26732776, w: 0.9635577}
+  m_LocalRotation: {x: 0.026280945, y: -0.044378422, z: 0.111496784, w: 0.9924255}
   m_LocalPosition: {x: -0.09982528, y: -0.0011595575, z: -0.0328334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7598,7 +7639,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5380061268808915744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.007572544, y: 0.032284375, z: -0.47994155, w: -0.8766736}
+  m_LocalRotation: {x: 0.001742627, y: 0.023283787, z: -0.15633762, w: -0.98742765}
   m_LocalPosition: {x: 0.03513327, y: -0.00000014249235, z: 0.000000014901161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7879,18 +7920,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 0}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
   TP_Animator: {fileID: 8468228504353719678}
@@ -7902,7 +7944,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -7910,8 +7952,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -7942,6 +7985,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &7823498655563282986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8624,7 +8679,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5677648296435945976}
   - {fileID: 4170996073299769345}
   m_Father: {fileID: 147120717620195001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8652,7 +8706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6226833406883784833}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.046532936, y: -0.040660862, z: 0.07698404, w: -0.9951156}
+  m_LocalRotation: {x: 0.03362447, y: -0.043117955, z: -0.015566343, w: -0.9983827}
   m_LocalPosition: {x: 0.10396597, y: -0.0039899945, z: -0.02672651}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8684,7 +8738,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6284111837489768933}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5625553, y: 0.31540233, z: -0.23918359, w: 0.72584033}
+  m_LocalRotation: {x: 0.68542284, y: 0.023075193, z: -0.001752001, w: 0.72777754}
   m_LocalPosition: {x: -0.39930907, y: 0.000000059604645, z: 4.5820414e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9301,7 +9355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7005796236622704535}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6706985, y: 0.29397577, z: -0.21027353, w: 0.64770895}
+  m_LocalRotation: {x: 0.6888191, y: 0.022707336, z: -0.0055398713, w: 0.72455645}
   m_LocalPosition: {x: 0.39930925, y: -0.00000035762787, z: -1.2739676e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9459,7 +9513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7089665571074601384}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.045302115, y: 0.027787367, z: -0.035358515, w: -0.9979606}
+  m_LocalRotation: {x: 0.04508624, y: 0.026335053, z: -0.06714395, w: -0.99637616}
   m_LocalPosition: {x: 0.037912138, y: 0.0000033071265, z: -0.00000004656613}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9729,7 +9783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7288103991527645999}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.022367537, y: 0.017139116, z: 0.33942068, w: 0.9402125}
+  m_LocalRotation: {x: 0.018145116, y: 0.021849543, z: 0.13563895, w: 0.9903512}
   m_LocalPosition: {x: -0.04248817, y: -0.000000033222022, z: 0.0000000017789716}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9761,7 +9815,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7341768788615705452}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.60404867, y: -0.21498033, z: -0.052299935, w: 0.76561964}
+  m_LocalRotation: {x: -0.7639972, y: 0.030587563, z: -0.056035616, w: 0.64205354}
   m_LocalPosition: {x: 0.0411578, y: -0.026920758, z: 0.098967105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9793,8 +9847,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7454909597527007356}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.035356697, y: 0.5245916, z: -0.018257828, w: 0.85042363}
-  m_LocalPosition: {x: -0.043785095, y: -0.045247555, z: 0.06782913}
+  m_LocalRotation: {x: 0.005416917, y: 0.009791772, z: 0.0039607342, w: 0.99992955}
+  m_LocalPosition: {x: 0.009135261, y: 0.035849392, z: 0.0033717155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9931,7 +9985,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7582253065467200490}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000013240852, y: -0.7071068, z: -0.0000001324085, w: 0.7071068}
+  m_LocalRotation: {x: 0.000048064187, y: -0.7071068, z: 0.000048064187, w: 0.7071068}
   m_LocalPosition: {x: 0.072957486, y: 1.483027e-10, z: 0.000000014901161}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10207,7 +10261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7752700329513762621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15781789, y: -0.01604844, z: 0.3153518, w: 0.9356224}
+  m_LocalRotation: {x: 0.00007008361, y: 0.00025139065, z: 0.041437835, w: 0.9991411}
   m_LocalPosition: {x: -0.11188972, y: -0.000000014901161, z: 0.000000013969839}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10247,6 +10301,40 @@ Transform:
   - {fileID: 4888611289504195547}
   m_Father: {fileID: 8066327419143322186}
   m_LocalEulerAnglesHint: {x: 0.08620046, y: 0.7059401, z: -5.3862543}
+--- !u!1 &7767099626610604088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2994123774830660503}
+  m_Layer: 7
+  m_Name: TP_Weapons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2994123774830660503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7767099626610604088}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5677648296435945976}
+  - {fileID: 5409837371493815107}
+  - {fileID: 6880379893827910953}
+  m_Father: {fileID: 227641603090007403}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7808007673388436578
 GameObject:
   m_ObjectHideFlags: 0
@@ -10271,7 +10359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7808007673388436578}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.20135957, y: -0.0877524, z: -0.14101774, w: 0.96533304}
+  m_LocalRotation: {x: -0.12884997, y: -0.038037434, z: 0.010672876, w: 0.9908769}
   m_LocalPosition: {x: 0.2711449, y: -0.000000034458935, z: 0.00038135424}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10305,7 +10393,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7859292654170542673}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0030906945, y: -0.028334612, z: 0.32739687, w: 0.94445693}
+  m_LocalRotation: {x: -0.0018309297, y: -0.0231935, z: 0.15311757, w: 0.9879341}
   m_LocalPosition: {x: -0.03513328, y: 0.000000029831426, z: -7.275958e-12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10452,7 +10540,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7978701967933464662}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.9938103, y: -0.11109033, z: 0.000000028331407, w: 0.000000011498177}
+  m_LocalRotation: {x: 0.9938398, y: -0.11082518, z: -0.00030096172, w: 0.0005432133}
   m_LocalPosition: {x: -0.17903723, y: -0.000000014901161, z: -0.000000011175871}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10550,21 +10638,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 0}
+  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
-  TP_Animator: {fileID: 0}
+  TP_Animator: {fileID: 8468228504353719678}
   isThirdPersonView: 1
 --- !u!114 &366922080980879389
 MonoBehaviour:
@@ -10573,7 +10662,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -10581,8 +10670,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -10613,6 +10703,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &6555142148941353934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11165,7 +11267,7 @@ GameObject:
   - component: {fileID: 8567198856025988762}
   - component: {fileID: 8526591615125367192}
   m_Layer: 0
-  m_Name: FreezeGun
+  m_Name: FP_FreezeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11461,7 +11563,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
@@ -11469,10 +11571,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  BlackHole: {fileID: 4858669027747474354}
+  cooldownDuration: 25
+  TP_BlackHole: {fileID: 8968244384970498703}
+  FP_BlackHole: {fileID: 4858669027747474354}
   WeaponCrosshair: {fileID: 7501918253337443978}
-  holeMoveForce: 10
+  BlackHoleMoveForce: 10
   BlackHoleVFXPrefab: {fileID: 5694215582539366860, guid: e8ba303ffd2e3d547bfbd9e5ab5e60e6, type: 3}
   playerCamera: {fileID: 9175514845123652058}
   TP_Animator: {fileID: 8468228504353719678}
@@ -11484,7 +11587,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
@@ -11492,8 +11595,9 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 10
-  FreezeGun: {fileID: 8553617264119795456}
+  cooldownDuration: 25
+  TP_FreezeGun: {fileID: 1474984331454214552}
+  FP_FreezeGun: {fileID: 8553617264119795456}
   WeaponCrosshair: {fileID: 7501918253337443978}
   freezeGunMoveForce: 10
   FreezeGunVFXPrefab: {fileID: 2083986816534910704, guid: d0d02da6e3ae3c44c8c6bd0fe4dd3a9a, type: 3}
@@ -11524,6 +11628,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CooldownBar: {fileID: 4586661279856533327}
+  CooldownTime: {fileID: 1532522461648728525}
+  activeDuration: 10
+  cooldownDuration: 25
+  TP_SlowGun: {fileID: 1371873559034358521}
+  FP_SlowGun: {fileID: 3908470044818610265}
+  WeaponCrosshair: {fileID: 7501918253337443978}
+  SlowGunMoveForce: 10
+  SlowGunVFXPrefab: {fileID: 4604516807436419523, guid: 65797b12a0b398d4e993fc688271e122, type: 3}
+  playerCamera: {fileID: 9175514845123652058}
+  TP_Animator: {fileID: 8468228504353719678}
+  isThirdPersonView: 1
 --- !u!114 &5962162548570795323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12112,7 +12228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4736983574244050741
 Transform:
   m_ObjectHideFlags: 0
@@ -12379,7 +12495,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8930274501385417913}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.34468994, y: 0.7653339, z: 0.10488556, w: 0.53334033}
+  m_LocalRotation: {x: -0.09235177, y: 0.0053969626, z: -0.018836055, w: 0.9955337}
   m_LocalPosition: {x: -0.33947405, y: -0.0014490266, z: -0.0014362687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12400,12 +12516,12 @@ GameObject:
   - component: {fileID: 7208249389544222856}
   - component: {fileID: 3293369518194635221}
   m_Layer: 0
-  m_Name: BlackHole
+  m_Name: TP_BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5677648296435945976
 Transform:
   m_ObjectHideFlags: 0
@@ -12414,12 +12530,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8968244384970498703}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.260418, y: -0.650942, z: 0.68204963, w: 0.20800312}
-  m_LocalPosition: {x: -0.0606, y: 0.0445, z: 0.0561}
-  m_LocalScale: {x: 0.29999974, y: 0.29999986, z: 0.29999974}
+  m_LocalRotation: {x: 0.0000002011656, y: 0.00000008940694, z: -0.000000011175867, w: 1}
+  m_LocalPosition: {x: 0.232, y: 1.0727816, z: 0.373}
+  m_LocalScale: {x: 0.29999995, y: 0.3, z: 0.29999998}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3401077542979170047}
+  m_Father: {fileID: 2994123774830660503}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2078869962519032505
 MeshFilter:

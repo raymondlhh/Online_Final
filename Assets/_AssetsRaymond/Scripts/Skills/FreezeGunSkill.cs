@@ -25,7 +25,8 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
 
     // Freeze Gun Skill
     [Header("Freeze Gun Skill")]
-    public GameObject FreezeGun; // Assign in inspector or via hierarchy
+    public GameObject TP_FreezeGun; // Assign in inspector or via hierarchy (TP_View)
+    public GameObject FP_FreezeGun; // Assign in inspector or via hierarchy (FP_View)
     public GameObject WeaponCrosshair; // Assign in inspector or via hierarchy
     public float freezeGunMoveForce = 10f; // How fast the freeze gun moves forward
     private bool freezeGunReadyToFire = false;
@@ -38,14 +39,16 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
     public Animator TP_Animator; // Assign in inspector
     public bool isThirdPersonView = true; // Set this based on your camera system
 
+    private PhotonView pv;
+
     void Start()
     {
+        pv = GetComponentInParent<PhotonView>();
         ResetUI();
-        // Set initial cooldown bar to full (ready) and sync to Photon
         SyncCooldownBarToPhoton();
-        // Hide FreezeGun and WeaponCrosshair at start
-        if (FreezeGun != null) FreezeGun.SetActive(false);
+        if (TP_FreezeGun != null) TP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+        if (FP_FreezeGun != null) FP_FreezeGun.SetActive(false);
     }
 
     void Update()
@@ -57,7 +60,12 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         {
             if (skillRoutine != null) StopCoroutine(skillRoutine);
             skillRoutine = StartCoroutine(SkillActiveAndCooldownRoutine());
-            if (FreezeGun != null) FreezeGun.SetActive(true);
+            // Show in TP_View for all clients
+            if (pv != null)
+                pv.RPC("ShowTPFreezeGun", RpcTarget.All, true);
+            // Show in FP_View only for local player
+            if (photonView.IsMine && FP_FreezeGun != null)
+                FP_FreezeGun.SetActive(true);
             if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
             freezeGunReadyToFire = true;
         }
@@ -69,12 +77,12 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         isOnCooldown = false;
         timer = activeDuration;
         bool freezeGunFired = false;
-        if (FreezeGun != null && !FreezeGun.activeSelf)
-            FreezeGun.SetActive(true);
+        if (TP_FreezeGun != null && !TP_FreezeGun.activeSelf)
+            TP_FreezeGun.SetActive(true);
         if (WeaponCrosshair != null && !WeaponCrosshair.activeSelf)
             WeaponCrosshair.SetActive(true);
-        if (isThirdPersonView && FreezeGun != null)
-            FreezeGun.SetActive(true);
+        if (isThirdPersonView && TP_FreezeGun != null)
+            TP_FreezeGun.SetActive(true);
         freezeGunReadyToFire = true;
         while (timer > 0f && isActive && !freezeGunFired)
         {
@@ -126,8 +134,10 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
                 // TP_View: Play animation and hide FreezeGun
                 if (isThirdPersonView && TP_Animator != null)
                     TP_Animator.SetBool("isSwordAttacking", true);
-                if (isThirdPersonView && FreezeGun != null)
-                    FreezeGun.SetActive(false);
+                if (pv != null)
+                    pv.RPC("ShowTPFreezeGun", RpcTarget.All, false);
+                if (photonView.IsMine && FP_FreezeGun != null)
+                    FP_FreezeGun.SetActive(false);
                 if (isThirdPersonView && TP_Animator != null)
                     StartCoroutine(ResetSwordAttackAnim());
                 freezeGunReadyToFire = false;
@@ -140,7 +150,10 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         UpdateUI(0, activeDuration, true);
         SyncCooldownBarToPhoton();
         // Always hide FreezeGun and WeaponCrosshair at end of active phase
-        if (FreezeGun != null) FreezeGun.SetActive(false);
+        if (pv != null)
+            pv.RPC("ShowTPFreezeGun", RpcTarget.All, false);
+        if (photonView.IsMine && FP_FreezeGun != null)
+            FP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         freezeGunReadyToFire = false;
         // Start cooldown for 30s
@@ -196,7 +209,15 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
     {
         if (CooldownBar != null) CooldownBar.fillAmount = 1f;
         if (CooldownTime != null) CooldownTime.text = "";
-        if (FreezeGun != null) FreezeGun.SetActive(false);
+        if (TP_FreezeGun != null) TP_FreezeGun.SetActive(false);
+        if (FP_FreezeGun != null) FP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+    }
+
+    [PunRPC]
+    public void ShowTPFreezeGun(bool show)
+    {
+        if (TP_FreezeGun != null)
+            TP_FreezeGun.SetActive(show);
     }
 }

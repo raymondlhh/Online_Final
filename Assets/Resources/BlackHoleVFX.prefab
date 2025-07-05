@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
-  triggerCollider: {fileID: 0}
+  triggerCollider: {fileID: 7967755589641391654}
   guardTag: Guard
   pullStrength: 5
   pullRadius: 8

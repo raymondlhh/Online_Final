@@ -83,6 +83,9 @@ MonoBehaviour:
   - PlayGunshotSound
   - RPC_VillageEnteredSaveZone
   - RPC_VillageLeftSaveZone
+  - ShowTPBlackHole
+  - ShowTPFreezeGun
+  - ShowTPSlowGun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
