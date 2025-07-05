@@ -21709,13 +21709,61 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 421329036111080429, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 433052754291174221, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 439826267680691694, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 542661121550127104, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 542661121550127104, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: waypointWaitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 738466214360335298, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631839779202265589, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2906642135638417276}
+    - target: {fileID: 1631839779202265589, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1830530700761639746, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: m_Name
       value: GuardsManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042618190601655179, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500113297587755190, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2906642135638417277}
+    - target: {fileID: 2500113297587755190, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2832154579394137863, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3162582732882770803, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3424729570693088407, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
@@ -21724,6 +21772,42 @@ PrefabInstance:
     - target: {fileID: 3431978746685350193, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676952243266907665, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699658614116147574, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2906642135638417278}
+    - target: {fileID: 3699658614116147574, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4066040684345441368, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054855851626615528, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054855851626615528, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 23.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203666180266942554, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381631595547148549, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444609699247850977, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5590230757966830027, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
@@ -21773,6 +21857,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6199619570092905281, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 2906642135638417279}
+    - target: {fileID: 6199619570092905281, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: swordDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535580010614487932, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6877187954678608009, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
       value: 2
@@ -21780,6 +21876,14 @@ PrefabInstance:
     - target: {fileID: 7927532074079546528, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554494375122275552, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8745538592706404120, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9085770591970452846, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
@@ -21789,11 +21893,35 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 9147995529751374255, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: stoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+--- !u!4 &2906642135638417276 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4352094852869513142, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+  m_PrefabInstance: {fileID: 2906642135638417275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2906642135638417277 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5759454646513135456, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+  m_PrefabInstance: {fileID: 2906642135638417275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2906642135638417278 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 230795307444094742, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+  m_PrefabInstance: {fileID: 2906642135638417275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2906642135638417279 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3160175434520377483, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+  m_PrefabInstance: {fileID: 2906642135638417275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &2906732021692222376
 MeshRenderer:
   m_ObjectHideFlags: 0

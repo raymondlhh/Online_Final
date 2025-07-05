@@ -32,6 +32,8 @@ public class PlayerSkillDetails : MonoBehaviourPunCallbacks
             skillIndex = (int)pv.Owner.CustomProperties["SkillIndex"];
         }
         ResetUI();
+        // Set initial cooldown bar to full (ready) and sync to Photon
+        SyncCooldownBarToPhoton();
     }
 
     void Update()
@@ -55,10 +57,13 @@ public class PlayerSkillDetails : MonoBehaviourPunCallbacks
         {
             timer -= Time.deltaTime;
             UpdateUI(timer, activeDuration, true);
+            // Sync cooldown bar to Photon custom properties for other clients
+            SyncCooldownBarToPhoton();
             yield return null;
         }
         isActive = false;
         UpdateUI(0, activeDuration, true);
+        SyncCooldownBarToPhoton();
 
         // Start cooldown for 30s
         isOnCooldown = true;
@@ -67,10 +72,13 @@ public class PlayerSkillDetails : MonoBehaviourPunCallbacks
         {
             timer += Time.deltaTime;
             UpdateUI(timer, cooldownDuration, false);
+            // Sync cooldown bar to Photon custom properties for other clients
+            SyncCooldownBarToPhoton();
             yield return null;
         }
         isOnCooldown = false;
         UpdateUI(cooldownDuration, cooldownDuration, false);
+        SyncCooldownBarToPhoton();
     }
 
     private void UpdateUI(float t, float max, bool isActivePhase)
@@ -86,6 +94,16 @@ public class PlayerSkillDetails : MonoBehaviourPunCallbacks
         {
             int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
             timerText.text = seconds.ToString();
+        }
+    }
+
+    private void SyncCooldownBarToPhoton()
+    {
+        if (photonView != null && photonView.IsMine && CooldownBar != null)
+        {
+            var props = new ExitGames.Client.Photon.Hashtable();
+            props["SkillCooldownPercent"] = CooldownBar.fillAmount;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
     }
 

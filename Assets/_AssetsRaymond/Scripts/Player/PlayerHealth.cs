@@ -46,6 +46,11 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     private int cloakedPlayerLayer;
     private bool gameOverTriggered = false; // Prevents multiple triggers
 
+    private List<GameObject> spectateTargets = new List<GameObject>();
+    private int currentSpectateIndex = 0;
+    private bool isSpectating = false;
+    private Camera spectateTargetCamera = null;
+
     void Awake()
     {
         isLocalPlayer = photonView.IsMine;
@@ -193,6 +198,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             FPHealth.fillAmount = healthPercentage;
             Debug.Log($"Updating FP healthbar: {healthPercentage}");
         }
+        // Sync to Photon custom properties for other clients
+        if (photonView.IsMine)
+        {
+            var props = new ExitGames.Client.Photon.Hashtable();
+            props["HealthPercent"] = healthPercentage;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
     }
 
     public void ActivateBloodLock(float duration)
@@ -223,11 +235,64 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             // Tell all clients that this player is now dead.
             photonView.RPC("GoDown", RpcTarget.All);
-            // Show the deadPanel if not already in game over
-            if (deadPanel != null && (gameOverPanel == null || !gameOverPanel.activeInHierarchy))
+            // Instead of showing the deadPanel, spectate a random alive player
+            SpectateRandomAlivePlayer();
+        }
+    }
+
+    private void SpectateRandomAlivePlayer()
+    {
+        // Find all alive players except self
+        spectateTargets.Clear();
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player == PhotonNetwork.LocalPlayer) continue;
+            if (player.CustomProperties.TryGetValue("IsAlive", out object isAliveObj) && (bool)isAliveObj)
             {
-                deadPanel.SetActive(true);
+                foreach (var ph in FindObjectsOfType<PlayerHealth>())
+                {
+                    if (ph.photonView.Owner == player)
+                    {
+                        spectateTargets.Add(ph.gameObject);
+                        break;
+                    }
+                }
             }
+        }
+
+        if (spectateTargets.Count > 0)
+        {
+            isSpectating = true;
+            currentSpectateIndex = Random.Range(0, spectateTargets.Count);
+            SpectateTarget(currentSpectateIndex);
+        }
+        else
+        {
+            isSpectating = false;
+            if (gameOverPanel != null)
+                gameOverPanel.SetActive(true);
+        }
+    }
+
+    private void SpectateTarget(int index)
+    {
+        if (spectateTargets.Count == 0) return;
+        var target = spectateTargets[index];
+        var targetSetup = target.GetComponent<PlayerSetup>();
+        if (targetSetup != null && targetSetup.FPSCamera != null)
+        {
+            spectateTargetCamera = targetSetup.FPSCamera;
+            // First-person follow
+            if (Camera.main != null)
+            {
+                Camera.main.transform.position = spectateTargetCamera.transform.position;
+                Camera.main.transform.rotation = spectateTargetCamera.transform.rotation;
+            }
+            SetSpectatorUI(true);
+        }
+        else
+        {
+            spectateTargetCamera = null;
         }
     }
 
@@ -392,14 +457,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             skill.enabled = false;
         }
 
-        // 2. Teleport to spawner and stay there
-        if (GameManager.Instance != null)
-        {
-            Transform spawnPoint = GameManager.Instance.playerSpawners[photonView.Owner.ActorNumber - 1];
-            transform.position = spawnPoint.position;
-            transform.rotation = spawnPoint.rotation;
-        }
-
         // 3. Show Dead Panel UI, but only if the game isn't already over.
         if (gameOverPanel != null && !gameOverPanel.activeInHierarchy)
         {
@@ -455,6 +512,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             {
                 skill.enabled = true;
             }
+            // Restore UI
+            SetSpectatorUI(false);
         }
         
         // Restore health
@@ -581,6 +640,27 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        // Spectator camera switching
+        if (isSpectating && spectateTargets.Count > 0)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                currentSpectateIndex = (currentSpectateIndex + 1) % spectateTargets.Count;
+                SpectateTarget(currentSpectateIndex);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                currentSpectateIndex = (currentSpectateIndex - 1 + spectateTargets.Count) % spectateTargets.Count;
+                SpectateTarget(currentSpectateIndex);
+            }
+        }
+        // Real-time camera follow (first-person)
+        if (isSpectating && spectateTargetCamera != null && Camera.main != null)
+        {
+            Camera.main.transform.position = spectateTargetCamera.transform.position;
+            Camera.main.transform.rotation = spectateTargetCamera.transform.rotation;
+        }
     }
 
     public void ExitToMainMenu()
@@ -630,5 +710,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             // as it will correctly handle damage effects.
             TakeDamage(startHealth * 2, new PhotonMessageInfo()); // Overkill damage to ensure death
         }
+    }
+
+    // Add this method to control UI visibility when spectating
+    private void SetSpectatorUI(bool isSpectating)
+    {
+        if (FPHealth != null) FPHealth.gameObject.SetActive(!isSpectating);
+        // Add other UI elements to hide as needed
     }
 }
