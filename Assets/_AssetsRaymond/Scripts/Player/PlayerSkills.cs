@@ -8,9 +8,6 @@ public class PlayerSkills : MonoBehaviourPunCallbacks
     [Header("Random Skills UI")]
     public GameObject[] skillUIs = new GameObject[6]; // Assign 6 skill UI GameObjects in Inspector
 
-    [Header("Timer Display")]
-    public TextMeshProUGUI timerText;
-
     private PhotonView _photonView;
 
     private void Start()
@@ -21,10 +18,6 @@ public class PlayerSkills : MonoBehaviourPunCallbacks
         if (_photonView != null && _photonView.IsMine)
         {
             UpdateSkillsUI();
-            if (GameManager.Instance != null && timerText != null)
-            {
-                GameManager.Instance.RegisterTimerText(timerText);
-            }
         }
         else
         {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2257509001590328187}
   - component: {fileID: 3736121921090161620}
   m_Layer: 5
-  m_Name: DecoyDevice
+  m_Name: BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fdb8c6d4feb039a4087c8911403e9251, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 333527e97f4e0ca45bd5ba1b7840f91d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

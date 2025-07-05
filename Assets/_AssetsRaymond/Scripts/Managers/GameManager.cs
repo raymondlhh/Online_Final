@@ -39,17 +39,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float spawnInterval = 10f;
     private bool gameHasEnded = false;
 
-    [Header("Village Spawning")]
-    public GameObject[] villagePrefabs;
-    public Transform[] villageSpawners;
-    private int totalVillagesToSpawn;
-    private int villagesSaved = 0;
-    private TextMeshProUGUI villagesText;
-    private const string VILLAGES_TO_SPAWN_KEY = "VillagesToSpawn";
-    private const string VILLAGES_SAVED_KEY = "VillagesSaved";
-    private const string GAMEOVER_REASON_KEY = "GameOverReason";
-    private const string GAMEOVER_KEY = "GameOver";
-
     private float guardDebugLogTimer;
 
     private void Awake()
@@ -103,67 +92,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(GuardSpawnRoutine());
-            StartCoroutine(SetupVictims());
         }
-    }
-
-    private IEnumerator SetupVictims()
-    {
-        // Wait a frame to ensure all players are in
-        yield return null;
-
-        if (isTesting)
-        {
-            totalVillagesToSpawn = 1;
-            Debug.Log("<color=yellow>--- TESTING MODE ENABLED: Spawning only 1 village. ---</color>");
-        }
-        else
-        {
-            totalVillagesToSpawn = Random.Range(3, 7); // 3 to 6 villages
-        }
-
-        // Store in room properties so all players have the same goal
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
-        props[VILLAGES_TO_SPAWN_KEY] = totalVillagesToSpawn;
-        props[VILLAGES_SAVED_KEY] = 0; // Initialize saved count
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-
-        // Get a list of unique spawn points
-        List<Transform> availableSpawners = new List<Transform>(villageSpawners);
-        for (int i = 0; i < totalVillagesToSpawn; i++)
-        {
-            if (availableSpawners.Count == 0) break; // Not enough spawners
-            if (villagePrefabs.Length == 0)
-            {
-                Debug.LogError("No village prefabs assigned in GameManager.");
-                break;
-            }
-
-            int spawnIndex = Random.Range(0, availableSpawners.Count);
-            Transform spawnPoint = availableSpawners[spawnIndex];
-            availableSpawners.RemoveAt(spawnIndex); // Ensure spawner is unique
-
-            // Randomly select one of the village prefabs to spawn
-            GameObject villageToSpawn = villagePrefabs[Random.Range(0, villagePrefabs.Length)];
-            PhotonNetwork.Instantiate(villageToSpawn.name, spawnPoint.position, spawnPoint.rotation);
-        }
-    }
-
-    public void UpdateVillagesSavedCount(int change)
-    {
-        // This should only ever be called on the Master Client.
-        if (!PhotonNetwork.IsMasterClient) return;
-
-        // Get current count from room properties.
-        int currentSaved = 0;
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(VILLAGES_SAVED_KEY, out object saved))
-        {
-            currentSaved = (int)saved;
-        }
-    
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
-        props[VILLAGES_SAVED_KEY] = currentSaved + change;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 
     private IEnumerator GuardSpawnRoutine()
@@ -248,27 +177,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.IsMasterClient && !gameHasEnded)
                 {
                     var props = new ExitGames.Client.Photon.Hashtable();
-                    props[GAMEOVER_KEY] = true;
-                    props[GAMEOVER_REASON_KEY] = "TIME_OUT";
+                    props["GameWon"] = true;
                     PhotonNetwork.CurrentRoom.SetCustomProperties(props);
                     gameHasEnded = true;
                 }
-            }
-        }
-
-        // Win and Loss Condition Checks (Master Client only)
-        if (PhotonNetwork.IsMasterClient && !gameHasEnded)
-        {
-            // Win if all required villages are saved
-            if (totalVillagesToSpawn > 0 && villagesSaved >= totalVillagesToSpawn)
-            {
-                // Set a room property to signal the win, instead of using an RPC.
-                // This avoids the need for a PhotonView on the GameManager.
-                var props = new ExitGames.Client.Photon.Hashtable();
-                props["GameWon"] = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-
-                gameHasEnded = true; // Set locally to prevent sending this multiple times.
             }
         }
 
@@ -281,27 +193,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(PhotonNetwork.InRoom)
             {
                 Debug.Log($"<color=#FFD700>Real-time guard count:</color> {GameObject.FindGameObjectsWithTag("Guard").Length}");
-            }
-            
-            // Master Client checks for fallen villages periodically
-            if (PhotonNetwork.IsMasterClient && !gameHasEnded)
-            {
-                GameObject[] villages = GameObject.FindGameObjectsWithTag("Village");
-                foreach (var village in villages)
-                {
-                    if (village.transform.position.y < -30f)
-                    {
-                        var props = new ExitGames.Client.Photon.Hashtable();
-                        props[GAMEOVER_KEY] = true;
-                        props[GAMEOVER_REASON_KEY] = "VILLAGE_DEAD";
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-                        gameHasEnded = true; 
-
-                        // Destroy the village so this check doesn't run every frame on them.
-                        PhotonNetwork.Destroy(village);
-                        break; 
-                    }
-                }
             }
         }
     }
@@ -404,59 +295,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
-        // Check if village properties have changed
-        if (propertiesThatChanged.ContainsKey(VILLAGES_TO_SPAWN_KEY) || propertiesThatChanged.ContainsKey(VILLAGES_SAVED_KEY))
-        {
-            // Update local values from the definitive source: room properties
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(VILLAGES_SAVED_KEY, out object saved))
-            {
-                villagesSaved = (int)saved;
-            }
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(VILLAGES_TO_SPAWN_KEY, out object total))
-            {
-                totalVillagesToSpawn = (int)total;
-            }
-
-            // Update the UI
-            if (villagesText != null)
-            {
-                villagesText.text = $"{villagesSaved} / {totalVillagesToSpawn}";
-            }
-        }
-
-        // Check if the game has been won
-        if (propertiesThatChanged.ContainsKey("GameWon"))
-        {
-            // Find the local player's health script and trigger the succeed screen
-            var myPlayer = FindObjectsOfType<PlayerHealth>().FirstOrDefault(p => p.photonView.IsMine);
-            if (myPlayer != null)
-            {
-                myPlayer.TriggerSucceed();
-            }
-        }
-
-        // Check if the game is over (loss condition)
-        if (propertiesThatChanged.ContainsKey(GAMEOVER_KEY))
-        {
-            var myPlayer = FindObjectsOfType<PlayerHealth>().FirstOrDefault(p => p.photonView.IsMine);
-            if (myPlayer != null)
-            {
-                string reason = (string)PhotonNetwork.CurrentRoom.CustomProperties[GAMEOVER_REASON_KEY];
-                myPlayer.TriggerGameOver(reason);
-            }
-        }
     }
 
     public void RegisterVillageText(TextMeshProUGUI text)
     {
-        villagesText = text;
-        Debug.Log("<color=orange>GameManager:</color> Village Text has been registered.");
-        // Immediately update the text with the current values, in case this was registered late.
-        if (villagesText != null)
-        {
-            villagesText.text = $"{villagesSaved} / {totalVillagesToSpawn}";
-            Debug.Log($"<color=orange>GameManager:</color> Immediately updating registered text to {villagesSaved} / {totalVillagesToSpawn}.");
-        }
     }
 
     public void LeaveGame()

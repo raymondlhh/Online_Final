@@ -4,13 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - DeadMark
-  - Door
-  - Enemy
-  - Victim
-  - SaveZone
   - Guard
-  - Village
+  - Villager
   layers:
   - Default
   - TransparentFX

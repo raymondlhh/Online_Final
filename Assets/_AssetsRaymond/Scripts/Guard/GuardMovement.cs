@@ -43,6 +43,21 @@ public class GuardMovement : MonoBehaviour
     private Coroutine patrolCoroutine;
     private bool isWaitingAtWaypoint = false;
 
+    // Decoy distraction logic
+    private Transform distractionTarget = null;
+    public void SetDistractionTarget(Transform distraction)
+    {
+        distractionTarget = distraction;
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.SetDestination(distractionTarget.position);
+        }
+    }
+    public void ClearDistractionTarget()
+    {
+        distractionTarget = null;
+    }
+
     void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -67,12 +82,6 @@ public class GuardMovement : MonoBehaviour
             // Use patrol path
             SetNewPatrolPathWaypoint();
             StartCoroutine(PatrolRoutine());
-        }
-        else if (GameManager.Instance != null && GameManager.Instance.guardSpawners.Length > 0)
-        {
-            // Use spawn points as patrol points
-            patrolPoints = GameManager.Instance.guardSpawners;
-            GoToNextPatrolPoint();
         }
         else
         {
@@ -104,6 +113,17 @@ public class GuardMovement : MonoBehaviour
             return;
         }
         
+        // If distracted by decoy, move to distraction target
+        if (distractionTarget != null)
+        {
+            navMeshAgent.speed = speed;
+            navMeshAgent.stoppingDistance = 0.5f;
+            navMeshAgent.SetDestination(distractionTarget.position);
+            UpdateAnimator();
+            // Optionally, you can add logic to check if reached decoy and then idle or look around
+            return;
+        }
+
         FindPlayer();
         Move();
         UpdateAnimator();
@@ -154,14 +174,6 @@ public class GuardMovement : MonoBehaviour
                 if (patrolType == PatrolType.PatrolPath && patrolPath != null)
                 {
                     patrolCoroutine = StartCoroutine(PatrolRoutine());
-                }
-                else if (patrolPoints != null && patrolPoints.Length > 0)
-                {
-                    // Use existing patrol point logic
-                    if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
-                    {
-                        GoToNextPatrolPoint();
-                    }
                 }
                 else
                 {
