@@ -21,7 +21,9 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
     private PlayerAttack shooter;
 
-    public TextMeshProUGUI playerNameText;
+    // Add references for FP_Name and TP_Name
+    [SerializeField] private TMPro.TextMeshProUGUI FP_Name;
+    [SerializeField] private TMPro.TextMeshProUGUI TP_Name;
 
     // Start is called before the first frame update
     void Start()
@@ -64,33 +66,42 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             }
         }
 
-        // Find the PlayerNameText in the hierarchy
-        if (playerNameText == null)
+        // Assign FP_Name if not set in Inspector
+        if (FP_Name == null)
         {
-            Transform nameTextTransform = transform.Find("PlayerHealthAndName/Canvas/PlayerNameText");
-            if (nameTextTransform == null)
-            {
-                Debug.LogError("PlayerNameText not found! Check the hierarchy path.");
-            }
-            else
-            {
-                playerNameText = nameTextTransform.GetComponent<TextMeshProUGUI>();
-            }
+            var fpNameTransform = transform.Find("FP_PlayerUI/PlayerPanels/PlayerProfile/FP_Name");
+            if (fpNameTransform != null)
+                FP_Name = fpNameTransform.GetComponent<TMPro.TextMeshProUGUI>();
+        }
+        // Assign TP_Name if not set in Inspector
+        if (TP_Name == null)
+        {
+            var tpNameTransform = transform.Find("TP_PlayerUI/Canvas/TP_Name");
+            if (tpNameTransform != null)
+                TP_Name = tpNameTransform.GetComponent<TMPro.TextMeshProUGUI>();
         }
 
-        // Set the player name
-        if (playerNameText != null)
+        // Set FP_Name and TP_Name visibility and text based on scene and ownership
+        if (FP_Name != null)
         {
-            playerNameText.text = photonView.Owner.NickName;
-            // Set color: green if this is the local player, white otherwise
-            if (photonView.IsMine)
-            {
-                playerNameText.color = Color.green;
-            }
+            FP_Name.text = photonView.Owner.NickName;
+            // In TestCharactersScene, always set FP_Name color to white
+            if (scene == "TestCharactersScene")
+                FP_Name.color = Color.white;
             else
-            {
-                playerNameText.color = Color.white;
-            }
+                FP_Name.color = photonView.IsMine ? Color.green : Color.white;
+            // Only show FP_Name for local player and not in ChooseCharacterScene
+            FP_Name.gameObject.SetActive(photonView.IsMine && scene != "ChooseCharacterScene");
+        }
+        if (TP_Name != null)
+        {
+            TP_Name.text = photonView.Owner.NickName;
+            TP_Name.color = photonView.IsMine ? Color.green : Color.white;
+            // In ChooseCharacterScene, show TP_Name for everyone; otherwise, only for remote players
+            if (scene == "ChooseCharacterScene")
+                TP_Name.gameObject.SetActive(true);
+            else
+                TP_Name.gameObject.SetActive(!photonView.IsMine);
         }
     }
 

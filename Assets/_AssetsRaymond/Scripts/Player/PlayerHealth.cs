@@ -15,15 +15,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     public float startHealth = 100;
     
     [Header("UI Elements")]
-    [SerializeField] private Image TPHealthBar;    // Third person healthbar
-    [SerializeField] private Image FPHealthBar;    // First person healthbar
+    [SerializeField] private Image TPHealth;    // Third person healthbar
+    [SerializeField] private Image FPHealth;    // First person healthbar
     [SerializeField] private GameObject deadPanel;
+    [SerializeField] private GameObject succeedPanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Text gameOverDescriptionText;
-    [SerializeField] private GameObject succeedPanel;
-    [SerializeField] private Button exitButton;
-    [SerializeField] private TextMeshProUGUI villagesText;
-
+    
     [Header("GameObjects for Visibility Control")]
     [SerializeField] private GameObject tpView; // Third-person view (the model)
 
@@ -53,9 +51,9 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         isLocalPlayer = photonView.IsMine;
         
         // Disable FP UI elements for non-local players
-        if (!isLocalPlayer && FPHealthBar != null)
+        if (!isLocalPlayer && FPHealth != null)
         {
-            Transform fpUI = FPHealthBar.transform.root.Find("FP_PlayerUI");
+            Transform fpUI = FPHealth.transform.root.Find("FP_PlayerUI");
             if (fpUI != null)
             {
                 fpUI.gameObject.SetActive(false);
@@ -82,17 +80,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             var props = new ExitGames.Client.Photon.Hashtable();
             props["IsAlive"] = true;
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-
-            if (exitButton != null)
-            {
-                exitButton.onClick.AddListener(ExitToMainMenu);
-                exitButton.gameObject.SetActive(false);
-            }
-
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.RegisterVillageText(villagesText);
-            }
         }
 
         // Setup post-processing effect only for the local player
@@ -194,16 +181,16 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         float healthPercentage = health / startHealth;
         
         // Update Third Person healthbar for everyone
-        if (TPHealthBar != null)
+        if (TPHealth != null)
         {
-            TPHealthBar.fillAmount = healthPercentage;
+            TPHealth.fillAmount = healthPercentage;
             Debug.Log($"Updating TP healthbar for {photonView.Owner.NickName}: {healthPercentage}");
         }
             
         // Update First Person healthbar only for local player
-        if (isLocalPlayer && FPHealthBar != null)
+        if (isLocalPlayer && FPHealth != null)
         {
-            FPHealthBar.fillAmount = healthPercentage;
+            FPHealth.fillAmount = healthPercentage;
             Debug.Log($"Updating FP healthbar: {healthPercentage}");
         }
     }
@@ -336,19 +323,14 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
                 case "TIME_OUT":
                     gameOverDescriptionText.text = "TIME OUT";
                     break;
-                        case "VILLAGE_DEAD":
-            gameOverDescriptionText.text = "VILLAGE DIED";
+                case "VILLAGE_DEAD":
+                    gameOverDescriptionText.text = "VILLAGE DIED";
                     break;
                 case "ALL_DEBUGGERS_DEAD":
                 default:
                     gameOverDescriptionText.text = "ALL DEBUGGERS DEAD";
                     break;
             }
-        }
-
-        if (exitButton != null)
-        {
-            exitButton.gameObject.SetActive(true);
         }
         
         // Also hide the dead panel if it's active
@@ -377,10 +359,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         if (succeedPanel != null)
         {
             succeedPanel.SetActive(true);
-        }
-        if (exitButton != null)
-        {
-            exitButton.gameObject.SetActive(true);
         }
         
         // As requested, hide the dead panel if it was active.
