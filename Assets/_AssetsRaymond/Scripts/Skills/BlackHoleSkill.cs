@@ -25,7 +25,6 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
 
     // Black Hole Skill
     [Header("Black Hole Skill")]
-    public bool isBlackHole = false; // Set true if this skill is DecoyDevice
     public GameObject BlackHole; // Assign in inspector or via hierarchy
     public GameObject WeaponCrosshair; // Assign in inspector or via hierarchy
     public float holeMoveForce = 10f; // How fast the decoy moves forward
@@ -35,34 +34,12 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     public GameObject BlackHoleVFXPrefab; // Assign the VFX prefab in inspector
     public Camera playerCamera; // Assign the player's camera in inspector
 
-    [Header("Testing")]
-    public bool isTesting = false;
-    [Tooltip("If isTesting is true, use this index for the skill instead of the player's property")]
-    public int testSkillIndex = 0;
-
     [Header("Third Person View")]
     public Animator TP_Animator; // Assign in inspector
     public bool isThirdPersonView = true; // Set this based on your camera system
 
     void Start()
     {
-        // Get the assigned skill index from the player's properties
-        PhotonView pv = GetComponentInParent<PhotonView>();
-        if (isTesting)
-        {
-            skillIndex = testSkillIndex;
-        }
-        else if (pv != null && pv.Owner != null && pv.Owner.CustomProperties.ContainsKey("SkillIndex"))
-        {
-            skillIndex = (int)pv.Owner.CustomProperties["SkillIndex"];
-        }
-        // Assume DecoyDevice is skillIndex 0 (change as needed)
-        isBlackHole = (skillIndex == 0);
-        
-        Debug.Log($"[PlayerSkillDetails] Skill Index: {skillIndex}, Is Black Hole: {isBlackHole}");
-        Debug.Log($"[PlayerSkillDetails] BlackHoleVFXPrefab assigned: {BlackHoleVFXPrefab != null}");
-        Debug.Log($"[PlayerSkillDetails] playerCamera assigned: {playerCamera != null}");
-        
         ResetUI();
         // Set initial cooldown bar to full (ready) and sync to Photon
         SyncCooldownBarToPhoton();
@@ -80,13 +57,9 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         {
             if (skillRoutine != null) StopCoroutine(skillRoutine);
             skillRoutine = StartCoroutine(SkillActiveAndCooldownRoutine());
-            // If DecoyDevice, show DecoyDevice and WeaponCrosshair, ready to throw
-            if (isBlackHole)
-            {
-                if (BlackHole != null) BlackHole.SetActive(true);
-                if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
-                holeReadyToThrow = true;
-            }
+            if (BlackHole != null) BlackHole.SetActive(true);
+            if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
+            holeReadyToThrow = true;
         }
     }
 
@@ -96,13 +69,11 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         isOnCooldown = false;
         timer = activeDuration;
         bool decoyThrown = false;
-        // If DecoyDevice, show it (if not already thrown)
-        if (isBlackHole && BlackHole != null && !BlackHole.activeSelf)
+        if (BlackHole != null && !BlackHole.activeSelf)
             BlackHole.SetActive(true);
-        if (isBlackHole && WeaponCrosshair != null && !WeaponCrosshair.activeSelf)
+        if (WeaponCrosshair != null && !WeaponCrosshair.activeSelf)
             WeaponCrosshair.SetActive(true);
-        // Show BlackHole in TP_View when skill is activated
-        if (isBlackHole && isThirdPersonView && BlackHole != null)
+        if (isThirdPersonView && BlackHole != null)
             BlackHole.SetActive(true);
         holeReadyToThrow = true;
         while (timer > 0f && isActive && !decoyThrown)
@@ -111,7 +82,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
             UpdateUI(timer, activeDuration, true);
             SyncCooldownBarToPhoton();
             // Check for left mouse click to throw decoy
-            if (isBlackHole && holeReadyToThrow && Input.GetMouseButtonDown(0))
+            if (holeReadyToThrow && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("[PlayerSkillDetails] Left mouse clicked - attempting to spawn black hole");
                 
@@ -168,13 +139,10 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         isActive = false;
         UpdateUI(0, activeDuration, true);
         SyncCooldownBarToPhoton();
-        // Always hide DecoyDevice and WeaponCrosshair at end of active phase
-        if (isBlackHole)
-        {
-            if (BlackHole != null) BlackHole.SetActive(false);
-            if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
-            holeReadyToThrow = false;
-        }
+        // Always hide BlackHole and WeaponCrosshair at end of active phase
+        if (BlackHole != null) BlackHole.SetActive(false);
+        if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+        holeReadyToThrow = false;
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
@@ -228,7 +196,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     {
         if (CooldownBar != null) CooldownBar.fillAmount = 1f;
         if (timerText != null) timerText.text = "";
-        if (isBlackHole && BlackHole != null) BlackHole.SetActive(false);
-        if (isBlackHole && WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
+        if (BlackHole != null) BlackHole.SetActive(false);
+        if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
     }
 }
