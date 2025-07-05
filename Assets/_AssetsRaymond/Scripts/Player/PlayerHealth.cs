@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     // Component references
     private PlayerMovement movementController;
     private PlayerAttack playerShoot;
-    private PlayerSkillDetails[] skillDetails;
+    private BlackHoleSkill[] skillDetails;
     private int playerLayer;
     private int cloakedPlayerLayer;
     private bool gameOverTriggered = false; // Prevents multiple triggers
@@ -80,7 +80,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();
         movementController = GetComponent<PlayerMovement>();
         playerShoot = GetComponent<PlayerAttack>();
-        skillDetails = GetComponentsInChildren<PlayerSkillDetails>();
+        skillDetails = GetComponentsInChildren<BlackHoleSkill>();
         UpdateHealthBars();
 
         if (isLocalPlayer)

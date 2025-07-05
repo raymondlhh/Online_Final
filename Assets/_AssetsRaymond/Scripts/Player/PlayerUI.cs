@@ -22,7 +22,8 @@ public class PlayerUI : MonoBehaviourPunCallbacks
     public GameObject randomSkillPanel;
     public Text skillNameText;
     public Text skillDescriptionText;
-    public float delayTime;
+    [SerializeField] private float delayShow;
+    [SerializeField] private float delayHide;
     public List<Skill> allSkills; // Assign 6 skills in inspector
 
     private bool countdownStarted = false;
@@ -49,7 +50,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
                 players[i].SetCustomProperties(props);
             }
         }
-        StartCoroutine(ShowSkillUIAfterDelay(delayTime));
+        StartCoroutine(ShowSkillUIAfterDelay(delayShow));
     }
 
     IEnumerator ShowSkillUIAfterDelay(float delay)
@@ -74,7 +75,7 @@ public class PlayerUI : MonoBehaviourPunCallbacks
                 skillNameText.text = allSkills[skillIndex].skillName;
             if (skillDescriptionText != null)
                 skillDescriptionText.text = allSkills[skillIndex].skillDescription;
-            StartCoroutine(HideRandomSkillPanelAfterDelay(5f));
+            StartCoroutine(HideRandomSkillPanelAfterDelay(delayHide));
         }
     }
 

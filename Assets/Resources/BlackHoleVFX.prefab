@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6831812620559844266}
+  - component: {fileID: 7967755589641391654}
   - component: {fileID: -6783552328452974346}
   - component: {fileID: 2139367732684877899}
   m_Layer: 0
@@ -35,6 +36,27 @@ Transform:
   - {fileID: 3277696823032116595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7967755589641391654
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5694215582539366860}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.20654483
+  m_Center: {x: -0.0018948747, y: 0, z: 0}
 --- !u!114 &-6783552328452974346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,8 +92,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
-  triggerCollider: {fileID: 8914094392603935973}
+  triggerCollider: {fileID: 0}
   guardTag: Guard
+  pullStrength: 5
+  pullRadius: 8
+  pullInterval: 0.1
 --- !u!1 &6663035862232056554
 GameObject:
   m_ObjectHideFlags: 0
@@ -4785,7 +4810,6 @@ GameObject:
   - component: {fileID: 3277696823032116595}
   - component: {fileID: 44618670965894188}
   - component: {fileID: 3012605229354843865}
-  - component: {fileID: 8914094392603935973}
   m_Layer: 0
   m_Name: FX_Blackhole_Dots
   m_TagString: Untagged
@@ -9608,24 +9632,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!135 &8914094392603935973
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8232048396088177244}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.19290729
-  m_Center: {x: -0.0024782855, y: 0, z: 0}
