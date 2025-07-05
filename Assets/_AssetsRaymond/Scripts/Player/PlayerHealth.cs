@@ -51,6 +51,10 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     private bool isSpectating = false;
     private Camera spectateTargetCamera = null;
 
+    [Header("Spectator Camera Settings")]
+    public float spectateCameraDistance = 5f;
+    public float spectateCameraHeight = 2f;
+
     void Awake()
     {
         isLocalPlayer = photonView.IsMine;
@@ -235,7 +239,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             // Tell all clients that this player is now dead.
             photonView.RPC("GoDown", RpcTarget.All);
-            // Instead of showing the deadPanel, spectate a random alive player
+            // Show the deadPanel if not already in game over
+            if (deadPanel != null && (gameOverPanel == null || !gameOverPanel.activeInHierarchy))
+            {
+                deadPanel.SetActive(true);
+            }
+            // Enable spectator mode
             SpectateRandomAlivePlayer();
         }
     }
@@ -282,13 +291,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         if (targetSetup != null && targetSetup.FPSCamera != null)
         {
             spectateTargetCamera = targetSetup.FPSCamera;
-            // First-person follow
+            // Third-person follow
             if (Camera.main != null)
             {
-                Camera.main.transform.position = spectateTargetCamera.transform.position;
-                Camera.main.transform.rotation = spectateTargetCamera.transform.rotation;
+                Vector3 offset = -spectateTargetCamera.transform.forward * spectateCameraDistance + Vector3.up * spectateCameraHeight;
+                Camera.main.transform.position = spectateTargetCamera.transform.position + offset;
+                Camera.main.transform.LookAt(spectateTargetCamera.transform.position + spectateTargetCamera.transform.forward * 10f);
             }
-            SetSpectatorUI(true);
         }
         else
         {
@@ -512,8 +521,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             {
                 skill.enabled = true;
             }
-            // Restore UI
-            SetSpectatorUI(false);
         }
         
         // Restore health
@@ -655,11 +662,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
                 SpectateTarget(currentSpectateIndex);
             }
         }
-        // Real-time camera follow (first-person)
+        // Real-time camera follow (third-person)
         if (isSpectating && spectateTargetCamera != null && Camera.main != null)
         {
-            Camera.main.transform.position = spectateTargetCamera.transform.position;
-            Camera.main.transform.rotation = spectateTargetCamera.transform.rotation;
+            Vector3 offset = -spectateTargetCamera.transform.forward * spectateCameraDistance + Vector3.up * spectateCameraHeight;
+            Camera.main.transform.position = spectateTargetCamera.transform.position + offset;
+            Camera.main.transform.LookAt(spectateTargetCamera.transform.position + spectateTargetCamera.transform.forward * 10f);
         }
     }
 
@@ -710,12 +718,5 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             // as it will correctly handle damage effects.
             TakeDamage(startHealth * 2, new PhotonMessageInfo()); // Overkill damage to ensure death
         }
-    }
-
-    // Add this method to control UI visibility when spectating
-    private void SetSpectatorUI(bool isSpectating)
-    {
-        if (FPHealth != null) FPHealth.gameObject.SetActive(!isSpectating);
-        // Add other UI elements to hide as needed
     }
 }
