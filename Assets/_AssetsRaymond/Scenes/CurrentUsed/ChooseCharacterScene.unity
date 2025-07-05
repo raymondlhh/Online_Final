@@ -3231,6 +3231,7 @@ MonoBehaviour:
   - {fileID: 1691917591988170128}
   - {fileID: 995256559279781940}
   - {fileID: 1408159094159480496}
+  SceneName: EgyptLevel
 --- !u!4 &1411471966
 Transform:
   m_ObjectHideFlags: 0

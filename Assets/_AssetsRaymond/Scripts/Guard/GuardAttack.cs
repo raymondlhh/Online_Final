@@ -68,11 +68,11 @@ public class GuardAttack : MonoBehaviour
         bool inGunRange = attacksWithGun && (distanceToPlayer <= guardMovement.stoppingDistance);
         bool inSwordRange = attacksWithSword && (distanceToPlayer <= swordAttackRange);
 
-        Debug.Log($"[GuardAttack] inSwordRange: {inSwordRange}, inGunRange: {inGunRange}, AgentStopped: {guardMovement.AgentHasStopped()}, isAttacking: {isAttacking}, nextAttackTime: {nextAttackTime}, Time: {Time.time}, attacksWithSword: {attacksWithSword}, distanceToPlayer: {distanceToPlayer}, swordAttackRange: {swordAttackRange}");
+        // Debug.Log($"[GuardAttack] inSwordRange: {inSwordRange}, inGunRange: {inGunRange}, AgentStopped: {guardMovement.AgentHasStopped()}, isAttacking: {isAttacking}, nextAttackTime: {nextAttackTime}, Time: {Time.time}, attacksWithSword: {attacksWithSword}, distanceToPlayer: {distanceToPlayer}, swordAttackRange: {swordAttackRange}");
 
         if ((inGunRange || inSwordRange) && guardMovement.AgentHasStopped())
         {
-            Debug.Log("[GuardAttack] Starting PerformAttack coroutine");
+            // Debug.Log("[GuardAttack] Starting PerformAttack coroutine");
             StartCoroutine(PerformAttack());
             nextAttackTime = Time.time + attackRate;
         }
