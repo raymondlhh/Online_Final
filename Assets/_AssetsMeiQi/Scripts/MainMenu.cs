@@ -193,7 +193,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("BR1");
+            PhotonNetwork.LoadLevel("ChooseCharacterScene");
         }
     }
 
