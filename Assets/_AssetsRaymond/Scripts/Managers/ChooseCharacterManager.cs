@@ -13,6 +13,9 @@ public class ChooseCharacterManager : MonoBehaviour
     public TMP_Text roomNameText; // Assign in Inspector
     public GameObject[] readyUIs; // Assign P1_ReadyUI, P2_ReadyUI, ... in Inspector
 
+    [Header("TestCharactersScene or EgyptLevel")]
+    public string SceneName = "TestCharactersScene";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -135,7 +138,7 @@ public class ChooseCharacterManager : MonoBehaviour
     {
         // Load the next scene or do whatever is needed to start the game
         // Example:
-        PhotonNetwork.LoadLevel("TestCharactersScene");
+        PhotonNetwork.LoadLevel(SceneName);
     }
 
     // Call this to update all ReadyUI objects in the scene

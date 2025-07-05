@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_AssetsRaymond/Scenes/CurrentUsed/LobbyScene.unity
-    guid: 3c6723e5d3683de438d575dc9f4929af
+    path: Assets/_AssetsMeiQi/Scenes/MenuPage.unity
+    guid: 45bed47deb6865743bd96f7fe9570b20
   - enabled: 1
     path: Assets/_AssetsRaymond/Scenes/CurrentUsed/ChooseCharacterScene.unity
     guid: 0bf01a81d1bbb804d82522f2bac3e131
   - enabled: 1
     path: Assets/_AssetsRaymond/Scenes/CurrentUsed/TestCharactersScene.unity
     guid: a87bdbb1df35e814d971aa3aeb800488
+  - enabled: 1
+    path: Assets/_AssetsRuiRong/Scenes/EgyptLevel.unity
+    guid: da77829b57f0b57408ef012c22257889
   m_configObjects: {}
