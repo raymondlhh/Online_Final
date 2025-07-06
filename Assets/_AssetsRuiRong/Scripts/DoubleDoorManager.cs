@@ -119,8 +119,8 @@ public class DoubleDoorManager : MonoBehaviour
     {
         Debug.Log("Door has been opened!");
 
-        
-        doorUI.SetActive(false);
+
+        Destroy(doorUI); //.SetActive(false);
 
         if (doorAnimator != null)
         {
