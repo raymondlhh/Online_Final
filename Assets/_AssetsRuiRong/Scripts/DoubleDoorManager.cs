@@ -51,6 +51,7 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
         foreach (var isHolding in playersInArea.Values)
         {
             if (isHolding) holdingCount++;
+            Debug.Log(holdingCount);
         }
 
         if (holdingCount > 0)
@@ -58,15 +59,12 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
             float speed = holdingCount * speedPerPlayer;
             currentProgress += speed * Time.deltaTime;
             currentProgress = Mathf.Min(currentProgress, maxProgress);
+            progressBar.value = currentProgress;
 
-            // Sync the progress with all other clients
-            photonView.RPC("RPC_SyncProgress", RpcTarget.Others, currentProgress);
+            if (!doorUI.activeSelf)
+                doorUI.SetActive(true);
 
-            //  Update local progress bar (on master)
-            UpdateSlider(currentProgress);
-
-            // Check for completion
-            if (currentProgress >= maxProgress && !doorOpened)
+            if (currentProgress >= maxProgress)
             {
                 doorOpened = true;
                 OnDoorOpened();
@@ -144,5 +142,10 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
     void UpdateSlider(float value)
     {
         progressBar.value = value;
+    }
+
+    public void AddProgress()
+    {
+        progressBar.value++;
     }
 }

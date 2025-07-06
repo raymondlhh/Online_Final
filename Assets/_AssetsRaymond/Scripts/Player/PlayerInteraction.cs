@@ -32,6 +32,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 isHoldingF_Door = true;
                 DoubleDoorManager.Instance.UpdatePlayerHolding(photonView.ViewID, true);
+                DoubleDoorManager.Instance.AddProgress();
             }
 
             if (Input.GetKeyUp(KeyCode.F))
