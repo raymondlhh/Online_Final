@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -1969,7 +1969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5613797255892373852
 Transform:
   m_ObjectHideFlags: 0
@@ -2256,7 +2256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -4599,7 +4599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -5050,7 +5050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -6042,7 +6042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -6113,7 +6113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &456987872785892685
 Transform:
   m_ObjectHideFlags: 0
@@ -6401,7 +6401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -9458,7 +9458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -13117,7 +13117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -16725,7 +16725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2404208549404122270
 Transform:
   m_ObjectHideFlags: 0
@@ -17013,7 +17013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -20572,7 +20572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &183382639931476352
 Transform:
   m_ObjectHideFlags: 0
@@ -20860,7 +20860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -20899,7 +20899,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4686188224022246409
 Transform:
   m_ObjectHideFlags: 0
@@ -21186,7 +21186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -21927,7 +21927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -23535,7 +23535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -31632,7 +31632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &143725178608035001
 Transform:
   m_ObjectHideFlags: 0
@@ -32024,7 +32024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9000679393534112326
 Transform:
   m_ObjectHideFlags: 0
@@ -32311,7 +32311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 1
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:
@@ -33346,7 +33346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerType: 0
-  safeZone: {fileID: 8191066827825990401}
+  safePoint: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
   playerLayerMask:

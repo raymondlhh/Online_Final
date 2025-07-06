@@ -265,14 +265,6 @@ public class Villager : MonoBehaviour
                 StartRunningFromPlayer();
             }
         }
-        else
-        {
-            // If currently running from a player, but that player is now invisible, stop running
-            if (isRunningFromPlayer)
-            {
-                StopRunningFromPlayer();
-            }
-        }
     }
 
     private void StartRunningFromPlayer()
@@ -303,13 +295,15 @@ public class Villager : MonoBehaviour
                 // Also check safePoint is on NavMesh
                 if (NavMesh.SamplePosition(safePoint.position, out hit, 1.0f, NavMesh.AllAreas))
                 {
-                    navAgent.SetDestination(hit.position);
-                    Debug.Log($"[Village] (Walking) NavMeshAgent destination set to {hit.position}");
+                    bool setDest = navAgent.SetDestination(hit.position);
+                    Debug.Log($"[Village] (Walking) NavMeshAgent destination set to {hit.position}, SetDestination returned {setDest}");
+                    Debug.Log($"[Village] (Walking) After SetDestination: pathStatus={navAgent.pathStatus}, hasPath={navAgent.hasPath}, pathPending={navAgent.pathPending}");
                 }
                 else
                 {
-                    navAgent.SetDestination(safePoint.position);
-                    Debug.LogWarning($"[Village] (Walking) SafePoint {safePoint.position} not on NavMesh, using original position");
+                    bool setDest = navAgent.SetDestination(safePoint.position);
+                    Debug.LogWarning($"[Village] (Walking) SafePoint {safePoint.position} not on NavMesh, using original position, SetDestination returned {setDest}");
+                    Debug.Log($"[Village] (Walking) After SetDestination: pathStatus={navAgent.pathStatus}, hasPath={navAgent.hasPath}, pathPending={navAgent.pathPending}");
                 }
             }
             Debug.Log($"[Village] (Walking) NavMeshAgent enabled: {navAgent.enabled}, isOnNavMesh: {navAgent.isOnNavMesh}, isStopped: {navAgent.isStopped}, hasPath: {navAgent.hasPath}");
@@ -355,9 +349,9 @@ public class Villager : MonoBehaviour
 
     private void StopRunningFromPlayer()
     {
+        // Only used for standing villagers now, or after reaching safe zone
         isRunningFromPlayer = false;
         Debug.Log($"[Village] StopRunningFromPlayer called. isRunningFromPlayer={isRunningFromPlayer}, hasSeenPlayer={hasSeenPlayer}");
-        // Do not reset hasSeenPlayer here, so village doesn't react to new players
         if (runningCoroutine != null)
         {
             StopCoroutine(runningCoroutine);
@@ -367,17 +361,14 @@ public class Villager : MonoBehaviour
         {
             navAgent.isStopped = true;
             navAgent.speed = walkSpeed; // Reset to walk speed
-            // If in safe zone, always remain idle and hide danger mark
             if (isInSafeZone)
             {
                 UpdateAnimationState(false, false);
                 return;
             }
-            // (If not in safe zone, do nothing else)
         }
         else
         {
-            // For standing villagers, after reaching safe zone, return to initial position
             if (!isReturningToStart)
             {
                 if (returnCoroutine != null)
@@ -387,7 +378,6 @@ public class Villager : MonoBehaviour
                 returnCoroutine = StartCoroutine(ReturnToStartPosition());
             }
         }
-        Debug.Log($"<color=yellow>Village:</color> No players nearby. Returning to normal behavior.");
     }
 
     private IEnumerator RunningBehavior()
@@ -395,7 +385,6 @@ public class Villager : MonoBehaviour
         Debug.Log("[Village] RunningBehavior coroutine started.");
         while (isRunningFromPlayer)
         {
-            // If the last known player is now invisible, stop running
             Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayerMask);
             bool chasedPlayerInvisible = true;
             foreach (Collider col in colliders)
@@ -406,7 +395,7 @@ public class Villager : MonoBehaviour
                     break;
                 }
             }
-            if (chasedPlayerInvisible)
+            if (chasedPlayerInvisible && villagerType == VillagerType.Standing)
             {
                 StopRunningFromPlayer();
                 yield break;
@@ -414,26 +403,21 @@ public class Villager : MonoBehaviour
             Vector3 targetPosition;
             if (safePoint != null)
             {
-                // Run towards the safezone
                 targetPosition = safePoint.position;
             }
             else
             {
-                // Fallback: run away from player as before
                 targetPosition = transform.position + (transform.position - lastKnownPlayerPosition).normalized * runSpeed * 2f;
             }
-            // For standing villagers, update NavMeshAgent destination
             if (villagerType == VillagerType.Standing && navAgent != null && navAgent.enabled)
             {
                 navAgent.SetDestination(targetPosition);
                 Debug.Log($"[Village] (Standing) NavMeshAgent destination updated to {targetPosition}");
             }
-            // For walking villagers, update NavMeshAgent destination
             if (villagerType == VillagerType.Walking && navAgent != null)
             {
                 navAgent.SetDestination(targetPosition);
-                navAgent.speed = runSpeed; // Ensure running speed
-                // Robust arrival check using NavMeshAgent
+                navAgent.speed = runSpeed;
                 if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
                 {
                     Debug.Log("[Village] (Walking) Robust arrival at safe zone detected. Destroying villager.");
@@ -441,7 +425,6 @@ public class Villager : MonoBehaviour
                     yield break;
                 }
             }
-            // Fallback: Optional, keep old check for standing type
             if (villagerType == VillagerType.Standing && safePoint != null && Vector3.Distance(transform.position, safePoint.position) < 1.5f)
             {
                 Debug.Log("[Village] Reached safe zone. Stopping running behavior.");
