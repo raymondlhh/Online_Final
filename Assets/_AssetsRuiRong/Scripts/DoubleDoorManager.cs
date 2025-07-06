@@ -45,7 +45,7 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
         if (doorOpened) return;
 
         // Only MasterClient should process progress
-        //if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient) return;
 
         int holdingCount = 0;
         foreach (var isHolding in playersInArea.Values)
@@ -61,7 +61,7 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
             currentProgress = Mathf.Min(currentProgress, maxProgress);
 
             // Send progress value to others
-            photonView.RPC("RPC_SyncProgress", RpcTarget.All, currentProgress);
+            photonView.RPC("RPC_SyncProgress", RpcTarget.Others, currentProgress);
 
             // Master updates local slider
             UpdateSlider(currentProgress);
@@ -120,6 +120,8 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
         doorUI.SetActive(visible);
     }
 
+
+    [PunRPC]
     // When door is fully opened
     void OnDoorOpened()
     {
