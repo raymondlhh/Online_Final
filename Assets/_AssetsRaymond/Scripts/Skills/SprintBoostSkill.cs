@@ -17,14 +17,25 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
     [Tooltip("Cooldown time after skill ends (seconds)")]
     public float cooldownDuration = 30f;
 
+    [Header("References")]
+    public PlayerMovement playerMovement; // Assign in inspector or via GetComponentInParent
+    public GameObject SprintBoostPanel; // Assign in inspector
+
+    [Header("Boost Settings")]
+    public float walkSpeedBoost = 6f;
+    public float runSpeedBoost = 10f;
+
     private bool isActive = false;
     private bool isOnCooldown = false;
     private float timer = 0f;
+    private float originalWalkSpeed;
+    private float originalRunSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (playerMovement == null) playerMovement = GetComponentInParent<PlayerMovement>();
+        if (SprintBoostPanel != null) SprintBoostPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -58,6 +69,15 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
     {
         // Skill active phase
         timer = activeDuration;
+        // Save original speeds
+        if (playerMovement != null)
+        {
+            originalWalkSpeed = playerMovement.walkSpeed;
+            originalRunSpeed = playerMovement.runSpeed;
+            playerMovement.walkSpeed = walkSpeedBoost;
+            playerMovement.runSpeed = runSpeedBoost;
+        }
+        if (SprintBoostPanel != null) SprintBoostPanel.SetActive(true);
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
@@ -66,6 +86,13 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         }
         SetCooldownPercent(0f);
         isActive = false;
+        // Restore speeds
+        if (playerMovement != null)
+        {
+            playerMovement.walkSpeed = originalWalkSpeed;
+            playerMovement.runSpeed = originalRunSpeed;
+        }
+        if (SprintBoostPanel != null) SprintBoostPanel.SetActive(false);
         // Cooldown phase
         isOnCooldown = true;
         timer = 0f;

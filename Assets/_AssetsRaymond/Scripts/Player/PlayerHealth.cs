@@ -161,6 +161,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         // Trigger damage effect for local player
         if (photonView.IsMine)
         {
+            Debug.Log($"[PlayerHealth] Local player taking AI damage, starting damage effect. damageVolume: {damageVolume}");
             if (damageEffectCoroutine != null) StopCoroutine(damageEffectCoroutine);
             damageEffectCoroutine = StartCoroutine(DamageEffect());
         }
@@ -536,9 +537,15 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
     private IEnumerator DamageEffect()
     {
+        Debug.Log("[PlayerHealth] DamageEffect coroutine started");
         Vignette vignette;
-        if (!TryGetVignette(out vignette)) yield break;
+        if (!TryGetVignette(out vignette))
+        {
+            Debug.LogError("[PlayerHealth] Failed to get vignette component!");
+            yield break;
+        }
 
+        Debug.Log("[PlayerHealth] Vignette found, starting damage effect");
         vignette.color.Override(damageColor);
         float duration = 0.4f;
         float maxIntensity = 0.5f;
@@ -563,6 +570,7 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         }
 
         vignette.intensity.value = 0f;
+        Debug.Log("[PlayerHealth] DamageEffect coroutine completed");
     }
 
     private IEnumerator ReviveEffect()
@@ -601,13 +609,28 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         vignette = null;
         if (damageVolume == null)
         {
+            Debug.Log("[PlayerHealth] damageVolume is null, trying to find VisualEffects child");
             Transform visualEffectsTransform = transform.Find("VisualEffects");
-            if (visualEffectsTransform == null) return false;
+            if (visualEffectsTransform == null)
+            {
+                Debug.LogError("[PlayerHealth] VisualEffects child not found!");
+                return false;
+            }
             damageVolume = visualEffectsTransform.GetComponent<Volume>();
-            if (damageVolume == null) return false;
+            if (damageVolume == null)
+            {
+                Debug.LogError("[PlayerHealth] Volume component not found on VisualEffects!");
+                return false;
+            }
+            Debug.Log("[PlayerHealth] Found damageVolume on VisualEffects child");
         }
         
-        return damageVolume.profile.TryGet(out vignette);
+        bool success = damageVolume.profile.TryGet(out vignette);
+        if (!success)
+        {
+            Debug.LogError("[PlayerHealth] Vignette effect not found in Volume profile!");
+        }
+        return success;
     }
 
     // Helper function to apply a layer to a GameObject and all its children.

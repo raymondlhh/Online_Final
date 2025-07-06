@@ -611,7 +611,7 @@ GameObject:
   - component: {fileID: 3982737202237321524}
   - component: {fileID: 7749252048606823293}
   - component: {fileID: 5422450004376153793}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MaleHair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +874,7 @@ GameObject:
   - component: {fileID: 3202062037187097474}
   - component: {fileID: 1852431640483794878}
   - component: {fileID: 140952813409726601}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_01_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1022,7 +1022,7 @@ GameObject:
   - component: {fileID: 8801018518469269461}
   - component: {fileID: 1256981132314686315}
   - component: {fileID: 8773892840796389791}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FemaleHair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1137,7 +1137,7 @@ GameObject:
   - component: {fileID: 7009648155560432806}
   - component: {fileID: 7776735062643380514}
   - component: {fileID: 8259003861921962320}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_03_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1296,7 @@ GameObject:
   - component: {fileID: 8240699007747998714}
   - component: {fileID: 6079108182560116836}
   - component: {fileID: 1109386786957153910}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PlayerPicture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1579,7 +1579,7 @@ GameObject:
   - component: {fileID: 2458560366461383133}
   - component: {fileID: 6892621644811249380}
   - component: {fileID: 4947895007363067280}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_SlowGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1698,7 +1698,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -1751,7 +1751,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &4947895007363067280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1759,14 +1763,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227757498648772118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &1285860788904331212
 GameObject:
@@ -2011,7 +2015,7 @@ GameObject:
   - component: {fileID: 2194316240635027051}
   - component: {fileID: 1189199770550351528}
   - component: {fileID: 208647951949290117}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TP_SlowGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2304,7 +2308,7 @@ GameObject:
   - component: {fileID: 1277679747914632680}
   - component: {fileID: 4629345904569692509}
   - component: {fileID: 6948423280301724928}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TP_FreezeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3080,7 +3084,7 @@ GameObject:
   - component: {fileID: 5704521711866729062}
   - component: {fileID: 7509528420105391128}
   - component: {fileID: 893637008667436823}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: SkillKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3548,7 +3552,7 @@ GameObject:
   - component: {fileID: 6750895244268017232}
   - component: {fileID: 2022238719052920882}
   - component: {fileID: 3947019827712555905}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: DeathPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3688,7 +3692,7 @@ GameObject:
   - component: {fileID: 3776623245901052528}
   - component: {fileID: 931312736976156838}
   - component: {fileID: 18914151200268691}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: FP_Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4017,7 +4021,7 @@ GameObject:
   - component: {fileID: 7135377387382185171}
   - component: {fileID: 8295817422222466113}
   - component: {fileID: 4703759763028911082}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HelmetSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4383,7 +4387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6611245962330623318}
   - component: {fileID: 8836683036895466176}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerVFXs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4421,7 +4425,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 80b6d4e2a61305540a35296348c93aa4, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 18b2fd8ada79d0543af6e8c236ffc2a2, type: 2}
 --- !u!1 &3216363709451684105
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,7 +4612,7 @@ GameObject:
   - component: {fileID: 1611244854234506859}
   - component: {fileID: 4173901721610734013}
   - component: {fileID: 3175028296555072054}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_Invisibility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4727,7 +4731,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -4780,7 +4784,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &3175028296555072054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4788,14 +4796,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3353284695428829236}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &3392907597003008085
 GameObject:
@@ -5609,7 +5617,7 @@ GameObject:
   - component: {fileID: 3902392083141474055}
   - component: {fileID: 3912524813519513217}
   - component: {fileID: 3921235674099881499}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_01_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5693,7 +5701,7 @@ GameObject:
   - component: {fileID: 3913073625741877445}
   - component: {fileID: 3921597488182269949}
   - component: {fileID: 3953210454721825549}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FP_SlowGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5800,7 +5808,7 @@ GameObject:
   - component: {fileID: 3906348278319024599}
   - component: {fileID: 3913206915157101195}
   - component: {fileID: 3921581606605233905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_01_Scope_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6129,7 +6137,7 @@ GameObject:
   - component: {fileID: 4549028565021017804}
   - component: {fileID: 5238109157331756581}
   - component: {fileID: 1532522461648728525}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CooldownTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6295,7 +6303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5041791010453900184}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PlayerSkills
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6926,7 +6934,7 @@ GameObject:
   - component: {fileID: 8930544585981584669}
   - component: {fileID: 168001641032214000}
   - component: {fileID: 3003965802181431368}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FP_BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7174,7 +7182,7 @@ GameObject:
   - component: {fileID: 188288478205517768}
   - component: {fileID: 1582899955860229437}
   - component: {fileID: 1315896193440758614}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PlayerProfile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7323,7 +7331,7 @@ GameObject:
   - component: {fileID: 6775751526051482136}
   - component: {fileID: 2595701317677959546}
   - component: {fileID: 4372252136225412943}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7442,7 +7450,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -7495,7 +7503,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &4372252136225412943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7503,14 +7515,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183864331561327358}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &5195188535350263099
 GameObject:
@@ -7906,7 +7918,7 @@ GameObject:
   - component: {fileID: 1846259663979436240}
   - component: {fileID: 7823498655563282986}
   - component: {fileID: 9164483996330657432}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8025,7 +8037,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -8078,7 +8090,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &9164483996330657432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8086,14 +8102,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5492982195643207434}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &5533048250159113393
 GameObject:
@@ -8138,7 +8154,7 @@ GameObject:
   - component: {fileID: 3650434217121912152}
   - component: {fileID: 973882646034373844}
   - component: {fileID: 2594838830602004646}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Chr_Attach_Helmet_Space_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8928,7 +8944,7 @@ GameObject:
   - component: {fileID: 7951024042026739303}
   - component: {fileID: 5257998591342324013}
   - component: {fileID: 667405757641178705}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9104,7 +9120,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -9144,7 +9160,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 385
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -9574,7 +9590,7 @@ GameObject:
   - component: {fileID: 5787156818262040306}
   - component: {fileID: 1840235841292311600}
   - component: {fileID: 5769007661331716750}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: FP_HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9650,7 +9666,7 @@ GameObject:
   - component: {fileID: 5188096948350152743}
   - component: {fileID: 5922489911523347454}
   - component: {fileID: 2016715151839471406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_01_Scope_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10608,7 +10624,7 @@ GameObject:
   - component: {fileID: 7040780733618430757}
   - component: {fileID: 6555142148941353934}
   - component: {fileID: 1741467260527213878}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_SprintBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10727,7 +10743,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -10780,7 +10796,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &1741467260527213878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10788,14 +10808,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8095085395685819545}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &8102784813848472646
 GameObject:
@@ -10871,7 +10891,7 @@ GameObject:
   - component: {fileID: 356118056574798260}
   - component: {fileID: 4947293206565273276}
   - component: {fileID: 3207107394980307170}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: FP_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11005,7 +11025,7 @@ GameObject:
   - component: {fileID: 4832940887393362247}
   - component: {fileID: 2959923688367878152}
   - component: {fileID: 3682021632734020035}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PlayerCooldown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11113,7 +11133,7 @@ GameObject:
   - component: {fileID: 4963356309319739760}
   - component: {fileID: 4243749323258177335}
   - component: {fileID: 4586661279856533327}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CooldownBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11324,7 +11344,7 @@ GameObject:
   - component: {fileID: 8558791482057671188}
   - component: {fileID: 8567198856025988762}
   - component: {fileID: 8526591615125367192}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FP_FreezeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11430,7 +11450,7 @@ GameObject:
   - component: {fileID: 8548378483954312472}
   - component: {fileID: 8558852236964734698}
   - component: {fileID: 8567062105798355056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Wep_Pistol_03_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11550,7 +11570,7 @@ GameObject:
   - component: {fileID: 7126892428865844005}
   - component: {fileID: 5962162548570795323}
   - component: {fileID: 6899384419235479991}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Script_FreezeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11669,7 +11689,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc46f0680d2ece45b644037047068fb, type: 3}
   m_Name: 
@@ -11722,7 +11742,11 @@ MonoBehaviour:
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
-  cooldownDuration: 30
+  cooldownDuration: 25
+  playerMovement: {fileID: 6671384928228441927}
+  SprintBoostPanel: {fileID: 6757833649815834366}
+  walkSpeedBoost: 25
+  runSpeedBoost: 25
 --- !u!114 &6899384419235479991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11730,14 +11754,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8576658885732800330}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CooldownBar: {fileID: 4586661279856533327}
   CooldownTime: {fileID: 1532522461648728525}
-  activeDuration: 15
+  activeDuration: 10
   cooldownDuration: 30
 --- !u!1 &8635806647377913193
 GameObject:
@@ -12626,7 +12650,7 @@ GameObject:
   - component: {fileID: 2078869962519032505}
   - component: {fileID: 7208249389544222856}
   - component: {fileID: 3293369518194635221}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TP_BlackHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}

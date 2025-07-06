@@ -123,4 +123,16 @@ public class PlayerVisibility : MonoBehaviourPunCallbacks
         var invis = GetComponentInChildren<InvisibilitySkill>(true);
         if (invis != null) invis.UnsetInvisibility();
     }
+
+    [PunRPC]
+    public void SetPlayerLayerCloaked()
+    {
+        SetLayerRecursively(gameObject, cloakedPlayerLayer);
+    }
+
+    [PunRPC]
+    public void SetPlayerLayerNormal()
+    {
+        SetLayerRecursively(gameObject, playerLayer);
+    }
 } 

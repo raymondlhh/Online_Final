@@ -51,7 +51,10 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
             isInvisible = true;
             isOnCooldown = false;
             if (playerVisibility != null)
+            {
                 playerVisibility.photonView.RPC("SetInvisibilityRelay", Photon.Pun.RpcTarget.All);
+                playerVisibility.photonView.RPC("SetPlayerLayerCloaked", Photon.Pun.RpcTarget.All);
+            }
             if (invisCoroutine != null) StopCoroutine(invisCoroutine);
             invisCoroutine = StartCoroutine(InvisibilityDurationAndCooldown());
         }
@@ -69,8 +72,7 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
             if (tpViewObject != null) tpViewObject.SetActive(false);
             if (tpPlayerUI != null) tpPlayerUI.SetActive(false);
         }
-        // Set layer to CloakedPlayer
-        if (tpViewObject != null) SetLayerRecursively(tpViewObject, cloakedPlayerLayer);
+        // (Layer change now handled by PlayerVisibility)
     }
 
     private void SetLayerRecursively(GameObject obj, int newLayer)
@@ -115,7 +117,10 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
             invisibilityPanel.SetActive(false);
         isInvisible = false;
         if (playerVisibility != null)
+        {
             playerVisibility.photonView.RPC("UnsetInvisibilityRelay", Photon.Pun.RpcTarget.All);
+            playerVisibility.photonView.RPC("SetPlayerLayerNormal", Photon.Pun.RpcTarget.All);
+        }
         // Cooldown phase
         isOnCooldown = true;
         timer = 0f;
@@ -144,7 +149,6 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
                 if (tpPlayerUI != null) tpPlayerUI.SetActive(true);
             }
         }
-        // Set layer back to Player
-        if (tpViewObject != null) SetLayerRecursively(tpViewObject, LayerMask.NameToLayer("Player"));
+        // (Layer change now handled by PlayerVisibility)
     }
 }

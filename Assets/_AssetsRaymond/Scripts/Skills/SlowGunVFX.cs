@@ -14,6 +14,7 @@ public class SlowGunVFX : MonoBehaviour
 
     // Track slowed guards and their original speeds
     private Dictionary<GuardMovement, float> slowedGuards = new Dictionary<GuardMovement, float>();
+    private List<GuardMovement> currentlySlowed = new List<GuardMovement>();
 
     void Awake()
     {
@@ -56,8 +57,9 @@ public class SlowGunVFX : MonoBehaviour
                 {
                     slowedGuards[guard] = agent.speed;
                     agent.speed *= slowMultiplier;
+                    if (!currentlySlowed.Contains(guard))
+                        currentlySlowed.Add(guard);
                 }
-                guard.SetDistractionTarget(transform);
             }
         }
     }
@@ -75,7 +77,22 @@ public class SlowGunVFX : MonoBehaviour
                     agent.speed = slowedGuards[guard];
                 }
                 slowedGuards.Remove(guard);
-                guard.ClearDistractionTarget();
+                currentlySlowed.Remove(guard);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        foreach (var guard in currentlySlowed)
+        {
+            if (guard != null)
+            {
+                NavMeshAgent agent = guard.GetComponent<NavMeshAgent>();
+                if (agent != null && slowedGuards.ContainsKey(guard))
+                {
+                    agent.speed = slowedGuards[guard] * slowMultiplier;
+                }
             }
         }
     }
@@ -92,9 +109,9 @@ public class SlowGunVFX : MonoBehaviour
                 {
                     agent.speed = pair.Value;
                 }
-                pair.Key.ClearDistractionTarget();
             }
         }
         slowedGuards.Clear();
+        currentlySlowed.Clear();
     }
 } 
