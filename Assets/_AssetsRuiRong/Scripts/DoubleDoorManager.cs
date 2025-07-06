@@ -45,7 +45,7 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
         if (doorOpened) return;
 
         // Only MasterClient should process progress
-        if (!PhotonNetwork.IsMasterClient) return;
+        //if (!PhotonNetwork.IsMasterClient) return;
 
         int holdingCount = 0;
         foreach (var isHolding in playersInArea.Values)
