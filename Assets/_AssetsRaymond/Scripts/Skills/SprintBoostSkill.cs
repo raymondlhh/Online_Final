@@ -65,6 +65,22 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         }
     }
 
+    private void UpdateUI(float t, float max, bool isActivePhase)
+    {
+        if (CooldownBar != null)
+        {
+            if (isActivePhase)
+                CooldownBar.fillAmount = t / max; // Decrease from 1 to 0
+            else
+                CooldownBar.fillAmount = t / max; // Increase from 0 to 1
+        }
+        if (CooldownTime != null)
+        {
+            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
+            CooldownTime.text = seconds.ToString();
+        }
+    }
+
     private IEnumerator SkillDurationAndCooldown()
     {
         // Skill active phase
@@ -81,9 +97,11 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
+            UpdateUI(timer, activeDuration, true);
             SetCooldownPercent(timer / activeDuration);
             yield return null;
         }
+        UpdateUI(0, activeDuration, true);
         SetCooldownPercent(0f);
         isActive = false;
         // Restore speeds
@@ -99,10 +117,13 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         while (timer < cooldownDuration)
         {
             timer += Time.deltaTime;
+            UpdateUI(timer, cooldownDuration, false);
             SetCooldownPercent(timer / cooldownDuration);
             yield return null;
         }
+        UpdateUI(cooldownDuration, cooldownDuration, false);
         SetCooldownPercent(1f);
         isOnCooldown = false;
+        if (CooldownTime != null) CooldownTime.text = "";
     }
 }

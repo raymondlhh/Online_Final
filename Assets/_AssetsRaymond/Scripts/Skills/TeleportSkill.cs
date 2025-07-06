@@ -17,9 +17,14 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
     [Tooltip("Cooldown time after skill ends (seconds)")]
     public float cooldownDuration = 30f;
 
+    [Header("References")]
+    public Camera playerCamera; // Assign in inspector or via GetComponentInParent
+    public GameObject TeleportCrosshair; // Assign in inspector
+
     private bool isActive = false;
     private bool isOnCooldown = false;
     private float timer = 0f;
+    private bool canTeleport = false;
 
     // Add your teleport logic and other fields here
 
@@ -27,6 +32,8 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
     void Start()
     {
         // Initialize UI, cooldowns, etc.
+        if (playerCamera == null) playerCamera = GetComponentInParent<PlayerMovement>()?.playerCamera;
+        if (TeleportCrosshair != null) TeleportCrosshair.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,6 +45,12 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
             isActive = true;
             isOnCooldown = false;
             StartCoroutine(SkillDurationAndCooldown());
+        }
+
+        // Teleport logic during active phase
+        if (isActive && canTeleport && Input.GetMouseButtonDown(0))
+        {
+            TryTeleport();
         }
     }
 
@@ -56,28 +69,76 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
         }
     }
 
+    private void UpdateUI(float t, float max, bool isActivePhase)
+    {
+        if (CooldownBar != null)
+        {
+            if (isActivePhase)
+                CooldownBar.fillAmount = t / max; // Decrease from 1 to 0
+            else
+                CooldownBar.fillAmount = t / max; // Increase from 0 to 1
+        }
+        if (CooldownTime != null)
+        {
+            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
+            CooldownTime.text = seconds.ToString();
+        }
+    }
+
     private IEnumerator SkillDurationAndCooldown()
     {
         // Skill active phase
         timer = activeDuration;
-        while (timer > 0f)
+        canTeleport = true;
+        if (TeleportCrosshair != null) TeleportCrosshair.SetActive(true);
+
+        while (timer > 0f && canTeleport)
         {
             timer -= Time.deltaTime;
+            UpdateUI(timer, activeDuration, true);
             SetCooldownPercent(timer / activeDuration);
             yield return null;
         }
+        UpdateUI(0, activeDuration, true);
         SetCooldownPercent(0f);
         isActive = false;
+        canTeleport = false;
+        if (TeleportCrosshair != null) TeleportCrosshair.SetActive(false);
+
         // Cooldown phase
         isOnCooldown = true;
         timer = 0f;
         while (timer < cooldownDuration)
         {
             timer += Time.deltaTime;
+            UpdateUI(timer, cooldownDuration, false);
             SetCooldownPercent(timer / cooldownDuration);
             yield return null;
         }
+        UpdateUI(cooldownDuration, cooldownDuration, false);
         SetCooldownPercent(1f);
         isOnCooldown = false;
+        if (CooldownTime != null) CooldownTime.text = "";
+    }
+
+    private void TryTeleport()
+    {
+        if (playerCamera == null) return;
+
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f))
+        {
+            // Teleport the player to the hit point (keep y offset if needed)
+            Vector3 targetPosition = hit.point;
+            // Optionally, adjust y to keep player above ground
+            targetPosition.y += 1.0f; // Adjust as needed for your player height
+
+            // Move the player (networked)
+            transform.root.position = targetPosition;
+
+            // End the skill immediately after teleport
+            canTeleport = false;
+        }
     }
 }

@@ -505,7 +505,7 @@ Transform:
   m_GameObject: {fileID: 202682500521096340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -38.2, y: 0, z: -53.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1969,7 +1969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5613797255892373852
 Transform:
   m_ObjectHideFlags: 0
@@ -1979,7 +1979,7 @@ Transform:
   m_GameObject: {fileID: 534577114564022764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -50.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -4322,7 +4322,7 @@ Transform:
   m_GameObject: {fileID: 1190144697518448458}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 28.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4598,7 +4598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -4773,7 +4773,7 @@ Transform:
   m_GameObject: {fileID: 1224704214176049657}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -29.3, y: 0, z: 30.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5049,7 +5049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -5765,7 +5765,7 @@ Transform:
   m_GameObject: {fileID: 1457767413640981789}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -80.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6041,7 +6041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -6113,7 +6113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &456987872785892685
 Transform:
   m_ObjectHideFlags: 0
@@ -6123,7 +6123,7 @@ Transform:
   m_GameObject: {fileID: 1478156507499258974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 25.5, y: 0, z: -36.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9457,7 +9457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -12840,7 +12840,7 @@ Transform:
   m_GameObject: {fileID: 3366122554280779163}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -65.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13116,7 +13116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -16725,7 +16725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2404208549404122270
 Transform:
   m_ObjectHideFlags: 0
@@ -16735,7 +16735,7 @@ Transform:
   m_GameObject: {fileID: 4508938642545066953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -68.7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17012,7 +17012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -20572,7 +20572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &183382639931476352
 Transform:
   m_ObjectHideFlags: 0
@@ -20582,7 +20582,7 @@ Transform:
   m_GameObject: {fileID: 5610936212971615108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 18.37, y: 0, z: -18.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20859,7 +20859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -21185,7 +21185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 1
+  villagerType: 0
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -21650,7 +21650,7 @@ Transform:
   m_GameObject: {fileID: 5749373945073351319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -56.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21926,7 +21926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -22786,7 +22786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8646195449670222562
 Transform:
   m_ObjectHideFlags: 0
@@ -23258,7 +23258,7 @@ Transform:
   m_GameObject: {fileID: 6128592706973629884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -47.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32024,7 +32024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9000679393534112326
 Transform:
   m_ObjectHideFlags: 0
@@ -32034,7 +32034,7 @@ Transform:
   m_GameObject: {fileID: 8790372901268015178}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -105.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32310,7 +32310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb8de241c7edec4d9f55bc34dd5257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villagerType: 0
+  villagerType: 1
   safeZone: {fileID: 8191066827825990401}
   detectionRadius: 10
   detectionAngle: 120
@@ -33069,7 +33069,7 @@ Transform:
   m_GameObject: {fileID: 8982661542639834739}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 27, y: 0, z: -48.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
