@@ -99,6 +99,9 @@ MonoBehaviour:
   - OnDoorOpened
   - RPC_Ignite
   - RPC_OpenDoor
+  - RPC_StartMovement
+  - RPC_StartScaling
+  - RPC_ActivatePuzzle
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
