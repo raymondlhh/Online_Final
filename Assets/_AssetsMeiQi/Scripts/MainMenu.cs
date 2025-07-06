@@ -108,7 +108,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
         if (!string.IsNullOrEmpty(playerName))
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
-            
+            Debug.Log("Current Game Version: " + PhotonNetwork.GameVersion);
+            Debug.Log("Current Region: " + PhotonNetwork.CloudRegion);
             PhotonNetwork.ConnectUsingSettings();
         }
         else
