@@ -8,6 +8,8 @@ public class PlayerInteraction : MonoBehaviour
     private bool isInDoorTriggerArea = false;
     private bool isHoldingF_Door = false;
 
+    private bool isInHint1TriggerArea = false;
+
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
@@ -66,5 +68,21 @@ public class PlayerInteraction : MonoBehaviour
             isHoldingF_Door = false;
             DoubleDoorManager.Instance.UpdatePlayerHolding(photonView.ViewID, false);
         }
+    }
+
+    public void SetHint1ATriggerState(bool inArea)
+    {
+        isInHint1TriggerArea = inArea;
+
+        Hint1AManager.Instance.SetLocalUIVisibility(inArea);
+
+    }
+
+    public void SetHint1BTriggerState(bool inArea)
+    {
+        isInHint1TriggerArea = inArea;
+
+        Hint1BManager.Instance.SetLocalUIVisibility(inArea);
+
     }
 } 

@@ -61,7 +61,7 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
             currentProgress = Mathf.Min(currentProgress, maxProgress);
 
             // Send progress value to others
-            photonView.RPC("RPC_SyncProgress", RpcTarget.Others, currentProgress);
+            //photonView.RPC("RPC_SyncProgress", RpcTarget.Others, currentProgress);
 
             // Master updates local slider
             UpdateSlider(currentProgress);
