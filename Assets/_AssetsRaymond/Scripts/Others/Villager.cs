@@ -18,7 +18,7 @@ public class Villager : MonoBehaviour
 
     [Header("Components")]
     private Animator animator; // Reference to the Animator component
-    [SerializeField] private Transform safeZone; // Reference to the safezone transform
+    [SerializeField] private Transform safePoint; // Reference to the safezone transform
 
     [Header("Player Detection")]
     [SerializeField] private float detectionRadius = 10f;
@@ -285,10 +285,34 @@ public class Villager : MonoBehaviour
         if (villagerType == VillagerType.Walking && navAgent != null)
         {
             navAgent.enabled = true;
+            // Warp to nearest NavMesh position before setting destination
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                navAgent.Warp(hit.position);
+                Debug.Log($"[Village] (Walking) NavMeshAgent warped to NavMesh at {hit.position}");
+            }
+            else
+            {
+                Debug.LogWarning($"[Village] (Walking) Could not find NavMesh near {transform.position}");
+            }
             navAgent.isStopped = false;
             navAgent.speed = runSpeed;
-            if (safeZone != null)
-                navAgent.SetDestination(safeZone.position);
+            if (safePoint != null)
+            {
+                // Also check safePoint is on NavMesh
+                if (NavMesh.SamplePosition(safePoint.position, out hit, 1.0f, NavMesh.AllAreas))
+                {
+                    navAgent.SetDestination(hit.position);
+                    Debug.Log($"[Village] (Walking) NavMeshAgent destination set to {hit.position}");
+                }
+                else
+                {
+                    navAgent.SetDestination(safePoint.position);
+                    Debug.LogWarning($"[Village] (Walking) SafePoint {safePoint.position} not on NavMesh, using original position");
+                }
+            }
+            Debug.Log($"[Village] (Walking) NavMeshAgent enabled: {navAgent.enabled}, isOnNavMesh: {navAgent.isOnNavMesh}, isStopped: {navAgent.isStopped}, hasPath: {navAgent.hasPath}");
         }
         else // For standing villagers, enable NavMeshAgent for pathfinding
         {
@@ -300,10 +324,10 @@ public class Villager : MonoBehaviour
                 Debug.Log($"[Village] Standing agent onNavMesh: {onNavMesh}");
                 navAgent.isStopped = false;
                 navAgent.speed = runSpeed;
-                if (safeZone != null)
+                if (safePoint != null)
                 {
-                    navAgent.SetDestination(safeZone.position);
-                    Debug.Log($"[Village] (Standing) NavMeshAgent enabled, warped, and destination set to {safeZone.position}");
+                    navAgent.SetDestination(safePoint.position);
+                    Debug.Log($"[Village] (Standing) NavMeshAgent enabled, warped, and destination set to {safePoint.position}");
                 }
                 // Disable Rigidbody physics while using NavMeshAgent
                 rb.isKinematic = true;
@@ -388,10 +412,10 @@ public class Villager : MonoBehaviour
                 yield break;
             }
             Vector3 targetPosition;
-            if (safeZone != null)
+            if (safePoint != null)
             {
                 // Run towards the safezone
-                targetPosition = safeZone.position;
+                targetPosition = safePoint.position;
             }
             else
             {
@@ -418,7 +442,7 @@ public class Villager : MonoBehaviour
                 }
             }
             // Fallback: Optional, keep old check for standing type
-            if (villagerType == VillagerType.Standing && safeZone != null && Vector3.Distance(transform.position, safeZone.position) < 1.5f)
+            if (villagerType == VillagerType.Standing && safePoint != null && Vector3.Distance(transform.position, safePoint.position) < 1.5f)
             {
                 Debug.Log("[Village] Reached safe zone. Stopping running behavior.");
                 StopRunningFromPlayer();

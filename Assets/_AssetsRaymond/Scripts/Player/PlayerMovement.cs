@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float verticalRotation = 0f;
     public Camera playerCamera;
     private bool isCursorLocked = true;
+    private bool isCursorToggled = false;
 
     [Header("Animation Settings")]
     public Animator FPAnimator;  // First Person Animator
@@ -53,19 +54,22 @@ public class PlayerMovement : MonoBehaviour
         currentSpeed = walkSpeed;
         photonView = GetComponent<PhotonView>();
 
-        // Unlock and show cursor if in ChooseCharacterScene
-        if (SceneManager.GetActiveScene().name == "ChooseCharacterScene")
+        // Only the local player controls the cursor
+        if (photonView != null && photonView.IsMine)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            CanMove = false;
-            CanLook = false;
-        }
-        else
-        {
-            // Lock and hide cursor
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (sceneName == "ChooseCharacterScene" || sceneName == "ChooseCharacterManager")
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                CanMove = false;
+                CanLook = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
         // If no camera is assigned, try to find it
@@ -85,15 +89,40 @@ public class PlayerMovement : MonoBehaviour
         if (photonView != null && !photonView.IsMine)
             return;
 
+        if (photonView != null && photonView.IsMine)
+        {
+            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (sceneName == "ChooseCharacterScene" || sceneName == "ChooseCharacterManager")
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    isCursorToggled = !isCursorToggled;
+                }
+                if (isCursorToggled)
+                {
+                    if (Cursor.lockState != CursorLockMode.None || !Cursor.visible)
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
+                }
+                else
+                {
+                    if (Cursor.lockState != CursorLockMode.None || !Cursor.visible)
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
+                }
+            }
+        }
+
         // Ground Check - moved to FixedUpdate for better physics sync
         if (groundCheck != null)
         {
             // Casts a ray straight down from the groundCheck position.
             isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, groundCheckDistance);
         }
-
-        // The logic for toggling cursor lock with Escape has been moved to the PauseManager
-        // to prevent input conflicts.
 
         if (isCursorLocked && CanLook)
         {
