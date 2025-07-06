@@ -5,6 +5,9 @@ public class PlayerInteraction : MonoBehaviour
 {
     private PhotonView photonView;
 
+    private bool isInDoorTriggerArea = false;
+    private bool isHoldingF_Door = false;
+
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
