@@ -9,10 +9,17 @@ public class PlayerInteraction : MonoBehaviour
     private bool isHoldingF_Door = false;
 
     private bool isInHint1TriggerArea = false;
+    
+    private bool isFireTriggerArea = false;
+
+    public bool isIgnited = false;
+
+    public static PlayerInteraction Instance;
 
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
+        Instance = this;
     }
 
     void Start()
@@ -41,6 +48,15 @@ public class PlayerInteraction : MonoBehaviour
             {
                 isHoldingF_Door = false;
                 DoubleDoorManager.Instance.UpdatePlayerHolding(photonView.ViewID, false);
+            }
+        }
+
+        if(isFireTriggerArea)
+        {
+            if(Input.GetKey(KeyCode.F))
+            {
+                Debug.Log("player Press F");
+                IgniteFireZoneTrigger.instance.TryIgniteFromUI();
             }
         }
     }
@@ -84,5 +100,13 @@ public class PlayerInteraction : MonoBehaviour
 
         Hint1BManager.Instance.SetLocalUIVisibility(inArea);
 
+    }
+
+    public void SetFireTriggerState(bool inArea)
+    {
+        isFireTriggerArea = inArea;
+        
+        // Show or hide the shared "Press F + Progress Bar" UI
+        IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
 } 
