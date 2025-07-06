@@ -68,6 +68,9 @@ public class SlowGunSkill : MonoBehaviourPunCallbacks
                 FP_SlowGun.SetActive(true);
             if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
             SlowGunReadyToThrow = true;
+            // Set IsSkillActivating true for skill activation animation
+            if (isThirdPersonView && TP_Animator != null)
+                TP_Animator.SetBool("IsSkillActivating", true);
         }
     }
 
@@ -133,7 +136,12 @@ public class SlowGunSkill : MonoBehaviourPunCallbacks
                 }
                 // TP_View: Play animation and hide SlowGun
                 if (isThirdPersonView && TP_Animator != null)
-                    TP_Animator.SetBool("isSwordAttacking", true);
+                {
+                    TP_Animator.SetBool("IsGunAttacking", true);
+                    StartCoroutine(ResetGunAttackBool());
+                    // Set IsSkillActivating false after using the skill
+                    TP_Animator.SetBool("IsSkillActivating", false);
+                }
                 if (pv != null)
                     pv.RPC("ShowTPSlowGun", RpcTarget.All, false);
                 if (photonView.IsMine && FP_SlowGun != null)
@@ -156,6 +164,9 @@ public class SlowGunSkill : MonoBehaviourPunCallbacks
             FP_SlowGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         SlowGunReadyToThrow = false;
+        // If skill duration ends and player didn't use skill, set IsSkillActivating false
+        if (!decoyThrown && isThirdPersonView && TP_Animator != null)
+            TP_Animator.SetBool("IsSkillActivating", false);
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
@@ -171,12 +182,18 @@ public class SlowGunSkill : MonoBehaviourPunCallbacks
         SyncCooldownBarToPhoton();
     }
 
-    // Coroutine to reset the animation parameter
     private IEnumerator ResetSwordAttackAnim()
     {
-        yield return new WaitForSeconds(0.5f); // Adjust to match your animation length
+        yield return new WaitForSeconds(0.3f); // Adjust to match your animation length
         if (TP_Animator != null)
             TP_Animator.SetBool("isSwordAttacking", false);
+    }
+
+    private IEnumerator ResetGunAttackBool()
+    {
+        yield return new WaitForSeconds(0.3f); // Adjust this delay to match your animation
+        if (TP_Animator != null)
+            TP_Animator.SetBool("IsGunAttacking", false);
     }
 
     private void UpdateUI(float t, float max, bool isActivePhase)

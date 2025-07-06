@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 
-public class TeleportSkill : MonoBehaviourPunCallbacks
+public class SprintBoostSkill : MonoBehaviourPunCallbacks
 {
     [Header("Skill UI")]
     public Image CooldownBar; // Assign an Image with fillAmount for the skill bar
@@ -13,7 +13,7 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
 
     [Header("Skill Timing")]
     [Tooltip("How long the skill stays active when triggered (seconds)")]
-    public float activeDuration = 15f;
+    public float activeDuration = 10f;
     [Tooltip("Cooldown time after skill ends (seconds)")]
     public float cooldownDuration = 30f;
 
@@ -21,12 +21,10 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
     private bool isOnCooldown = false;
     private float timer = 0f;
 
-    // Add your teleport logic and other fields here
-
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize UI, cooldowns, etc.
+        
     }
 
     // Update is called once per frame

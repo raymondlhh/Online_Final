@@ -193,14 +193,14 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         if (TPHealth != null)
         {
             TPHealth.fillAmount = healthPercentage;
-            Debug.Log($"Updating TP healthbar for {photonView.Owner.NickName}: {healthPercentage}");
+            // Debug.Log($"Updating TP healthbar for {photonView.Owner.NickName}: {healthPercentage}");
         }
             
         // Update First Person healthbar only for local player
         if (isLocalPlayer && FPHealth != null)
         {
             FPHealth.fillAmount = healthPercentage;
-            Debug.Log($"Updating FP healthbar: {healthPercentage}");
+            //Debug.Log($"Updating FP healthbar: {healthPercentage}");
         }
         // Sync to Photon custom properties for other clients
         if (photonView.IsMine)

@@ -28,7 +28,7 @@ public class PlayerListManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        Debug.Log($"[PlayerListManager] OnPlayerPropertiesUpdate called for {targetPlayer.NickName} on {PhotonNetwork.LocalPlayer.NickName}. ChangedProps: {string.Join(", ", changedProps.Keys)}");
+        // Debug.Log($"[PlayerListManager] OnPlayerPropertiesUpdate called for {targetPlayer.NickName} on {PhotonNetwork.LocalPlayer.NickName}. ChangedProps: {string.Join(", ", changedProps.Keys)}");
         float healthPercent = 1f;
         float cooldownPercent = 0f;
         if (targetPlayer.CustomProperties.TryGetValue("HealthPercent", out object hp))

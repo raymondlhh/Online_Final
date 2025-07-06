@@ -64,6 +64,10 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
                 FP_BlackHole.SetActive(true);
             if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
             BlackHoleReadyToThrow = true;
+            // Set isSkillActivating true for skill activation animation
+            Debug.Log($"[BlackHoleSkill] Setting isSkillActivating true. photonView.IsMine={photonView.IsMine}, TP_Animator null? {TP_Animator == null}");
+            if (isThirdPersonView && TP_Animator != null)
+                TP_Animator.SetBool("IsSkillActivating", true);
         }
     }
 
@@ -129,7 +133,11 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
                 }
                 // TP_View: Play animation and hide BlackHole
                 if (isThirdPersonView && TP_Animator != null)
-                    TP_Animator.SetBool("isSwordAttacking", true);
+                {
+                    Debug.Log($"[BlackHoleSkill] Setting IsSwordAttacking true, will reset after delay. photonView.IsMine={photonView.IsMine}, TP_Animator null? {TP_Animator == null}");
+                    TP_Animator.SetBool("IsSwordAttacking", true);
+                    StartCoroutine(ResetSwordAttackBool());
+                }
                 photonView.RPC("ShowTPBlackHole", RpcTarget.All, false);
                 if (photonView.IsMine && FP_BlackHole != null)
                     FP_BlackHole.SetActive(false);
@@ -137,6 +145,10 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
                     StartCoroutine(ResetSwordAttackAnim());
                 BlackHoleReadyToThrow = false;
                 decoyThrown = true;
+                // End skill activating state after attack
+                Debug.Log($"[BlackHoleSkill] Setting isSkillActivating false after attack. photonView.IsMine={photonView.IsMine}, TP_Animator null? {TP_Animator == null}");
+                if (isThirdPersonView && TP_Animator != null)
+                    TP_Animator.SetBool("IsSkillActivating", false);
                 break; // Immediately end active phase and go to cooldown
             }
             yield return null;
@@ -150,6 +162,12 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
             FP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         BlackHoleReadyToThrow = false;
+        // If skill duration ends and player didn't use skill, set isSkillActivating false
+        if (!decoyThrown && isThirdPersonView && TP_Animator != null)
+        {
+            Debug.Log($"[BlackHoleSkill] Setting isSkillActivating false after duration. photonView.IsMine={photonView.IsMine}, TP_Animator null? {TP_Animator == null}");
+            TP_Animator.SetBool("IsSkillActivating", false);
+        }
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
@@ -170,7 +188,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(0.5f); // Adjust to match your animation length
         if (TP_Animator != null)
-            TP_Animator.SetBool("isSwordAttacking", false);
+            TP_Animator.SetBool("IsSwordAttacking", false);
     }
 
     private void UpdateUI(float t, float max, bool isActivePhase)
@@ -213,5 +231,12 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     {
         if (TP_BlackHole != null)
             TP_BlackHole.SetActive(show);
+    }
+
+    private IEnumerator ResetSwordAttackBool()
+    {
+        yield return new WaitForSeconds(0.3f); // Adjust this delay to match your animation
+        if (TP_Animator != null)
+            TP_Animator.SetBool("IsSwordAttacking", false);
     }
 }

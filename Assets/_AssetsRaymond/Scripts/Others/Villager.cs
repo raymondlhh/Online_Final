@@ -207,11 +207,15 @@ public class Villager : MonoBehaviour
         bool playerDetected = false;
         float closestDistance = float.MaxValue;
         Vector3 closestPlayerPosition = Vector3.zero;
+        Collider closestPlayerCollider = null;
         
         foreach (Collider playerCollider in nearbyColliders)
         {
             if (playerCollider != null)
             {
+                // Ignore cloaked players
+                if (playerCollider.gameObject.layer == LayerMask.NameToLayer("CloakedPlayer"))
+                    continue;
                 // Calculate direction to player
                 Vector3 directionToPlayer = (playerCollider.transform.position - transform.position).normalized;
                 float distanceToPlayer = Vector3.Distance(transform.position, playerCollider.transform.position);
@@ -223,12 +227,12 @@ public class Villager : MonoBehaviour
                 if (angleToPlayer <= detectionAngle * 0.5f)
                 {
                     playerDetected = true;
-                    
                     // Track the closest player
                     if (distanceToPlayer < closestDistance)
                     {
                         closestDistance = distanceToPlayer;
                         closestPlayerPosition = playerCollider.transform.position;
+                        closestPlayerCollider = playerCollider;
                     }
                 }
             }
@@ -259,6 +263,14 @@ public class Villager : MonoBehaviour
             {
                 hasSeenPlayer = true; // Mark as seen
                 StartRunningFromPlayer();
+            }
+        }
+        else
+        {
+            // If currently running from a player, but that player is now invisible, stop running
+            if (isRunningFromPlayer)
+            {
+                StopRunningFromPlayer();
             }
         }
     }
@@ -359,6 +371,22 @@ public class Villager : MonoBehaviour
         Debug.Log("[Village] RunningBehavior coroutine started.");
         while (isRunningFromPlayer)
         {
+            // If the last known player is now invisible, stop running
+            Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayerMask);
+            bool chasedPlayerInvisible = true;
+            foreach (Collider col in colliders)
+            {
+                if (col != null && col.gameObject.layer != LayerMask.NameToLayer("CloakedPlayer"))
+                {
+                    chasedPlayerInvisible = false;
+                    break;
+                }
+            }
+            if (chasedPlayerInvisible)
+            {
+                StopRunningFromPlayer();
+                yield break;
+            }
             Vector3 targetPosition;
             if (safeZone != null)
             {

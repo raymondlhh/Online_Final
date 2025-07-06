@@ -68,6 +68,9 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
                 FP_FreezeGun.SetActive(true);
             if (WeaponCrosshair != null) WeaponCrosshair.SetActive(true);
             freezeGunReadyToFire = true;
+            // Set IsSkillActivating true for skill activation animation
+            if (isThirdPersonView && TP_Animator != null)
+                TP_Animator.SetBool("IsSkillActivating", true);
         }
     }
 
@@ -133,7 +136,12 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
                 }
                 // TP_View: Play animation and hide FreezeGun
                 if (isThirdPersonView && TP_Animator != null)
-                    TP_Animator.SetBool("isSwordAttacking", true);
+                {
+                    TP_Animator.SetBool("IsGunAttacking", true);
+                    StartCoroutine(ResetGunAttackBool());
+                    // Set IsSkillActivating false after using the skill
+                    TP_Animator.SetBool("IsSkillActivating", false);
+                }
                 if (pv != null)
                     pv.RPC("ShowTPFreezeGun", RpcTarget.All, false);
                 if (photonView.IsMine && FP_FreezeGun != null)
@@ -156,6 +164,9 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
             FP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         freezeGunReadyToFire = false;
+        // If skill duration ends and player didn't use skill, set IsSkillActivating false
+        if (!freezeGunFired && isThirdPersonView && TP_Animator != null)
+            TP_Animator.SetBool("IsSkillActivating", false);
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
@@ -171,10 +182,17 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         SyncCooldownBarToPhoton();
     }
 
+    private IEnumerator ResetGunAttackBool()
+    {
+        yield return new WaitForSeconds(0.3f); // Adjust this delay to match your animation
+        if (TP_Animator != null)
+            TP_Animator.SetBool("IsGunAttacking", false);
+    }
+
     // Coroutine to reset the animation parameter
     private IEnumerator ResetSwordAttackAnim()
     {
-        yield return new WaitForSeconds(0.5f); // Adjust to match your animation length
+        yield return new WaitForSeconds(0.3f); // Adjust to match your animation length
         if (TP_Animator != null)
             TP_Animator.SetBool("isSwordAttacking", false);
     }

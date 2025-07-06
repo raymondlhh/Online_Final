@@ -27,7 +27,7 @@ public class OtherProfileUI : MonoBehaviour
         if (p.CustomProperties.TryGetValue("SkillIndex", out object skillIdxObj))
         {
             int skillIdx = System.Convert.ToInt32(skillIdxObj);
-            Debug.Log($"[OtherProfileUI] {p.NickName} SkillIndex: {skillIdx}");
+            // Debug.Log($"[OtherProfileUI] {p.NickName} SkillIndex: {skillIdx}");
             lastSkillIdx = skillIdx;
             if (skillIdx >= 0 && skillIdx < skillImages.Length && skillImages[skillIdx] != null)
                 skillImages[skillIdx].SetActive(true);
@@ -63,14 +63,14 @@ public class OtherProfileUI : MonoBehaviour
             if (img != null) img.SetActive(false);
         if (skillIdx >= 0 && skillIdx < skillImages.Length && skillImages[skillIdx] != null)
             skillImages[skillIdx].SetActive(true);
-        Debug.Log($"[OtherProfileUI] UpdateSkillImage called for {playerNameText.text} with SkillIndex: {skillIdx}");
+        // Debug.Log($"[OtherProfileUI] UpdateSkillImage called for {playerNameText.text} with SkillIndex: {skillIdx}");
     }
 
     public void UpdateDeathPanel(bool isDead)
     {
         if (deathPanel != null)
             deathPanel.SetActive(isDead);
-        Debug.Log($"[OtherProfileUI] UpdateDeathPanel called for {playerNameText.text} isDead: {isDead}");
+        // Debug.Log($"[OtherProfileUI] UpdateDeathPanel called for {playerNameText.text} isDead: {isDead}");
     }
 
     void Start()
