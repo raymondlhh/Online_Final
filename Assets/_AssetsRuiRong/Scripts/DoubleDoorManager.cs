@@ -59,12 +59,14 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
             float speed = holdingCount * speedPerPlayer;
             currentProgress += speed * Time.deltaTime;
             currentProgress = Mathf.Min(currentProgress, maxProgress);
-            progressBar.value = currentProgress;
 
-            if (!doorUI.activeSelf)
-                doorUI.SetActive(true);
+            // Send progress value to others
+            photonView.RPC("RPC_SyncProgress", RpcTarget.All, currentProgress);
 
-            if (currentProgress >= maxProgress)
+            // Master updates local slider
+            UpdateSlider(currentProgress);
+
+            if (currentProgress >= maxProgress && !doorOpened)
             {
                 doorOpened = true;
                 OnDoorOpened();
@@ -144,8 +146,5 @@ public class DoubleDoorManager : MonoBehaviourPunCallbacks
         progressBar.value = value;
     }
 
-    public void AddProgress()
-    {
-        progressBar.value++;
-    }
+    
 }
