@@ -96,6 +96,7 @@ MonoBehaviour:
   - SetPlayerLayerCloaked
   - SetPlayerLayerNormal
   - RPC_SyncProgress
+  - OnDoorOpened
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

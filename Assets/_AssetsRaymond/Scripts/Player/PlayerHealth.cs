@@ -311,14 +311,24 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     {
         IsDowned = true;
 
+        // Set layer to cloaked so they can't be targeted while down
+        SetLayerRecursively(gameObject, cloakedPlayerLayer);
+
+        // Hide TP_PlayerUI for other clients
+        if (!photonView.IsMine)
+        {
+            Transform tpPlayerUI = transform.Find("TP_PlayerUI");
+            if (tpPlayerUI != null)
+            {
+                tpPlayerUI.gameObject.SetActive(false);
+            }
+        }
+
         if (animator != null)
             animator.SetBool("IsDead", true);
 
         if (isLocalPlayer)
         {
-            // Set layer to cloaked so they can't be targeted while down
-            SetLayerRecursively(gameObject, cloakedPlayerLayer);
-
             // Set custom property to dead
             var props = new ExitGames.Client.Photon.Hashtable();
             props["IsAlive"] = false;
