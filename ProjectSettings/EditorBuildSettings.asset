@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_AssetsRuiRong/Scenes/EgyptLevel.unity
     guid: da77829b57f0b57408ef012c22257889
+  - enabled: 1
+    path: Assets/_AssetsRaymond/Scenes/NotUsed/Test.unity
+    guid: 3b4482d897a2f1540b300091f9760f61
   m_configObjects: {}
