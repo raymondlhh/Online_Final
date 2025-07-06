@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
-public class DoubleDoorManager : MonoBehaviour
+public class DoubleDoorManager : MonoBehaviourPunCallbacks
 {
     public static DoubleDoorManager Instance;
 
@@ -44,6 +44,9 @@ public class DoubleDoorManager : MonoBehaviour
     {
         if (doorOpened) return;
 
+        // Only MasterClient should process progress
+        if (!PhotonNetwork.IsMasterClient) return;
+
         int holdingCount = 0;
         foreach (var isHolding in playersInArea.Values)
         {
@@ -55,12 +58,15 @@ public class DoubleDoorManager : MonoBehaviour
             float speed = holdingCount * speedPerPlayer;
             currentProgress += speed * Time.deltaTime;
             currentProgress = Mathf.Min(currentProgress, maxProgress);
-            progressBar.value = currentProgress;
 
-            if (!doorUI.activeSelf)
-                doorUI.SetActive(true);
+            // Sync the progress with all other clients
+            photonView.RPC("RPC_SyncProgress", RpcTarget.Others, currentProgress);
 
-            if (currentProgress >= maxProgress)
+            //  Update local progress bar (on master)
+            UpdateSlider(currentProgress);
+
+            // Check for completion
+            if (currentProgress >= maxProgress && !doorOpened)
             {
                 doorOpened = true;
                 OnDoorOpened();
@@ -127,5 +133,16 @@ public class DoubleDoorManager : MonoBehaviour
             doorAnimator.enabled = true;
         }
 
+    }
+
+    [PunRPC]
+    void RPC_SyncProgress(float syncedValue)
+    {
+        UpdateSlider(syncedValue);
+    }
+
+    void UpdateSlider(float value)
+    {
+        progressBar.value = value;
     }
 }
