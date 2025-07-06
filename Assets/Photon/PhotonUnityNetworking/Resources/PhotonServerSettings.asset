@@ -95,6 +95,7 @@ MonoBehaviour:
   - UnsetInvisibilityRelay
   - SetPlayerLayerCloaked
   - SetPlayerLayerNormal
+  - RPC_SyncProgress
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
