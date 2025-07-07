@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CollectCrystal : MonoBehaviour
 {
@@ -16,8 +17,10 @@ public class CollectCrystal : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Trigger Crystal!");
+        
         if (other.CompareTag("Player"))
         {
             // Only MasterClient should update the count
@@ -25,7 +28,7 @@ public class CollectCrystal : MonoBehaviour
             {
                 CrystalManager.Instance.CollectCrystal();
             }
-
+            //Destroy(gameObject);
             Photon.Pun.PhotonNetwork.Destroy(gameObject); // Destroy crystal for all players
         }
     }

@@ -35,7 +35,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
         if (!playerUIs.Contains(ui))
         {
             playerUIs.Add(ui);
-            //ui.UpdateCrystalUI(crystalsCollected, totalCrystals);
+            ui.UpdateCrystalUI(crystalsCollected, totalCrystals);
         }
     }
 
@@ -56,6 +56,12 @@ public class CrystalManager : MonoBehaviourPunCallbacks
         foreach (PlayerUICrystal ui in playerUIs)
         {
             ui.UpdateCrystalUI(collected, totalCrystals);
+        }
+
+        if (crystalsCollected >= totalCrystals)
+        {
+            Debug.Log("All crystals collected! Starting countdown...");
+            CountdownManager.Instance.StartCountdown();
         }
     }
 }
