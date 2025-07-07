@@ -1754,8 +1754,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &4947895007363067280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4791,8 +4791,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &3175028296555072054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7512,8 +7512,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &4372252136225412943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8101,8 +8101,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &9164483996330657432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10844,8 +10844,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &1741467260527213878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11792,8 +11792,8 @@ MonoBehaviour:
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 25
-  runSpeedBoost: 25
+  walkSpeedBoost: 20
+  runSpeedBoost: 20
 --- !u!114 &6899384419235479991
 MonoBehaviour:
   m_ObjectHideFlags: 0

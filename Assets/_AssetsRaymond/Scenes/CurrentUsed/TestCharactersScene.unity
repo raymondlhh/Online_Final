@@ -20673,6 +20673,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2048884920137269246, guid: 4af12aae2e33eef4a997bba5890277c3, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 17c9e87003aa9f644893e85db9b46c9f, type: 2}
     - target: {fileID: 5073097536873317146, guid: 4af12aae2e33eef4a997bba5890277c3, type: 3}
       propertyPath: m_Name
       value: NavMeshManager
