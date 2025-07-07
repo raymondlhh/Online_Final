@@ -33,7 +33,6 @@ public class GuardMovement : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Animator animator;
     public Transform targetPlayer { get; private set; }
-    private Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
 
     // Patrol behavior variables
@@ -79,13 +78,13 @@ public class GuardMovement : MonoBehaviour
 
         if (patrolType == PatrolType.PatrolPath && patrolPath != null && patrolPath.waypoints.Count > 0)
         {
-            // Use patrol path
-            SetNewPatrolPathWaypoint();
+            currentPatrolIndex = 0;
+            currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
+            navMeshAgent.SetDestination(currentWaypoint);
             StartCoroutine(PatrolRoutine());
         }
-        else
+        else // RandomPatrol
         {
-            // Use random patrol
             SetNewRandomWaypoint();
             StartCoroutine(PatrolRoutine());
         }
@@ -194,13 +193,12 @@ public class GuardMovement : MonoBehaviour
         }
     }
 
-    private void SetNewPatrolPathWaypoint()
+    private void SetNextPatrolPathWaypoint()
     {
         if (patrolPath != null && patrolPath.waypoints.Count > 0)
         {
-            currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPath.waypoints.Count;
-            
+            currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
             if (navMeshAgent != null && targetPlayer == null)
             {
                 navMeshAgent.SetDestination(currentWaypoint);
@@ -214,48 +212,21 @@ public class GuardMovement : MonoBehaviour
         {
             if (navMeshAgent != null && navMeshAgent.remainingDistance <= waypointReachDistance)
             {
-                // Wait at waypoint
-                isWaitingAtWaypoint = true;
-                yield return new WaitForSeconds(waypointWaitTime);
-                isWaitingAtWaypoint = false;
-                
-                // Set next waypoint
-                if (patrolType == PatrolType.PatrolPath && patrolPath != null)
+                if (patrolType == PatrolType.PatrolPath && patrolPath != null && patrolPath.waypoints.Count > 0)
                 {
-                    SetNewPatrolPathWaypoint();
+                    SetNextPatrolPathWaypoint();
                 }
-                else
+                else // RandomPatrol
                 {
                     SetNewRandomWaypoint();
                 }
+                yield return new WaitForSeconds(waypointWaitTime);
             }
-            
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
     
-    void GoToNextPatrolPoint()
-    {
-        if (patrolPoints == null || patrolPoints.Length == 0) return;
 
-        // Pick a new random patrol point that is different from the current one
-        int newPatrolIndex = currentPatrolIndex;
-        // Safety for single patrol point to avoid infinite loop.
-        if (patrolPoints.Length > 1) 
-        {
-            while (newPatrolIndex == currentPatrolIndex)
-            {
-                newPatrolIndex = Random.Range(0, patrolPoints.Length);
-            }
-        }
-        currentPatrolIndex = newPatrolIndex;
-        
-        // Add a null check here to prevent errors during scene transitions.
-        if (patrolPoints[currentPatrolIndex] != null)
-        {
-            navMeshAgent.destination = patrolPoints[currentPatrolIndex].position;
-        }
-    }
 
     void UpdateAnimator()
     {
