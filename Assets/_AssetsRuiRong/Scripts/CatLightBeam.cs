@@ -20,7 +20,7 @@ public class CatLightBeam : MonoBehaviourPun
 
     void Start()
     {
-        //StartScaling();
+        StartScaling();
     }
 
     public void StartScaling()

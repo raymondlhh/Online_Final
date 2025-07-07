@@ -12,7 +12,11 @@ public class PlayerInteraction : MonoBehaviour
     
     private bool isFireTriggerArea = false;
 
+    private bool isHideTriggerArea = false;
+
     public bool isIgnited = false;
+
+    private HideZoneTrigger currentHideZone;
 
     public static PlayerInteraction Instance;
 
@@ -57,6 +61,18 @@ public class PlayerInteraction : MonoBehaviour
             {
                 Debug.Log("player Press F");
                 IgniteFireZoneTrigger.instance.TryIgniteFromUI();
+            }
+        }
+
+        if(isHideTriggerArea)
+        {
+            if(Input.GetKey(KeyCode.Q))
+            {
+                if (currentHideZone != null)
+                {
+                    transform.position = currentHideZone.HideSpot.position;
+                    Debug.Log("Player hid in pot at: " + currentHideZone.HideSpot.position);
+                }
             }
         }
     }
@@ -109,4 +125,12 @@ public class PlayerInteraction : MonoBehaviour
         // Show or hide the shared "Press F + Progress Bar" UI
         IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
+
+    public void SetHideTriggerState(bool inArea)
+    {
+        isHideTriggerArea = inArea;
+        HideManager.instance.SetLocalUIVisibility(inArea);
+    }
+
+    
 } 

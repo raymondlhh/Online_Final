@@ -28,7 +28,7 @@ public class CollectCrystal : MonoBehaviour
             {
                 CrystalManager.Instance.CollectCrystal();
             }
-            //Destroy(gameObject);
+            Destroy(gameObject);
             Photon.Pun.PhotonNetwork.Destroy(gameObject); // Destroy crystal for all players
         }
     }
