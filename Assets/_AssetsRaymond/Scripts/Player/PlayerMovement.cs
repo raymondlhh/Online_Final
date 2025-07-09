@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -47,6 +48,16 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCooldown = 0.1f;
     private float lastJumpTime = -1f;
 
+    [Header("Stamina Settings")]
+    public Image StaminaBar; // Assign in inspector
+    public float maxStamina = 5f; // seconds of running
+    public float staminaDrainRate = 1f; // per second
+    public float staminaRegenRate = 0.5f; // per second
+    private float currentStamina;
+    private bool isStaminaDepleted = false;
+    [HideInInspector]
+    public bool isSprintBoostActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +92,11 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogError("No camera found! Please assign a camera to the player.");
             }
         }
+
+        // Initialize stamina
+        currentStamina = maxStamina;
+        if (StaminaBar != null)
+            StaminaBar.fillAmount = 1f;
     }
 
     // Update is called once per frame
@@ -145,8 +161,9 @@ public class PlayerMovement : MonoBehaviour
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
 
-            // Handle running with shift key
-            isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            // Handle running with shift key, only if stamina is not depleted and not sprint boost
+            bool wantsToRun = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            isRunning = wantsToRun && !isStaminaDepleted && !isSprintBoostActive && (horizontalInput != 0 || verticalInput != 0);
             currentSpeed = isRunning ? runSpeed : walkSpeed;
 
             // Calculate movement direction
@@ -170,6 +187,32 @@ public class PlayerMovement : MonoBehaviour
             moveDirection = Vector3.zero;
             jumpRequested = false;
         }
+
+        // Handle stamina drain and regen
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !isSprintBoostActive && (horizontalInput != 0 || verticalInput != 0))
+        {
+            currentStamina -= staminaDrainRate * Time.deltaTime;
+            if (currentStamina <= 0f)
+            {
+                currentStamina = 0f;
+                isStaminaDepleted = true;
+            }
+        }
+        else
+        {
+            // Regenerate stamina when not running
+            if (currentStamina < maxStamina)
+            {
+                currentStamina += staminaRegenRate * Time.deltaTime;
+                if (currentStamina > maxStamina)
+                    currentStamina = maxStamina;
+            }
+            if (currentStamina > 0.1f)
+                isStaminaDepleted = false;
+        }
+        // Update the UI
+        if (StaminaBar != null)
+            StaminaBar.fillAmount = currentStamina / maxStamina;
     }
 
     // FixedUpdate is called at a fixed time interval and is independent of frame rate
