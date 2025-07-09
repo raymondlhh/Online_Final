@@ -6,10 +6,6 @@ using Photon.Pun;
 
 public class FreezeGunSkill : MonoBehaviourPunCallbacks
 {
-    [Header("Skill UI")]
-    public Image CooldownBar; // Assign an Image with fillAmount for the skill bar
-    public TextMeshProUGUI CooldownTime; // Shows countdown
-
     [Header("Skill Timing")]
     [Tooltip("How long the skill stays active when triggered (seconds)")]
     public float activeDuration = 15f;
@@ -41,11 +37,19 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
 
     private PhotonView pv;
 
+    // Reference to PlayerSkills for centralized UI management
+    private PlayerSkills playerSkills;
+
     void Start()
     {
         pv = GetComponentInParent<PhotonView>();
+        
+        // Get reference to PlayerSkills
+        playerSkills = GetComponentInParent<PlayerSkills>();
+        if (playerSkills == null)
+            playerSkills = FindObjectOfType<PlayerSkills>();
+            
         ResetUI();
-        SyncCooldownBarToPhoton();
         if (TP_FreezeGun != null) TP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         if (FP_FreezeGun != null) FP_FreezeGun.SetActive(false);
@@ -90,12 +94,18 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         while (timer > 0f && isActive && !freezeGunFired)
         {
             timer -= Time.deltaTime;
-            UpdateUI(timer, activeDuration, true);
-            SyncCooldownBarToPhoton();
+            if (playerSkills != null) playerSkills.UpdateSkillDurationUI(timer, activeDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             // Check for left mouse click to fire freeze gun
             if (freezeGunReadyToFire && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("[FreezeGunSkill] Left mouse clicked - attempting to fire freeze gun");
+                
+                // Immediately set skill to used state
+                if (playerSkills != null)
+                {
+                    playerSkills.SetSkillUsed();
+                }
                 
                 if (playerCamera == null)
                 {
@@ -155,8 +165,6 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
             yield return null;
         }
         isActive = false;
-        UpdateUI(0, activeDuration, true);
-        SyncCooldownBarToPhoton();
         // Always hide FreezeGun and WeaponCrosshair at end of active phase
         if (pv != null)
             pv.RPC("ShowTPFreezeGun", RpcTarget.All, false);
@@ -167,19 +175,23 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         // If skill duration ends and player didn't use skill, set IsSkillActivating false
         if (!freezeGunFired && isThirdPersonView && TP_Animator != null)
             TP_Animator.SetBool("IsSkillActivating", false);
+        // Set bar to full at the start of cooldown
+        if (playerSkills != null) playerSkills.SetSkillBarFull();
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(0, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
         while (timer < cooldownDuration)
         {
             timer += Time.deltaTime;
-            UpdateUI(timer, cooldownDuration, false);
-            SyncCooldownBarToPhoton();
+            if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(timer, cooldownDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             yield return null;
         }
         isOnCooldown = false;
-        UpdateUI(cooldownDuration, cooldownDuration, false);
-        SyncCooldownBarToPhoton();
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(cooldownDuration, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
     }
 
     private IEnumerator ResetGunAttackBool()
@@ -199,34 +211,19 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
 
     private void UpdateUI(float t, float max, bool isActivePhase)
     {
-        if (CooldownBar != null)
+        if (playerSkills != null)
         {
-            if (isActivePhase)
-                CooldownBar.fillAmount = t / max; // Decrease from 1 to 0
-            else
-                CooldownBar.fillAmount = t / max; // Increase from 0 to 1
-        }
-        if (CooldownTime != null)
-        {
-            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
-            CooldownTime.text = seconds.ToString();
-        }
-    }
-
-    private void SyncCooldownBarToPhoton()
-    {
-        if (photonView != null && photonView.IsMine && CooldownBar != null)
-        {
-            var props = new ExitGames.Client.Photon.Hashtable();
-            props["SkillCooldownPercent"] = CooldownBar.fillAmount;
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            playerSkills.UpdateSkillUI(t, max, isActivePhase);
+            playerSkills.SyncCooldownBarToPhoton();
         }
     }
 
     private void ResetUI()
     {
-        if (CooldownBar != null) CooldownBar.fillAmount = 1f;
-        if (CooldownTime != null) CooldownTime.text = "";
+        if (playerSkills != null)
+        {
+            playerSkills.ResetSkillUI();
+        }
         if (TP_FreezeGun != null) TP_FreezeGun.SetActive(false);
         if (FP_FreezeGun != null) FP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);

@@ -7,10 +7,6 @@ using Photon.Pun;
 
 public class SprintBoostSkill : MonoBehaviourPunCallbacks
 {
-    [Header("Skill UI")]
-    public Image CooldownBar; // Assign an Image with fillAmount for the skill bar
-    public TextMeshProUGUI CooldownTime; // Shows countdown
-
     [Header("Skill Timing")]
     [Tooltip("How long the skill stays active when triggered (seconds)")]
     public float activeDuration = 10f;
@@ -31,11 +27,19 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
     private float originalWalkSpeed;
     private float originalRunSpeed;
 
+    // Reference to PlayerSkills for centralized UI management
+    private PlayerSkills playerSkills;
+
     // Start is called before the first frame update
     void Start()
     {
         if (playerMovement == null) playerMovement = GetComponentInParent<PlayerMovement>();
         if (SprintBoostPanel != null) SprintBoostPanel.SetActive(false);
+        
+        // Get reference to PlayerSkills
+        playerSkills = GetComponentInParent<PlayerSkills>();
+        if (playerSkills == null)
+            playerSkills = FindObjectOfType<PlayerSkills>();
     }
 
     // Update is called once per frame
@@ -50,34 +54,12 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SetCooldownPercent(float percent)
-    {
-        if (photonView.IsMine)
-        {
-            if (CooldownBar != null) CooldownBar.fillAmount = percent;
-            var props = new ExitGames.Client.Photon.Hashtable();
-            props["SkillCooldownPercent"] = percent;
-            Photon.Pun.PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-        }
-        else
-        {
-            if (CooldownBar != null) CooldownBar.fillAmount = percent;
-        }
-    }
-
     private void UpdateUI(float t, float max, bool isActivePhase)
     {
-        if (CooldownBar != null)
+        if (playerSkills != null)
         {
-            if (isActivePhase)
-                CooldownBar.fillAmount = t / max; // Decrease from 1 to 0
-            else
-                CooldownBar.fillAmount = t / max; // Increase from 0 to 1
-        }
-        if (CooldownTime != null)
-        {
-            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
-            CooldownTime.text = seconds.ToString();
+            playerSkills.UpdateSkillUI(t, max, isActivePhase);
+            playerSkills.SyncCooldownBarToPhoton();
         }
     }
 
@@ -97,12 +79,10 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
-            UpdateUI(timer, activeDuration, true);
-            SetCooldownPercent(timer / activeDuration);
+            if (playerSkills != null) playerSkills.UpdateSkillDurationUI(timer, activeDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             yield return null;
         }
-        UpdateUI(0, activeDuration, true);
-        SetCooldownPercent(0f);
         isActive = false;
         // Restore speeds
         if (playerMovement != null)
@@ -111,19 +91,22 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
             playerMovement.runSpeed = originalRunSpeed;
         }
         if (SprintBoostPanel != null) SprintBoostPanel.SetActive(false);
+        // Set bar to full at the start of cooldown
+        if (playerSkills != null) playerSkills.SetSkillBarFull();
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(0, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
         // Cooldown phase
         isOnCooldown = true;
         timer = 0f;
         while (timer < cooldownDuration)
         {
             timer += Time.deltaTime;
-            UpdateUI(timer, cooldownDuration, false);
-            SetCooldownPercent(timer / cooldownDuration);
+            if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(timer, cooldownDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             yield return null;
         }
-        UpdateUI(cooldownDuration, cooldownDuration, false);
-        SetCooldownPercent(1f);
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(cooldownDuration, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
         isOnCooldown = false;
-        if (CooldownTime != null) CooldownTime.text = "";
     }
 }

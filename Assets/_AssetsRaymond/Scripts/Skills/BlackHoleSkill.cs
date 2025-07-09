@@ -6,10 +6,6 @@ using Photon.Pun;
 
 public class BlackHoleSkill : MonoBehaviourPunCallbacks
 {
-    [Header("Skill UI")]
-    public Image CooldownBar; // Assign an Image with fillAmount for the skill bar
-    public TextMeshProUGUI CooldownTime; // Shows countdown
-
     [Header("Skill Timing")]
     [Tooltip("How long the skill stays active when triggered (seconds)")]
     public float activeDuration = 15f;
@@ -39,10 +35,17 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
     public Animator TP_Animator; // Assign in inspector
     public bool isThirdPersonView = true; // Set this based on your camera system
 
+    // Reference to PlayerSkills for centralized UI management
+    private PlayerSkills playerSkills;
+
     void Start()
     {
+        // Get reference to PlayerSkills
+        playerSkills = GetComponentInParent<PlayerSkills>();
+        if (playerSkills == null)
+            playerSkills = FindObjectOfType<PlayerSkills>();
+            
         ResetUI();
-        SyncCooldownBarToPhoton();
         if (TP_BlackHole != null) TP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
         if (FP_BlackHole != null) FP_BlackHole.SetActive(false);
@@ -87,12 +90,18 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         while (timer > 0f && isActive && !decoyThrown)
         {
             timer -= Time.deltaTime;
-            UpdateUI(timer, activeDuration, true);
-            SyncCooldownBarToPhoton();
+            if (playerSkills != null) playerSkills.UpdateSkillDurationUI(timer, activeDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             // Check for left mouse click to throw decoy
             if (BlackHoleReadyToThrow && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("[PlayerSkillDetails] Left mouse clicked - attempting to spawn black hole");
+                
+                // Immediately set skill to used state
+                if (playerSkills != null)
+                {
+                    playerSkills.SetSkillUsed();
+                }
                 
                 if (playerCamera == null)
                 {
@@ -154,8 +163,6 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
             yield return null;
         }
         isActive = false;
-        UpdateUI(0, activeDuration, true);
-        SyncCooldownBarToPhoton();
         // Always hide BlackHole and WeaponCrosshair at end of active phase
         photonView.RPC("ShowTPBlackHole", RpcTarget.All, false);
         if (photonView.IsMine && FP_BlackHole != null)
@@ -168,19 +175,23 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
             Debug.Log($"[BlackHoleSkill] Setting isSkillActivating false after duration. photonView.IsMine={photonView.IsMine}, TP_Animator null? {TP_Animator == null}");
             TP_Animator.SetBool("IsSkillActivating", false);
         }
+        // Set bar to full at the start of cooldown
+        if (playerSkills != null) playerSkills.SetSkillBarFull();
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(0, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
         // Start cooldown for 30s
         isOnCooldown = true;
         timer = 0f;
         while (timer < cooldownDuration)
         {
             timer += Time.deltaTime;
-            UpdateUI(timer, cooldownDuration, false);
-            SyncCooldownBarToPhoton();
+            if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(timer, cooldownDuration);
+            playerSkills?.SyncCooldownBarToPhoton();
             yield return null;
         }
         isOnCooldown = false;
-        UpdateUI(cooldownDuration, cooldownDuration, false);
-        SyncCooldownBarToPhoton();
+        if (playerSkills != null) playerSkills.UpdateSkillCooldownUI(cooldownDuration, cooldownDuration);
+        playerSkills?.SyncCooldownBarToPhoton();
     }
 
     // Coroutine to reset the animation parameter
@@ -193,34 +204,19 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
 
     private void UpdateUI(float t, float max, bool isActivePhase)
     {
-        if (CooldownBar != null)
+        if (playerSkills != null)
         {
-            if (isActivePhase)
-                CooldownBar.fillAmount = t / max; // Decrease from 1 to 0
-            else
-                CooldownBar.fillAmount = t / max; // Increase from 0 to 1
-        }
-        if (CooldownTime != null)
-        {
-            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
-            CooldownTime.text = seconds.ToString();
-        }
-    }
-
-    private void SyncCooldownBarToPhoton()
-    {
-        if (photonView != null && photonView.IsMine && CooldownBar != null)
-        {
-            var props = new ExitGames.Client.Photon.Hashtable();
-            props["SkillCooldownPercent"] = CooldownBar.fillAmount;
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            playerSkills.UpdateSkillUI(t, max, isActivePhase);
+            playerSkills.SyncCooldownBarToPhoton();
         }
     }
 
     private void ResetUI()
     {
-        if (CooldownBar != null) CooldownBar.fillAmount = 1f;
-        if (CooldownTime != null) CooldownTime.text = "";
+        if (playerSkills != null)
+        {
+            playerSkills.ResetSkillUI();
+        }
         if (TP_BlackHole != null) TP_BlackHole.SetActive(false);
         if (FP_BlackHole != null) FP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);

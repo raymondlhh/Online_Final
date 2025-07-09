@@ -600,6 +600,85 @@ Transform:
   - {fileID: 2045842865893645268}
   m_Father: {fileID: 393414974311405808}
   m_LocalEulerAnglesHint: {x: 76.59957, y: -86.302086, z: -179.09727}
+--- !u!1 &620062734475025992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 222655320877435151}
+  - component: {fileID: 8303361786992018108}
+  - component: {fileID: 6927890416335370970}
+  m_Layer: 7
+  m_Name: CountdownMechanics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &222655320877435151
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620062734475025992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1047391332922477091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 175, y: -119}
+  m_SizeDelta: {x: 405.24683, y: 185.5676}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8303361786992018108
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620062734475025992}
+  m_CullTransparentMesh: 1
+--- !u!114 &6927890416335370970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620062734475025992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0.7927325, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8e36454b1f1e2aa46a47a230de5e3d66, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 80
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 05:00
 --- !u!1 &654699687000388975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,14 +1396,15 @@ RectTransform:
   m_Children:
   - {fileID: 5041791010453900184}
   - {fileID: 5704521711866729062}
+  - {fileID: 4157608518181719399}
   - {fileID: 4549028565021017804}
   - {fileID: 6750895244268017232}
   m_Father: {fileID: 188288478205517768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 25.2, y: 0}
-  m_SizeDelta: {x: 97, y: 110}
+  m_AnchoredPosition: {x: 25.2, y: -0.5483093}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6079108182560116836
 CanvasRenderer:
@@ -1655,8 +1735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -1679,8 +1757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -1708,8 +1784,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &2458560366461383133
@@ -1724,8 +1798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -1748,14 +1820,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &4947895007363067280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,8 +1838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -1838,7 +1906,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2155109367461337455}
+  - {fileID: 1047391332922477091}
   - {fileID: 3475992978984722583}
   - {fileID: 8716514970790524297}
   - {fileID: 5292661166079755046}
@@ -2406,6 +2474,85 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43357475867332334, guid: 614ff1d111ddf6447805fc1b859c9261, type: 2}
+--- !u!1 &1607733349987254712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8458847461652167598}
+  - component: {fileID: 8673177687935227989}
+  - component: {fileID: 8130909949607378618}
+  m_Layer: 7
+  m_Name: CrytsalNumber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8458847461652167598
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607733349987254712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1047391332922477091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 328, y: -120}
+  m_SizeDelta: {x: 405.2468, y: 185.5676}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8673177687935227989
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607733349987254712}
+  m_CullTransparentMesh: 1
+--- !u!114 &8130909949607378618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607733349987254712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0.7927325, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8e36454b1f1e2aa46a47a230de5e3d66, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 80
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: /3
 --- !u!1 &1629498539009627857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,6 +2794,8 @@ GameObject:
   - component: {fileID: 7449363326729837203}
   - component: {fileID: 4216607742752735030}
   - component: {fileID: 4879276948505019439}
+  - component: {fileID: 2269412122051969029}
+  - component: {fileID: 1388991862772839809}
   m_Layer: 7
   m_Name: PlayerPrefabFinal
   m_TagString: Player
@@ -2917,6 +3066,8 @@ MonoBehaviour:
   - {fileID: 1227757498648772118}
   - {fileID: 8095085395685819545}
   - {fileID: 5183864331561327358}
+  CooldownBar: {fileID: 7734436563258974763}
+  CooldownTime: {fileID: 1532522461648728525}
   blackHoleSkill: {fileID: 7061784758086703108}
   freezeGunSkill: {fileID: 3395932838518785699}
   invisibilitySkill: {fileID: 3669203696348102129}
@@ -3013,6 +3164,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isIgnited: 0
+--- !u!114 &2269412122051969029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790435183651769597}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99cbecb3b001c1a4c93e940ce4a6384d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystalText: {fileID: 8130909949607378618}
+--- !u!114 &1388991862772839809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790435183651769597}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48863cb70acb0f24c8ae744606bec9b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1801564305961108042
 GameObject:
   m_ObjectHideFlags: 0
@@ -3111,7 +3287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.4, y: -14.3}
+  m_AnchoredPosition: {x: -1.4, y: -6.7}
   m_SizeDelta: {x: 12.659302, y: 18.906097}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &7509528420105391128
@@ -3545,6 +3721,85 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: GAME OVER
+--- !u!1 &2112120149181438553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588822440412686834}
+  - component: {fileID: 3400082615601522673}
+  - component: {fileID: 739560509116683998}
+  m_Layer: 7
+  m_Name: CountdownMechanicsTitle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &588822440412686834
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112120149181438553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1047391332922477091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -202, y: -119}
+  m_SizeDelta: {x: 405.24683, y: 185.5676}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3400082615601522673
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112120149181438553}
+  m_CullTransparentMesh: 1
+--- !u!114 &739560509116683998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112120149181438553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 1, b: 0.7927325, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8e36454b1f1e2aa46a47a230de5e3d66, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 80
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Timer: '
 --- !u!1 &2174822576231627834
 GameObject:
   m_ObjectHideFlags: 0
@@ -4692,8 +4947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -4716,8 +4969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -4745,8 +4996,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &1611244854234506859
@@ -4761,8 +5010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -4785,14 +5032,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &3175028296555072054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4805,8 +5050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -6164,11 +6407,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8240699007747998714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 12.220703, y: -14.621628}
-  m_SizeDelta: {x: 24.88, y: 19.2277}
-  m_Pivot: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -4.7, y: 11.4}
+  m_SizeDelta: {x: 24.879997, y: 19.2277}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &5238109157331756581
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6338,7 +6581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000019073486, y: 0}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 46.677635, y: 46.67764}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4250964781011516486
@@ -6518,6 +6761,44 @@ Transform:
   - {fileID: 7495518786951351896}
   m_Father: {fileID: 5050347356501455672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4333373771579200308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1047391332922477091}
+  m_Layer: 7
+  m_Name: RuiRongUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1047391332922477091
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333373771579200308}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000114, y: 1.0000114, z: 1.0000114}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8458847461652167598}
+  - {fileID: 588822440412686834}
+  - {fileID: 222655320877435151}
+  m_Father: {fileID: 1377016062537408743}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4366639543857171591
 GameObject:
   m_ObjectHideFlags: 0
@@ -7288,6 +7569,81 @@ Transform:
   - {fileID: 2703286617311667663}
   m_Father: {fileID: 6090913556226138068}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5103249394414541421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4157608518181719399}
+  - component: {fileID: 885498491661210361}
+  - component: {fileID: 7734436563258974763}
+  m_Layer: 7
+  m_Name: CooldownBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4157608518181719399
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5103249394414541421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8240699007747998714}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &885498491661210361
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5103249394414541421}
+  m_CullTransparentMesh: 1
+--- !u!114 &7734436563258974763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5103249394414541421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.905519, b: 1, a: 0.8156863}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a5c9ee53115965846a2dd791d29d1465, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5138637417602875726
 GameObject:
   m_ObjectHideFlags: 0
@@ -7413,8 +7769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -7437,8 +7791,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -7466,8 +7818,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &6775751526051482136
@@ -7482,8 +7832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -7506,14 +7854,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &4372252136225412943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7526,8 +7872,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -8002,8 +8346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -8026,8 +8368,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -8055,8 +8395,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &1846259663979436240
@@ -8071,8 +8409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -8095,14 +8431,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &9164483996330657432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8115,8 +8449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -8782,41 +9114,6 @@ Transform:
   - {fileID: 8175765950067300255}
   m_Father: {fileID: 523146977914055558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6246534971426434891
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2155109367461337455}
-  m_Layer: 7
-  m_Name: RuiRongUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2155109367461337455
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6246534971426434891}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1377016062537408743}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6284111837489768933
 GameObject:
   m_ObjectHideFlags: 0
@@ -10745,8 +11042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -10769,8 +11064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -10798,8 +11091,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &7040780733618430757
@@ -10814,8 +11105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -10838,14 +11127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &1741467260527213878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10858,8 +11145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -11073,7 +11358,7 @@ GameObject:
   - component: {fileID: 2959923688367878152}
   - component: {fileID: 3682021632734020035}
   m_Layer: 7
-  m_Name: PlayerCooldown
+  m_Name: PlayerStamina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11181,7 +11466,7 @@ GameObject:
   - component: {fileID: 4243749323258177335}
   - component: {fileID: 4586661279856533327}
   m_Layer: 7
-  m_Name: CooldownBar
+  m_Name: StaminaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11693,8 +11978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4caf168ffe6344d9a9733d6379c866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_BlackHole: {fileID: 8968244384970498703}
@@ -11717,8 +12000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81da4458af8a7fe4fa806a1974ca8c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_FreezeGun: {fileID: 1474984331454214552}
@@ -11746,8 +12027,6 @@ MonoBehaviour:
   tpPlayerUI: {fileID: 4316939473528546819}
   invisibilityPanel: {fileID: 220457748559904484}
   duration: 10
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 30
 --- !u!114 &7126892428865844005
@@ -11762,8 +12041,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a12a1e6ea8528546a055a7ec7c018cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   TP_SlowGun: {fileID: 1371873559034358521}
@@ -11786,14 +12063,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611298b1c8ebbe240be0f63139b57de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerMovement: {fileID: 6671384928228441927}
   SprintBoostPanel: {fileID: 6757833649815834366}
-  walkSpeedBoost: 20
-  runSpeedBoost: 20
+  walkSpeedBoost: 18
+  runSpeedBoost: 18
 --- !u!114 &6899384419235479991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11806,8 +12081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9d2769ea833c34cabd179f6d33c900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CooldownBar: {fileID: 4586661279856533327}
-  CooldownTime: {fileID: 1532522461648728525}
   activeDuration: 10
   cooldownDuration: 25
   playerCamera: {fileID: 9175514845123652058}
@@ -12107,7 +12380,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1549121201464875592}
   m_Father: {fileID: 1377016062537408743}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -12900,3 +13174,109 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1001 &2614929507408612615
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7886285515997621125}
+    m_Modifications:
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488638098936783605, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_Name
+      value: OtherProfile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488638098936783605, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+--- !u!224 &1549121201464875592 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3545895373942822735, guid: e0fc62ceafda3ab42a024d840cced7d2, type: 3}
+  m_PrefabInstance: {fileID: 2614929507408612615}
+  m_PrefabAsset: {fileID: 0}

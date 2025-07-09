@@ -36,6 +36,9 @@ public class OtherProfileUI : MonoBehaviour
         {
             Debug.LogWarning($"[OtherProfileUI] {p.NickName} has no SkillIndex property!");
         }
+        
+        // Initialize cooldown bar to empty (skill ready)
+        ResetCooldownBar();
     }
 
     public void UpdateHealth(float healthPercent)
@@ -48,13 +51,18 @@ public class OtherProfileUI : MonoBehaviour
 
     public void UpdateCooldown(float cooldownPercent)
     {
-        float cd = 1f; // Default to full/ready
+        float cd = 0f; // Default to empty/ready
         try { cd = System.Convert.ToSingle(cooldownPercent); } catch { }
-        // If the value is 0 (uninitialized), treat as full/ready
-        if (cd == 0f) cd = 1f;
-        Debug.Log($"[OtherProfileUI] UpdateCooldown called for {playerNameText.text} with value: {cd}");
+        // If the value is -1 (uninitialized), treat as empty/ready
+        if (cd == -1f) cd = 0f;
+        
+        // Clamp the value between 0 and 1
+        cd = Mathf.Clamp01(cd);
+        
+        Debug.Log($"[OtherProfileUI] UpdateCooldown called for {playerNameText.text} with value: {cd} (raw: {cooldownPercent}) - 0=Ready, 1=Cannot Use");
+        
         if (cooldownBar != null)
-            cooldownBar.fillAmount = Mathf.Clamp01(cd);
+            cooldownBar.fillAmount = cd;
     }
 
     public void UpdateSkillImage(int skillIdx)
@@ -73,10 +81,19 @@ public class OtherProfileUI : MonoBehaviour
         // Debug.Log($"[OtherProfileUI] UpdateDeathPanel called for {playerNameText.text} isDead: {isDead}");
     }
 
+    private void ResetCooldownBar()
+    {
+        if (cooldownBar != null)
+            cooldownBar.fillAmount = 0f; // Start at 0 (skill ready)
+    }
+
     void Start()
     {
         // Hide the death panel by default
         if (deathPanel != null)
             deathPanel.SetActive(false);
+        
+        // Initialize cooldown bar to empty
+        ResetCooldownBar();
     }
 } 

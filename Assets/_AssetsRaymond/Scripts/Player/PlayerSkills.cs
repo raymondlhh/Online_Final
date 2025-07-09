@@ -1,12 +1,17 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerSkills : MonoBehaviourPunCallbacks
 {
     [Header("Random Skills UI")]
     public GameObject[] skillUIs = new GameObject[6]; // Assign 6 skill UI GameObjects in Inspector
+
+    [Header("Centralized Cooldown UI")]
+    public Image CooldownBar; // Centralized cooldown bar for all skills
+    public TextMeshProUGUI CooldownTime; // Centralized cooldown time text for all skills
 
     private PhotonView _photonView;
 
@@ -43,6 +48,8 @@ public class PlayerSkills : MonoBehaviourPunCallbacks
         if (_photonView != null && _photonView.IsMine)
         {
             UpdateSkillsUI();
+            // Initialize cooldown to 0 for all skills
+            InitializeCooldownUI();
         }
         else
         {
@@ -97,6 +104,127 @@ public class PlayerSkills : MonoBehaviourPunCallbacks
                 skillUIs[skillIndex].SetActive(true);
             }
         }
+    }
+
+    // ===== CENTRALIZED UI MANAGEMENT FUNCTIONS =====
+
+    /// <summary>
+    /// Initialize cooldown UI to 0 (skill ready) for all skills
+    /// </summary>
+    private void InitializeCooldownUI()
+    {
+        ResetSkillUI();
+        if (_photonView != null && _photonView.IsMine)
+        {
+            var props = new ExitGames.Client.Photon.Hashtable();
+            props["SkillCooldownPercent"] = 0f;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+    }
+
+    /// <summary>
+    /// Update the cooldown bar UI for any skill using centralized UI elements
+    /// </summary>
+    /// <param name="t">Current time value</param>
+    /// <param name="max">Maximum time value</param>
+    /// <param name="isActivePhase">Whether this is the active skill phase or cooldown phase</param>
+    public void UpdateSkillUI(float t, float max, bool isActivePhase)
+    {
+        if (CooldownBar != null)
+        {
+            if (isActivePhase)
+                CooldownBar.fillAmount = (max - t) / max; // Fills from 0 to 1 during skill duration
+            else
+                CooldownBar.fillAmount = t / max; // Empties from 1 to 0 during cooldown
+        }
+
+        if (CooldownTime != null)
+        {
+            int seconds = Mathf.CeilToInt(isActivePhase ? t : (max - t));
+            CooldownTime.text = seconds.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Update the skill duration bar UI (covering the icon, 0 to 1)
+    /// </summary>
+    public void UpdateSkillDurationUI(float t, float max)
+    {
+        if (CooldownBar != null)
+            CooldownBar.fillAmount = (max - t) / max; // 0 → 1
+        if (CooldownTime != null)
+            CooldownTime.text = Mathf.CeilToInt(t).ToString();
+    }
+
+    /// <summary>
+    /// Update the skill cooldown bar UI (uncovering the icon, 1 to 0)
+    /// </summary>
+    public void UpdateSkillCooldownUI(float t, float max)
+    {
+        if (CooldownBar != null)
+            CooldownBar.fillAmount = 1f - (t / max); // 1 → 0 as t increases
+        if (CooldownTime != null)
+            CooldownTime.text = Mathf.CeilToInt(max - t).ToString();
+    }
+
+    /// <summary>
+    /// Reset the cooldown bar UI to empty (skill ready) using centralized UI elements
+    /// </summary>
+    public void ResetSkillUI()
+    {
+        if (CooldownBar != null) CooldownBar.fillAmount = 0f; // Start at 0 (skill ready)
+        if (CooldownTime != null) CooldownTime.text = "";
+    }
+
+    /// <summary>
+    /// Sync the cooldown bar to Photon for network synchronization
+    /// </summary>
+    public void SyncCooldownBarToPhoton()
+    {
+        if (_photonView != null && _photonView.IsMine && CooldownBar != null)
+        {
+            var props = new ExitGames.Client.Photon.Hashtable();
+            props["SkillCooldownPercent"] = CooldownBar.fillAmount;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+    }
+
+    /// <summary>
+    /// Set cooldown percentage directly (for skills that need custom logic)
+    /// </summary>
+    /// <param name="percent">Cooldown percentage (0-1)</param>
+    public void SetCooldownPercent(float percent)
+    {
+        if (_photonView != null && _photonView.IsMine)
+        {
+            var props = new ExitGames.Client.Photon.Hashtable();
+            props["SkillCooldownPercent"] = Mathf.Clamp01(percent);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
+    }
+
+    /// <summary>
+    /// Immediately set skill to used state (for skills activated by left mouse click)
+    /// </summary>
+    public void SetSkillUsed()
+    {
+        if (CooldownBar != null)
+            CooldownBar.fillAmount = 1f; // Skill is used, bar is full
+        
+        if (CooldownTime != null)
+            CooldownTime.text = "";
+            
+        // Sync to Photon
+        SyncCooldownBarToPhoton();
+    }
+
+    /// <summary>
+    /// Set the cooldown bar UI to full (1.0) immediately (for transition to cooldown phase)
+    /// </summary>
+    public void SetSkillBarFull()
+    {
+        if (CooldownBar != null)
+            CooldownBar.fillAmount = 1f;
     }
 
     [PunRPC]
