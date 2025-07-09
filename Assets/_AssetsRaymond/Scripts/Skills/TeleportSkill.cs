@@ -24,6 +24,7 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
 
     // Reference to PlayerSkills for centralized UI management
     private PlayerSkills playerSkills;
+    private PlayerAudio playerAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,9 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
         playerSkills = GetComponentInParent<PlayerSkills>();
         if (playerSkills == null)
             playerSkills = FindObjectOfType<PlayerSkills>();
+
+        // Get reference to PlayerAudio
+        playerAudio = GetComponentInParent<PlayerAudio>();
     }
 
     // Update is called once per frame
@@ -111,6 +115,10 @@ public class TeleportSkill : MonoBehaviourPunCallbacks
     private void TryTeleport()
     {
         if (playerCamera == null) return;
+
+        // Play teleport audio
+        if (playerAudio != null)
+            playerAudio.PlaySound("Teleport");
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
