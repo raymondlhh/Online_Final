@@ -13,10 +13,6 @@ public class MainMenuManager : MonoBehaviour
     // Called when the Start button is pressed
     public void StartButtonPressed()
     {
-        if (PlayerAudio.Instance != null)
-        {
-            PlayerAudio.Instance.PlaySFX("Button Pressed");
-        }
         SceneManager.LoadScene("LobbyScene"); // Replace with your exact scene name
     }
 }

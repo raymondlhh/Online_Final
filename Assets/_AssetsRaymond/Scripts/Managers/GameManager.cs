@@ -61,13 +61,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        // The GameManager is specific to the GameScene, so this is the most reliable
-        // place to trigger BGM changes when using PhotonNetwork.LoadLevel.
-        if (PlayerAudio.Instance != null)
-        {
-            Debug.Log("<color=orange>GameManager:</color> Starting GameScene, setting BGM volume to 0.1.");
-            PlayerAudio.Instance.SetBGMVolume(0.1f);
-        }
+
     }
 
     // Update is called once per frame

@@ -70,10 +70,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void PlayButtonClickSound()
     {
-        if (PlayerAudio.Instance != null)
-        {
-            PlayerAudio.Instance.PlaySFX("Button Pressed");
-        }
+
     }
 
     public void OnLoginButtonClicked()
