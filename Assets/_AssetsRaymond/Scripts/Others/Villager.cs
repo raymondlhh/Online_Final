@@ -243,6 +243,7 @@ public class Villager : MonoBehaviour
             // Play scream SFX once per detection event
             if (!hasPlayedScream && audioSource != null && audioSource.clip != null)
             {
+                audioSource.pitch = 1f; // Always set pitch to 1 before playing
                 audioSource.Play();
                 hasPlayedScream = true;
             }

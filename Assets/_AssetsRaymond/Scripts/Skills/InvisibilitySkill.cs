@@ -26,6 +26,7 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
 
     // Reference to PlayerSkills for centralized UI management
     private PlayerSkills playerSkills;
+    private PlayerAudio playerAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
         playerSkills = GetComponentInParent<PlayerSkills>();
         if (playerSkills == null)
             playerSkills = FindObjectOfType<PlayerSkills>();
+        playerAudio = GetComponentInParent<PlayerAudio>();
     }
 
     // Update is called once per frame
@@ -102,6 +104,7 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
     {
         // Skill active phase
         timer = activeDuration;
+        if (playerAudio != null) playerAudio.PlayLoop("Invisibility");
         if (photonView.IsMine && invisibilityPanel != null)
             invisibilityPanel.SetActive(true);
         while (timer > 0f)
@@ -114,6 +117,7 @@ public class InvisibilitySkill : MonoBehaviourPunCallbacks
         if (photonView.IsMine && invisibilityPanel != null)
             invisibilityPanel.SetActive(false);
         isInvisible = false;
+        if (playerAudio != null) playerAudio.StopLoop();
         if (playerVisibility != null)
         {
             playerVisibility.photonView.RPC("UnsetInvisibilityRelay", Photon.Pun.RpcTarget.All);

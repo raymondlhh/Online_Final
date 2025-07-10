@@ -29,6 +29,7 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
 
     // Reference to PlayerSkills for centralized UI management
     private PlayerSkills playerSkills;
+    private PlayerAudio playerAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
         playerSkills = GetComponentInParent<PlayerSkills>();
         if (playerSkills == null)
             playerSkills = FindObjectOfType<PlayerSkills>();
+        playerAudio = GetComponentInParent<PlayerAudio>();
     }
 
     // Update is called once per frame
@@ -75,6 +77,7 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
             playerMovement.walkSpeed = walkSpeedBoost;
             playerMovement.runSpeed = runSpeedBoost;
         }
+        if (playerAudio != null) playerAudio.PlayLoop("SprintBoost");
         if (SprintBoostPanel != null) SprintBoostPanel.SetActive(true);
         while (timer > 0f)
         {
@@ -90,6 +93,7 @@ public class SprintBoostSkill : MonoBehaviourPunCallbacks
             playerMovement.walkSpeed = originalWalkSpeed;
             playerMovement.runSpeed = originalRunSpeed;
         }
+        if (playerAudio != null) playerAudio.StopLoop();
         if (SprintBoostPanel != null) SprintBoostPanel.SetActive(false);
         // Set bar to full at the start of cooldown
         if (playerSkills != null) playerSkills.SetSkillBarFull();

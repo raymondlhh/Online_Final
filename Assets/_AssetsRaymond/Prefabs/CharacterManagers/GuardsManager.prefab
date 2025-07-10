@@ -1508,7 +1508,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1517,7 +1517,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -1714,7 +1714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
     volume: 1
     pitch: 1
   - name: WomenHey
@@ -1727,7 +1727,7 @@ MonoBehaviour:
     pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 1
+    volume: 0.8
     pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
@@ -3404,7 +3404,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3413,7 +3413,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -3544,8 +3544,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsRunning
+  - Type: 1
+    SynchronizeType: 0
+    Name: Horizontal
+  - Type: 1
+    SynchronizeType: 0
+    Name: Vertical
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsSoldier
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsDead
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsGunAttacking
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsSwordAttacking
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &421329036111080429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3610,7 +3633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
     volume: 1
     pitch: 1
   - name: WomenHey
@@ -3623,7 +3646,7 @@ MonoBehaviour:
     pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 1
+    volume: 0.8
     pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
@@ -4414,7 +4437,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4423,7 +4446,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -4643,25 +4666,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
+    volume: 1
+    pitch: 1
   - name: WomenHey
     clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummySound
     clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
 --- !u!1 &2044254193182574335
 GameObject:
   m_ObjectHideFlags: 0
@@ -7207,7 +7230,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7216,7 +7239,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -7413,7 +7436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
     volume: 1
     pitch: 1
   - name: WomenHey
@@ -7426,7 +7449,7 @@ MonoBehaviour:
     pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 1
+    volume: 0.8
     pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
@@ -9073,7 +9096,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -9082,7 +9105,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -9302,25 +9325,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
+    volume: 1
+    pitch: 1
   - name: WomenHey
     clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummySound
     clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
 --- !u!1 &4574018802133290123
 GameObject:
   m_ObjectHideFlags: 0
@@ -11835,7 +11858,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -11844,7 +11867,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -12064,25 +12087,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
+    volume: 1
+    pitch: 1
   - name: WomenHey
     clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummySound
     clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
 --- !u!1 &5887954432482075502
 GameObject:
   m_ObjectHideFlags: 0
@@ -13226,7 +13249,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -13235,7 +13258,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -13455,25 +13478,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
+    volume: 1
+    pitch: 1
   - name: WomenHey
     clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummySound
     clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
 --- !u!1 &6539536857354962769
 GameObject:
   m_ObjectHideFlags: 0
@@ -16769,7 +16792,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -16778,7 +16801,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 2
   MaxDistance: 20
   Pan2D: 0
@@ -16998,25 +17021,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioEntries:
   - name: ManHey
-    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
-    volume: 0
-    pitch: 0
+    clip: {fileID: 8300000, guid: 85db3369670c0ad4eae9c74718b3b81e, type: 3}
+    volume: 1
+    pitch: 1
   - name: WomenHey
     clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummySound
     clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: SwordAttack
     clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
   - name: MummyAttack
     clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
 --- !u!1 &8207069655224679907
 GameObject:
   m_ObjectHideFlags: 0

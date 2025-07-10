@@ -63,4 +63,31 @@ public class PlayerAudio : MonoBehaviour
         }
         Debug.LogWarning($"[PlayerAudio] No audio entry with name: {soundName}");
     }
+
+    public void PlayLoop(string soundName)
+    {
+        if (audioEntries != null)
+        {
+            var entry = audioEntries.Find(e => e != null && e.name == soundName && e.clip != null);
+            if (entry != null)
+            {
+                audioSource.clip = entry.clip;
+                audioSource.volume = entry.volume;
+                audioSource.pitch = entry.pitch;
+                audioSource.loop = true;
+                audioSource.Play();
+                return;
+            }
+        }
+        Debug.LogWarning($"[PlayerAudio] No audio entry with name: {soundName}");
+    }
+
+    public void StopLoop()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
+        }
+    }
 }
