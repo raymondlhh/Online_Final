@@ -57,10 +57,15 @@ public class GuardMovement : MonoBehaviour
         distractionTarget = null;
     }
 
+    private bool hasPlayedAlertSFX = false;
+    private AudioSource audioSource;
+    public AudioClip alertClip;
+
     void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -124,6 +129,21 @@ public class GuardMovement : MonoBehaviour
         }
 
         FindPlayer();
+        
+        // Play alert SFX when starting to chase
+        if (targetPlayer != null && !hasPlayedAlertSFX)
+        {
+            if (audioSource != null && alertClip != null)
+            {
+                audioSource.PlayOneShot(alertClip);
+            }
+            hasPlayedAlertSFX = true;
+        }
+        // Reset alert SFX flag when player is lost or attacked
+        if (targetPlayer == null && hasPlayedAlertSFX)
+        {
+            hasPlayedAlertSFX = false;
+        }
         Move();
         UpdateAnimator();
     }
