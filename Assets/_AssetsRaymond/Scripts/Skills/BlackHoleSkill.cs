@@ -37,6 +37,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
 
     // Reference to PlayerSkills for centralized UI management
     private PlayerSkills playerSkills;
+    private PlayerAudio playerAudio;
 
     void Start()
     {
@@ -44,7 +45,9 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         playerSkills = GetComponentInParent<PlayerSkills>();
         if (playerSkills == null)
             playerSkills = FindObjectOfType<PlayerSkills>();
-            
+        
+        playerAudio = GetComponentInParent<PlayerAudio>();
+        
         ResetUI();
         if (TP_BlackHole != null) TP_BlackHole.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
@@ -58,6 +61,7 @@ public class BlackHoleSkill : MonoBehaviourPunCallbacks
         // Activate skill
         if (Input.GetKeyDown(KeyCode.E) && !isActive && !isOnCooldown)
         {
+            if (playerAudio != null) playerAudio.PlaySound("TakeOut");
             if (skillRoutine != null) StopCoroutine(skillRoutine);
             skillRoutine = StartCoroutine(SkillActiveAndCooldownRoutine());
             // Show in TP_View for all clients

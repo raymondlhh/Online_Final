@@ -39,6 +39,7 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
 
     // Reference to PlayerSkills for centralized UI management
     private PlayerSkills playerSkills;
+    private PlayerAudio playerAudio;
 
     void Start()
     {
@@ -48,7 +49,9 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         playerSkills = GetComponentInParent<PlayerSkills>();
         if (playerSkills == null)
             playerSkills = FindObjectOfType<PlayerSkills>();
-            
+        
+        playerAudio = GetComponentInParent<PlayerAudio>();
+        
         ResetUI();
         if (TP_FreezeGun != null) TP_FreezeGun.SetActive(false);
         if (WeaponCrosshair != null) WeaponCrosshair.SetActive(false);
@@ -62,6 +65,7 @@ public class FreezeGunSkill : MonoBehaviourPunCallbacks
         // Activate skill
         if (Input.GetKeyDown(KeyCode.E) && !isActive && !isOnCooldown)
         {
+            if (playerAudio != null) playerAudio.PlaySound("TakeOut");
             if (skillRoutine != null) StopCoroutine(skillRoutine);
             skillRoutine = StartCoroutine(SkillActiveAndCooldownRoutine());
             // Show in TP_View for all clients
