@@ -57,15 +57,19 @@ public class GuardMovement : MonoBehaviour
         distractionTarget = null;
     }
 
+    private GuardAudio guardAudio;
     private bool hasPlayedAlertSFX = false;
-    private AudioSource audioSource;
-    public AudioClip alertClip;
+    private bool hasPlayedAttackSFX = false;
+
+    public bool isMale;
+    public bool isFemale;
+    public bool isMummy;
 
     void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        guardAudio = GetComponent<GuardAudio>();
     }
 
     // Start is called before the first frame update
@@ -133,16 +137,37 @@ public class GuardMovement : MonoBehaviour
         // Play alert SFX when starting to chase
         if (targetPlayer != null && !hasPlayedAlertSFX)
         {
-            if (audioSource != null && alertClip != null)
+            if (guardAudio != null)
             {
-                audioSource.PlayOneShot(alertClip);
+                if (isMale)
+                    guardAudio.PlaySound("ManHey");
+                else if (isFemale)
+                    guardAudio.PlaySound("WomenHey");
+                else if (isMummy)
+                    guardAudio.PlaySound("MummySound");
             }
             hasPlayedAlertSFX = true;
         }
-        // Reset alert SFX flag when player is lost or attacked
         if (targetPlayer == null && hasPlayedAlertSFX)
         {
             hasPlayedAlertSFX = false;
+        }
+
+        // Play attack SFX when starting to attack
+        bool isAttacking = false;
+        if (targetPlayer != null && navMeshAgent.remainingDistance <= stoppingDistance)
+        {
+            isAttacking = true;
+        }
+        if (isAttacking && !hasPlayedAttackSFX)
+        {
+            if (guardAudio != null)
+                guardAudio.PlaySound("Attack");
+            hasPlayedAttackSFX = true;
+        }
+        if (!isAttacking && hasPlayedAttackSFX)
+        {
+            hasPlayedAttackSFX = false;
         }
         Move();
         UpdateAnimator();

@@ -1379,6 +1379,7 @@ GameObject:
   - component: {fileID: 3458624849004931934}
   - component: {fileID: 9147995529751374255}
   - component: {fileID: 439826267680691694}
+  - component: {fileID: 1226994787703817213}
   m_Layer: 0
   m_Name: EmpireGuard_Captain_Male
   m_TagString: Guard
@@ -1674,7 +1675,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 2372228857180356988}
-  alertClip: {fileID: 8300000, guid: bee3079b04998ac44923e495a2bbc5e6, type: 3}
+  isMale: 1
+  isFemale: 0
+  isMummy: 0
 --- !u!114 &439826267680691694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1695,6 +1698,41 @@ MonoBehaviour:
   firePoint: {fileID: 6936799076551206863}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 1
+  isMummy: 0
+--- !u!114 &1226994787703817213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864192309308932416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 1
+    pitch: 1
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 1
+    pitch: 1
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 1
+    pitch: 1
 --- !u!1 &885964377705993953
 GameObject:
   m_ObjectHideFlags: 0
@@ -3237,6 +3275,7 @@ GameObject:
   - component: {fileID: 2105357733329166947}
   - component: {fileID: 421329036111080429}
   - component: {fileID: 738466214360335298}
+  - component: {fileID: 5503122519705861851}
   m_Layer: 0
   m_Name: EmpireGuard_Soldier_Male
   m_TagString: Guard
@@ -3532,7 +3571,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 2372228857180356988}
-  alertClip: {fileID: 8300000, guid: bee3079b04998ac44923e495a2bbc5e6, type: 3}
+  isMale: 1
+  isFemale: 0
+  isMummy: 0
 --- !u!114 &738466214360335298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3553,6 +3594,41 @@ MonoBehaviour:
   firePoint: {fileID: 7243334276841908709}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 1
+  isMummy: 0
+--- !u!114 &5503122519705861851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572563630476602705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 1
+    pitch: 1
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 1
+    pitch: 1
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 1
+    pitch: 1
 --- !u!1 &1610958132576287166
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,6 +4284,7 @@ GameObject:
   - component: {fileID: 3254552207296603282}
   - component: {fileID: 4066040684345441368}
   - component: {fileID: 6199619570092905281}
+  - component: {fileID: 7471225569620812173}
   m_Layer: 0
   m_Name: EgyptGuard_Male
   m_TagString: Guard
@@ -4527,7 +4604,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 0}
-  alertClip: {fileID: 8300000, guid: bee3079b04998ac44923e495a2bbc5e6, type: 3}
+  isMale: 1
+  isFemale: 0
+  isMummy: 0
 --- !u!114 &6199619570092905281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4548,6 +4627,41 @@ MonoBehaviour:
   firePoint: {fileID: 3160175434520377483}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 1
+  isMummy: 0
+--- !u!114 &7471225569620812173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042618190601655179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 0
+    pitch: 0
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 0
+    pitch: 0
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 0
+    pitch: 0
 --- !u!1 &2044254193182574335
 GameObject:
   m_ObjectHideFlags: 0
@@ -6964,6 +7078,7 @@ GameObject:
   - component: {fileID: 2485936562539219234}
   - component: {fileID: 3676952243266907665}
   - component: {fileID: 2832154579394137863}
+  - component: {fileID: 1715316161240525882}
   m_Layer: 0
   m_Name: EmpireGuard_Soldier_Female
   m_TagString: Guard
@@ -7259,7 +7374,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 2372228857180356988}
-  alertClip: {fileID: 8300000, guid: 895b1111b68ad4b4680dfb3871161668, type: 3}
+  isMale: 0
+  isFemale: 1
+  isMummy: 0
 --- !u!114 &2832154579394137863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7280,6 +7397,41 @@ MonoBehaviour:
   firePoint: {fileID: 7036719028950767752}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 1
+  isMummy: 0
+--- !u!114 &1715316161240525882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3661201377195055708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 1
+    pitch: 1
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 1
+    pitch: 1
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 1
+    pitch: 1
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 1
+    pitch: 1
 --- !u!1 &3709054763641458234
 GameObject:
   m_ObjectHideFlags: 0
@@ -8792,6 +8944,7 @@ GameObject:
   - component: {fileID: 7672045196852107188}
   - component: {fileID: 5444609699247850977}
   - component: {fileID: 1631839779202265589}
+  - component: {fileID: 3626444798419076952}
   m_Layer: 0
   m_Name: EgyptGuard_Mummy_02
   m_TagString: Guard
@@ -9110,7 +9263,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 0}
-  alertClip: {fileID: 8300000, guid: 58fadca46802a1e448311a924d9e592c, type: 3}
+  isMale: 0
+  isFemale: 0
+  isMummy: 1
 --- !u!114 &1631839779202265589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9131,6 +9286,41 @@ MonoBehaviour:
   firePoint: {fileID: 4352094852869513142}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 0
+  isMummy: 1
+--- !u!114 &3626444798419076952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4566932103719601455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 0
+    pitch: 0
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 0
+    pitch: 0
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 0
+    pitch: 0
 --- !u!1 &4574018802133290123
 GameObject:
   m_ObjectHideFlags: 0
@@ -11516,6 +11706,7 @@ GameObject:
   - component: {fileID: 4834034990383985141}
   - component: {fileID: 3162582732882770803}
   - component: {fileID: 2500113297587755190}
+  - component: {fileID: 3801285136131945388}
   m_Layer: 0
   m_Name: EgyptGuard_Mummy_01
   m_TagString: Guard
@@ -11834,7 +12025,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 0}
-  alertClip: {fileID: 8300000, guid: 58fadca46802a1e448311a924d9e592c, type: 3}
+  isMale: 0
+  isFemale: 0
+  isMummy: 1
 --- !u!114 &2500113297587755190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11855,6 +12048,41 @@ MonoBehaviour:
   firePoint: {fileID: 5759454646513135456}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 0
+  isMummy: 1
+--- !u!114 &3801285136131945388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5877294418251941763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 0
+    pitch: 0
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 0
+    pitch: 0
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 0
+    pitch: 0
 --- !u!1 &5887954432482075502
 GameObject:
   m_ObjectHideFlags: 0
@@ -12868,6 +13096,7 @@ GameObject:
   - component: {fileID: 2370586259223064387}
   - component: {fileID: 8745538592706404120}
   - component: {fileID: 3699658614116147574}
+  - component: {fileID: 2931250201671891548}
   m_Layer: 0
   m_Name: EgyptGuard_Female
   m_TagString: Guard
@@ -13187,7 +13416,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 0}
-  alertClip: {fileID: 8300000, guid: 895b1111b68ad4b4680dfb3871161668, type: 3}
+  isMale: 0
+  isFemale: 1
+  isMummy: 0
 --- !u!114 &3699658614116147574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13208,6 +13439,41 @@ MonoBehaviour:
   firePoint: {fileID: 230795307444094742}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 1
+  isMummy: 0
+--- !u!114 &2931250201671891548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6535580010614487932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 0
+    pitch: 0
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 0
+    pitch: 0
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 0
+    pitch: 0
 --- !u!1 &6539536857354962769
 GameObject:
   m_ObjectHideFlags: 0
@@ -16373,6 +16639,7 @@ GameObject:
   - component: {fileID: 1841063682991242928}
   - component: {fileID: 542661121550127104}
   - component: {fileID: 5203666180266942554}
+  - component: {fileID: 2640147744713979849}
   m_Layer: 0
   m_Name: EgyptGuard_Mummy_03
   m_TagString: Guard
@@ -16692,7 +16959,9 @@ MonoBehaviour:
   waypointReachDistance: 1
   waypointWaitTime: 2
   patrolPath: {fileID: 0}
-  alertClip: {fileID: 8300000, guid: 58fadca46802a1e448311a924d9e592c, type: 3}
+  isMale: 0
+  isFemale: 0
+  isMummy: 1
 --- !u!114 &5203666180266942554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16713,6 +16982,41 @@ MonoBehaviour:
   firePoint: {fileID: 8209641189496079035}
   swordDamage: 10
   swordAttackRange: 2
+  isHuman: 0
+  isMummy: 1
+--- !u!114 &2640147744713979849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204407213486568696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f5954881e3f404e88c444643f5fef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioEntries:
+  - name: ManHey
+    clip: {fileID: 8300000, guid: fea5cd8f2e712fc4997f6b437d6dbcba, type: 3}
+    volume: 0
+    pitch: 0
+  - name: WomenHey
+    clip: {fileID: 8300000, guid: dee6d47e5164c644d983dca139134676, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummySound
+    clip: {fileID: 8300000, guid: 821058074da1a3a479bc0335b8cd8864, type: 3}
+    volume: 0
+    pitch: 0
+  - name: SwordAttack
+    clip: {fileID: 8300000, guid: 8c11231f920fa7347bd3723a92191516, type: 3}
+    volume: 0
+    pitch: 0
+  - name: MummyAttack
+    clip: {fileID: 8300000, guid: ef7cf98d27f62384a839be2bda507772, type: 3}
+    volume: 0
+    pitch: 0
 --- !u!1 &8207069655224679907
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,18 +20,22 @@ public class GuardAttack : MonoBehaviour
     [Header("Sword Settings")]
     public float swordDamage = 25f;
     public float swordAttackRange = 2f;
+    public bool isHuman;
+    public bool isMummy;
 
 
     private Animator animator;
     private GuardMovement guardMovement;
     private float nextAttackTime = 0f;
     private bool isAttacking = false;
+    private GuardAudio guardAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         guardMovement = GetComponent<GuardMovement>();
+        guardAudio = GetComponent<GuardAudio>();
     }
 
     // Update is called once per frame
@@ -123,6 +127,14 @@ public class GuardAttack : MonoBehaviour
         }
         else if (attacksWithSword)
         {
+            // Play correct attack SFX
+            if (guardAudio != null)
+            {
+                if (isHuman)
+                    guardAudio.PlaySound("SwordAttack");
+                else if (isMummy)
+                    guardAudio.PlaySound("MummyAttack");
+            }
             Debug.Log("[GuardAttack] Setting IsSwordAttacking to true");
             animator.SetBool("IsSwordAttacking", true);
             
