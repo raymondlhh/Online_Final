@@ -13,12 +13,14 @@ public class PlayerAudioEntry
 public class PlayerAudio : MonoBehaviour
 {
     public List<PlayerAudioEntry> audioEntries;
+    public AudioSource customAudioSource; // <-- Add this line for custom assignment
 
     private AudioSource audioSource;
 
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        // Use custom AudioSource if assigned, otherwise get from this GameObject
+        audioSource = customAudioSource != null ? customAudioSource : GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
@@ -26,7 +28,7 @@ public class PlayerAudio : MonoBehaviour
         audioSource.spatialBlend = 1f;
         audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
         audioSource.minDistance = 2f;
-        audioSource.maxDistance = 20f;
+        audioSource.maxDistance = 100f;
     }
 
     public void PlaySound(int index)
