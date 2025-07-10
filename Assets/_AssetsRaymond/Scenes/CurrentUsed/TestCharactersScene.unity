@@ -22092,6 +22092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GuardsManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1830530700761639746, guid: eea4330eee374a942ba29c206ed15756, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3424729570693088407, guid: eea4330eee374a942ba29c206ed15756, type: 3}
       propertyPath: sceneViewId
       value: 20
@@ -34927,6 +34931,10 @@ PrefabInstance:
     - target: {fileID: 8546449478475681154, guid: 01635f717204eb94bb56c6c82a6809ed, type: 3}
       propertyPath: m_Name
       value: VillagersManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8546449478475681154, guid: 01635f717204eb94bb56c6c82a6809ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8979462026687197938, guid: 01635f717204eb94bb56c6c82a6809ed, type: 3}
       propertyPath: m_LocalPosition.x
