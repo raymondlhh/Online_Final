@@ -103,6 +103,7 @@ MonoBehaviour:
   - RPC_StartScaling
   - RPC_ActivatePuzzle
   - RPC_UpdateCrystals
+  - RPC_rotateStatue
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

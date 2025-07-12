@@ -7,7 +7,7 @@ public class FireTorch : MonoBehaviourPunCallbacks
 {
     public static FireTorch instance;
     
-    public float extinguishTime = 5f;
+    private float extinguishTime = 100f;
     private bool isLit = false;
     private float timer = 0f;
 
@@ -38,10 +38,10 @@ public class FireTorch : MonoBehaviourPunCallbacks
 
     public void TryIgnite()
     {
-        Debug.Log("Try to ignite!");
-        fire.SetActive(true);
-        isLit = true;
-        Debug.Log("start counteodown from 5s");
+        //Debug.Log("Try to ignite!");
+        
+        
+        //Debug.Log("start counteodown from 5s");
         if (!isLit)
         {
             photonView.RPC("RPC_Ignite", RpcTarget.AllBuffered);
@@ -56,9 +56,18 @@ public class FireTorch : MonoBehaviourPunCallbacks
         {
             isLit = true;
             timer = 0f;
-            
+            fire.SetActive(true);
             // Add visual fire effect here (e.g., particle system)
-            SixFirePuzzleManager.Instance.RegisterLitFire(this);
+            Debug.Log("RPC_Ignite: Trying to register fire to SixFirePuzzleManager.");
+
+            if (SixFirePuzzleManager.Instance != null)
+            {
+                SixFirePuzzleManager.Instance.RegisterLitFire(this);
+            }
+            else
+            {
+                Debug.LogError("SixFirePuzzleManager.Instance is NULL on this client!");
+            }
         }
     }
 

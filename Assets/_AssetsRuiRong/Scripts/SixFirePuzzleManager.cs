@@ -30,10 +30,12 @@ public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
     public void RegisterLitFire(FireTorch fire)
     {
         litFires.Add(fire);
+        Debug.Log($"Fire registered! Count: {litFires.Count}/{totalFires}");
 
         if (!gateOpened && litFires.Count == totalFires)
         {
-            photonView.RPC("RPC_OpenGate", RpcTarget.All);
+            Debug.Log("Try call the Open Gate function!");
+            photonView.RPC("RPC_OpenDoor", RpcTarget.All);
         }
     }
 
@@ -53,6 +55,7 @@ public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_OpenDoor()
     {
+        Debug.Log(" RPC_OpenDoor CALLED");
         if (gateOpened) return;
 
         gateOpened = true;

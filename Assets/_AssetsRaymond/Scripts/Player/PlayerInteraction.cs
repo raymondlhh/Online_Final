@@ -12,12 +12,15 @@ public class PlayerInteraction : MonoBehaviour
     
     private bool isFireTriggerArea = false;
 
+    private bool isStatueTriggerArea = false;
+
     private bool isHideTriggerArea = false;
 
     public bool isIgnited = false;
 
     private HideZoneTrigger currentHideZone;
     private IgniteFireZoneTrigger currentFireTriggerZone;
+    private RotateStatue currentRotateStatue;
 
     public static PlayerInteraction Instance;
 
@@ -42,7 +45,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if (isInDoorTriggerArea)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))
             {
                 isHoldingF_Door = true;
                 DoubleDoorManager.Instance.UpdatePlayerHolding(photonView.ViewID, true);
@@ -58,7 +61,7 @@ public class PlayerInteraction : MonoBehaviour
 
         if(isFireTriggerArea)
         {
-            if(Input.GetKey(KeyCode.F))
+            if(Input.GetKeyDown(KeyCode.F))
             {
                 Debug.Log("player Press F");
                 currentFireTriggerZone.TryIgniteFromUI();
@@ -67,13 +70,22 @@ public class PlayerInteraction : MonoBehaviour
 
         if(isHideTriggerArea)
         {
-            if(Input.GetKey(KeyCode.Q))
+            if(Input.GetKeyDown(KeyCode.Q))
             {
                 if (currentHideZone != null)
                 {
                     transform.position = currentHideZone.HideSpot.position;
                     Debug.Log("Player hid in pot at: " + currentHideZone.HideSpot.position);
                 }
+            }
+        }
+
+        if(isStatueTriggerArea)
+        {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                Debug.Log("Start Rotating");
+                currentRotateStatue.StartRotate();
             }
         }
     }
@@ -129,6 +141,18 @@ public class PlayerInteraction : MonoBehaviour
             currentFireTriggerZone = null;
 
         IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
+    }
+
+    public void SetStatueTriggerState(bool inArea, RotateStatue triggerZone = null)
+    {
+        isStatueTriggerArea = inArea;
+
+        if (inArea)
+            currentRotateStatue = triggerZone;
+        else
+            currentRotateStatue = null;
+
+        //IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
 
     public void SetHideTriggerState(bool inArea)

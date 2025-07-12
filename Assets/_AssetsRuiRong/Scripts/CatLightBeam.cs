@@ -8,7 +8,7 @@ public class CatLightBeam : MonoBehaviourPun
     public static CatLightBeam instance;
 
     public float targetYScale = 0.32f;
-    public float speed = 0.1f;
+    public float speed = 0.01f;
 
     private Vector3 targetScale;
     private bool isScaling = false;
