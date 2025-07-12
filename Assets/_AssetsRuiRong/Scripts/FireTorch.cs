@@ -40,10 +40,13 @@ public class FireTorch : MonoBehaviourPunCallbacks
     {
         Debug.Log("Try to ignite!");
         fire.SetActive(true);
+        isLit = true;
+        Debug.Log("start counteodown from 5s");
         if (!isLit)
         {
             photonView.RPC("RPC_Ignite", RpcTarget.AllBuffered);
         }
+        
     }
 
     [PunRPC]

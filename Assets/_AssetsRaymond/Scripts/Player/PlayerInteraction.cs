@@ -17,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
     public bool isIgnited = false;
 
     private HideZoneTrigger currentHideZone;
+    private IgniteFireZoneTrigger currentFireTriggerZone;
 
     public static PlayerInteraction Instance;
 
@@ -60,7 +61,7 @@ public class PlayerInteraction : MonoBehaviour
             if(Input.GetKey(KeyCode.F))
             {
                 Debug.Log("player Press F");
-                IgniteFireZoneTrigger.instance.TryIgniteFromUI();
+                currentFireTriggerZone.TryIgniteFromUI();
             }
         }
 
@@ -118,11 +119,15 @@ public class PlayerInteraction : MonoBehaviour
 
     }
 
-    public void SetFireTriggerState(bool inArea)
+    public void SetFireTriggerState(bool inArea, IgniteFireZoneTrigger triggerZone = null)
     {
         isFireTriggerArea = inArea;
-        
-        // Show or hide the shared "Press F + Progress Bar" UI
+
+        if (inArea)
+            currentFireTriggerZone = triggerZone;
+        else
+            currentFireTriggerZone = null;
+
         IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
 

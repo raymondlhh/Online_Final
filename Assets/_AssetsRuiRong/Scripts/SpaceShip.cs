@@ -28,8 +28,6 @@ public class SpaceShip : MonoBehaviour
         if (StartShip && shipAnimator != null && !shipAnimator.enabled)
         {
             shipAnimator.enabled = true;
-            // Optional: trigger a specific animation
-            // shipAnimator.Play("YourAnimationName");
         }
     }
 }

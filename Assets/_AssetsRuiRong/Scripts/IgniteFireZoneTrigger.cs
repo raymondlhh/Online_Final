@@ -5,16 +5,11 @@ using UnityEngine;
 
 public class IgniteFireZoneTrigger : MonoBehaviour
 {
-    private FireTorch fireTorch;
-
-    public static IgniteFireZoneTrigger instance;
+    public FireTorch fireTorch;
 
     public GameObject FirePressUI;
 
-    void Awake()
-    {
-        instance = this;
-    }
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +29,7 @@ public class IgniteFireZoneTrigger : MonoBehaviour
             PhotonView pv = other.GetComponent<PhotonView>();
             if (pv != null && pv.IsMine)
             {
-                other.GetComponent<PlayerInteraction>().SetFireTriggerState(true);
+                other.GetComponent<PlayerInteraction>().SetFireTriggerState(true, this);
                 //FirePressUI.SetActive(true);
             }
 
@@ -52,7 +47,7 @@ public class IgniteFireZoneTrigger : MonoBehaviour
             PhotonView pv = other.GetComponent<PhotonView>();
             if (pv != null && pv.IsMine)
             {
-                other.GetComponent<PlayerInteraction>().SetFireTriggerState(false);
+                other.GetComponent<PlayerInteraction>().SetFireTriggerState(false, null);
                 //FirePressUI.SetActive(false);
             }
         }
