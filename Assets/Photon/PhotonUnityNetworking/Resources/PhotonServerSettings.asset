@@ -104,6 +104,12 @@ MonoBehaviour:
   - RPC_ActivatePuzzle
   - RPC_UpdateCrystals
   - RPC_rotateStatue
+  - RotateRing
+  - RPC_Rotate
+  - RPC_Activategate
+  - RPC_Extinguish
+  - RPC_RequestIgnite
+  - RPC_PuzzleSolved
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

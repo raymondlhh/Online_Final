@@ -16,11 +16,18 @@ public class PlayerInteraction : MonoBehaviour
 
     private bool isHideTriggerArea = false;
 
+    private bool isSpinTriggerArea = false;
+
+    private bool isFireSTriggerArea = false;
+
     public bool isIgnited = false;
+
+    private GameObject currentTarget;
 
     private HideZoneTrigger currentHideZone;
     private IgniteFireZoneTrigger currentFireTriggerZone;
     private RotateStatue currentRotateStatue;
+    private IgniteFireSZoneTrigger currentFireSZoneTrigger;
 
     public static PlayerInteraction Instance;
 
@@ -88,6 +95,72 @@ public class PlayerInteraction : MonoBehaviour
                 currentRotateStatue.StartRotate();
             }
         }
+
+        if (isSpinTriggerArea)
+        {
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 2f);
+
+            if (hits.Length > 0)
+            {
+                // Sort hits by distance
+                System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+                // Define priority order (highest first)
+                string[] spinPriority = { "SpinE", "SpinD", "SpinC", "SpinB", "SpinA" };
+
+                GameObject newTarget = null;
+                SpinPuzzle newRing = null;
+
+                // Loop through priority list
+                foreach (string spinName in spinPriority)
+                {
+                    foreach (RaycastHit hit in hits)
+                    {
+                        if (hit.collider != null && hit.collider.name == spinName &&
+                            hit.collider.TryGetComponent<SpinPuzzle>(out SpinPuzzle ring))
+                        {
+                            newTarget = hit.collider.gameObject;
+                            newRing = ring;
+                            break;
+                        }
+                    }
+                    if (newTarget != null) break;
+                }
+
+                if (newTarget != currentTarget)
+                {
+                    ClearHighlight();
+
+                    if (newRing != null)
+                    {
+                        currentTarget = newTarget;
+                        newRing.SetHighlight(true);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (currentTarget != null && currentTarget.TryGetComponent<SpinPuzzle>(out SpinPuzzle ring))
+                    {
+                        ring.TryRotate();
+                    }
+                }
+            }
+            else
+            {
+                ClearHighlight();
+            }
+        }
+
+        if(isFireSTriggerArea)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Debug.Log("player Press F");
+                currentFireSZoneTrigger.TryIgniteFromUI();
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -143,6 +216,16 @@ public class PlayerInteraction : MonoBehaviour
         IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
 
+    public void SetFireSTriggerState(bool inArea, IgniteFireSZoneTrigger triggerZone = null)
+    {
+        isFireSTriggerArea = inArea;
+
+        if (inArea)
+            currentFireSZoneTrigger = triggerZone;
+        else
+            currentFireSZoneTrigger = null;
+    }
+
     public void SetStatueTriggerState(bool inArea, RotateStatue triggerZone = null)
     {
         isStatueTriggerArea = inArea;
@@ -161,5 +244,17 @@ public class PlayerInteraction : MonoBehaviour
         HideManager.instance.SetLocalUIVisibility(inArea);
     }
 
-    
+    public void SetSpinTriggerState(bool inArea)
+    {
+        isSpinTriggerArea = inArea;
+    }
+
+    void ClearHighlight()
+{
+    if (currentTarget != null && currentTarget.TryGetComponent<SpinPuzzle>(out SpinPuzzle ring))
+    {
+        ring.SetHighlight(false);
+        currentTarget = null;
+    }
+}
 } 
