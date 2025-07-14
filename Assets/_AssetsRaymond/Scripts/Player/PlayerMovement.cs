@@ -318,4 +318,22 @@ public class PlayerMovement : MonoBehaviour
             rb.isKinematic = state;
         }
     }
+
+    [PunRPC]
+    public void RPC_FloatPlayer(float duration)
+    {
+        StartCoroutine(FloatEffect(duration));
+    }
+
+    IEnumerator FloatEffect(float duration)
+    {
+        var rb = GetComponent<Rigidbody>();
+        if (rb)
+        {
+            rb.useGravity = false;
+            rb.velocity = new Vector3(rb.velocity.x, 2f, rb.velocity.z);
+            yield return new WaitForSeconds(duration);
+            rb.useGravity = true;
+        }
+    }
 }

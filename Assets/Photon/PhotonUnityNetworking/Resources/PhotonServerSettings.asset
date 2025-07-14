@@ -112,6 +112,7 @@ MonoBehaviour:
   - RPC_PuzzleSolved
   - RPC_Hide
   - RPC_Unhide
+  - RPC_FloatPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
