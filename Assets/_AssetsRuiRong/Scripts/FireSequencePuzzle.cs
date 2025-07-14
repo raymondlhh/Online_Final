@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Unity.Burst.CompilerServices;
 
 
 public class FireSequencePuzzle : MonoBehaviourPunCallbacks
@@ -25,10 +24,11 @@ public class FireSequencePuzzle : MonoBehaviourPunCallbacks
 
     public void TryIgnite()
     {
+        //Debug.Log("Run TryIgnite()");
         // Tell MasterClient we want to ignite
         if (PhotonNetwork.IsMasterClient)
         {
-            //FireSequencePuzzleManager.Instance.AttemptIgnite(this.fireIndex);
+            FireSequencePuzzleManager.Instance.AttemptIgnite(this.fireIndex);
         }
         else
         {
@@ -39,15 +39,17 @@ public class FireSequencePuzzle : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_RequestIgnite()
     {
+        //Debug.Log("Run RPC_RequestIgnite()");
         if (PhotonNetwork.IsMasterClient)
         {
-            //FireSequencePuzzleManager.Instance.AttemptIgnite(this.fireIndex);
+            FireSequencePuzzleManager.Instance.AttemptIgnite(this.fireIndex);
         }
     }
 
     [PunRPC]
     public void RPC_Ignite()
     {
+        //Debug.Log("Run RPC_Ignite()");
         isLit = true;
         if (fireEffect != null)
             fireEffect.SetActive(true);
@@ -56,6 +58,7 @@ public class FireSequencePuzzle : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_Extinguish()
     {
+        //Debug.Log("Run RPC_Extinguish()");
         isLit = false;
         if (fireEffect != null)
             fireEffect.SetActive(false);
@@ -63,11 +66,13 @@ public class FireSequencePuzzle : MonoBehaviourPunCallbacks
 
     public void Ignite()
     {
+        //Debug.Log("Run Ignite()");
         photonView.RPC("RPC_Ignite", RpcTarget.AllBuffered);
     }
 
     public void Extinguish()
     {
+        //Debug.Log("Run Extinguish()");
         photonView.RPC("RPC_Extinguish", RpcTarget.AllBuffered);
     }
 

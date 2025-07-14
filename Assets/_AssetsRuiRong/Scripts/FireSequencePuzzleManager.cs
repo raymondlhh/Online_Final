@@ -11,6 +11,8 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
     private int currentIndex = 0;
     private bool puzzleSolved = false;
 
+    public GameObject WrongUI;
+
     [Header("On Solve")]
     public Animator doorAnimator;
 
@@ -25,10 +27,12 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
         {
             doorAnimator.enabled = false; // Disable animator at the start
         }
+        WrongUI.SetActive(false);
     }
 
     public void AttemptIgnite(int torchIndex)
     {
+        Debug.Log("Run AttemptIgnite()");
         if (puzzleSolved) return;
 
         if (torchIndex == currentIndex)
@@ -44,14 +48,16 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.Log("Wrong fire lit. Resetting...");
+            //Debug.Log("Wrong fire lit. Resetting...");
             ResetAllFires();
         }
     }
 
     void ResetAllFires()
     {
+        //Debug.Log("Run ResetAllFires()");
         currentIndex = 0;
+        //WrongUI.SetActive(true)
 
         foreach (FireSequencePuzzle torch in fireTorches)
         {
@@ -62,7 +68,7 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_PuzzleSolved()
     {
-        Debug.Log(" Puzzle Solved!");
+        //Debug.Log(" Puzzle Solved!");
 
         if (doorAnimator != null)
         {

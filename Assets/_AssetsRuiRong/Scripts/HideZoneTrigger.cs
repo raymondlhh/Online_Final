@@ -27,7 +27,7 @@ public class HideZoneTrigger : MonoBehaviour
             if (pv != null && pv.IsMine)
             {
                 PlayerInteraction interaction = other.GetComponent<PlayerInteraction>();
-                interaction.SetHideTriggerState(true);
+                interaction.SetHideTriggerState(true,this);
                 
             }
         }
@@ -41,7 +41,7 @@ public class HideZoneTrigger : MonoBehaviour
             if (pv != null && pv.IsMine)
             {
                 PlayerInteraction interaction = other.GetComponent<PlayerInteraction>();
-                interaction.SetHideTriggerState(false);
+                interaction.SetHideTriggerState(false, null);
                 
             }
         }

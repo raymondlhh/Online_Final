@@ -14,6 +14,7 @@ public class IgniteFireSZoneTrigger : MonoBehaviour
     void Start()
     {
         fireTorch = GetComponent<FireSequencePuzzle>();
+        FirePressUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,7 +48,7 @@ public class IgniteFireSZoneTrigger : MonoBehaviour
             PhotonView pv = other.GetComponent<PhotonView>();
             if (pv != null && pv.IsMine)
             {
-                other.GetComponent<PlayerInteraction>().SetFireTriggerState(false, null);
+                other.GetComponent<PlayerInteraction>().SetFireSTriggerState(false, null);
                 FirePressUI.SetActive(false);
             }
         }

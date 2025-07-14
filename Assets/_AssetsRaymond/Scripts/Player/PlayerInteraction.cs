@@ -15,6 +15,8 @@ public class PlayerInteraction : MonoBehaviour
     private bool isStatueTriggerArea = false;
 
     private bool isHideTriggerArea = false;
+    private bool isHidden = false;
+    private Renderer[] renderers;
 
     private bool isSpinTriggerArea = false;
 
@@ -44,6 +46,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             enabled = false;
         }
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
     void Update()
@@ -77,12 +80,20 @@ public class PlayerInteraction : MonoBehaviour
 
         if(isHideTriggerArea)
         {
-            if(Input.GetKeyDown(KeyCode.Q))
+            if (isHidden)
+            {
+                photonView.RPC("RPC_Unhide", RpcTarget.All);
+            }
+            else
             {
                 if (currentHideZone != null)
                 {
-                    transform.position = currentHideZone.HideSpot.position;
-                    Debug.Log("Player hid in pot at: " + currentHideZone.HideSpot.position);
+                    Debug.Log("Hiding at: " + currentHideZone.HideSpot.position);
+                    photonView.RPC("RPC_Hide", RpcTarget.All, currentHideZone.HideSpot.position);
+                }
+                else
+                {
+                    Debug.LogWarning("currentHideZone is null ¡ª cannot hide!");
                 }
             }
         }
@@ -238,9 +249,13 @@ public class PlayerInteraction : MonoBehaviour
         //IgniteFireUIManager.Instance.SetLocalUIVisibility(inArea);
     }
 
-    public void SetHideTriggerState(bool inArea)
+    public void SetHideTriggerState(bool inArea, HideZoneTrigger triggerZone = null)
     {
         isHideTriggerArea = inArea;
+        if (inArea)
+            currentHideZone = triggerZone;
+        else
+            currentHideZone = null;
         HideManager.instance.SetLocalUIVisibility(inArea);
     }
 
@@ -250,11 +265,34 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     void ClearHighlight()
-{
-    if (currentTarget != null && currentTarget.TryGetComponent<SpinPuzzle>(out SpinPuzzle ring))
     {
-        ring.SetHighlight(false);
-        currentTarget = null;
+        if (currentTarget != null && currentTarget.TryGetComponent<SpinPuzzle>(out SpinPuzzle ring))
+        {
+            ring.SetHighlight(false);
+            currentTarget = null;
+        }
     }
-}
+
+    [PunRPC]
+    void RPC_Hide(Vector3 hidePos)
+    {
+        Debug.Log("RPC_Hide received. Moving to " + hidePos);
+        transform.position = hidePos;
+        isHidden = true;
+
+        foreach (Renderer rend in renderers)
+            rend.enabled = false;
+    }
+
+    [PunRPC]
+    void RPC_Unhide()
+    {
+        isHidden = false;
+
+        // Enable visuals
+        foreach (Renderer rend in renderers)
+        {
+            rend.enabled = true;
+        }
+    }
 } 
