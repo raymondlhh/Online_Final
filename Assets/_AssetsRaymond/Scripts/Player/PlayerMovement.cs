@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Vector3 moveDirection;
-    private Rigidbody rb;
+    public Rigidbody rb;
     private bool isRunning = false;
 
     [Header("Ground Check Settings")]

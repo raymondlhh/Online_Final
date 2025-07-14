@@ -8,6 +8,7 @@ public class HideManager : MonoBehaviour
 
     [Header("UI Elements")]
     public GameObject hideUI;
+    public GameObject unhideUI;
 
     void Awake()
     {
@@ -18,6 +19,7 @@ public class HideManager : MonoBehaviour
     void Start()
     {
         hideUI.SetActive(false);
+        unhideUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -29,5 +31,10 @@ public class HideManager : MonoBehaviour
     public void SetLocalUIVisibility(bool visible)
     {
         hideUI.SetActive(visible);
+    }
+
+    public void SetLocalUIVisibility2(bool visible)
+    {
+        unhideUI.SetActive(visible);
     }
 }

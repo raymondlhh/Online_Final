@@ -110,6 +110,8 @@ MonoBehaviour:
   - RPC_Extinguish
   - RPC_RequestIgnite
   - RPC_PuzzleSolved
+  - RPC_Hide
+  - RPC_Unhide
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

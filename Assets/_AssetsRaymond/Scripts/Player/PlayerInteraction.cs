@@ -17,6 +17,8 @@ public class PlayerInteraction : MonoBehaviour
     private bool isHideTriggerArea = false;
     private bool isHidden = false;
     private Renderer[] renderers;
+    private CapsuleCollider capsuleCollider;
+    private PlayerMovement playerMovement;
 
     private bool isSpinTriggerArea = false;
 
@@ -47,6 +49,8 @@ public class PlayerInteraction : MonoBehaviour
             enabled = false;
         }
         renderers = GetComponentsInChildren<Renderer>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -78,11 +82,12 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        if(isHideTriggerArea)
+        if(isHideTriggerArea && Input.GetKeyDown(KeyCode.Q))
         {
             if (isHidden)
             {
-                photonView.RPC("RPC_Unhide", RpcTarget.All);
+                photonView.RPC("RPC_Unhide", RpcTarget.All, currentHideZone.UnHideSpot.position);
+
             }
             else
             {
@@ -256,7 +261,15 @@ public class PlayerInteraction : MonoBehaviour
             currentHideZone = triggerZone;
         else
             currentHideZone = null;
-        HideManager.instance.SetLocalUIVisibility(inArea);
+
+        if(isHidden)
+        {
+            HideManager.instance.SetLocalUIVisibility(inArea);
+        }else if(!isHidden)
+        {
+            HideManager.instance.SetLocalUIVisibility2(inArea);
+        }
+        
     }
 
     public void SetSpinTriggerState(bool inArea)
@@ -282,17 +295,47 @@ public class PlayerInteraction : MonoBehaviour
 
         foreach (Renderer rend in renderers)
             rend.enabled = false;
+
+        // Disable movement
+        if (playerMovement != null)
+        {
+            playerMovement.CanMove = false;     
+            playerMovement.rb.useGravity = false; 
+            playerMovement.rb.velocity = Vector3.zero;
+
+        }
+            
+
+        // Disable collider
+        if (capsuleCollider != null)
+            capsuleCollider.enabled = false;
+
+        // Disable gravity
+        
     }
 
     [PunRPC]
-    void RPC_Unhide()
+    void RPC_Unhide(Vector3 unhidePos)
     {
         isHidden = false;
-
+        transform.position = unhidePos;
         // Enable visuals
         foreach (Renderer rend in renderers)
         {
             rend.enabled = true;
         }
+
+        // Enable movement
+        if (playerMovement != null)
+        {
+            playerMovement.CanMove = true;
+            playerMovement.rb.useGravity = true;
+        }
+
+        
+
+        // Enable collider
+        if (capsuleCollider != null)
+            capsuleCollider.enabled = true;
     }
 } 
