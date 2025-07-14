@@ -293,8 +293,8 @@ public class PlayerInteraction : MonoBehaviour
         transform.position = hidePos;
         isHidden = true;
 
-        foreach (Renderer rend in renderers)
-            rend.enabled = false;
+        //foreach (Renderer rend in renderers)
+        //    rend.enabled = false;
 
         // Disable movement
         if (playerMovement != null)
@@ -320,10 +320,10 @@ public class PlayerInteraction : MonoBehaviour
         isHidden = false;
         transform.position = unhidePos;
         // Enable visuals
-        foreach (Renderer rend in renderers)
-        {
-            rend.enabled = true;
-        }
+        //foreach (Renderer rend in renderers)
+        //{
+        //    rend.enabled = true;
+        //}
 
         // Enable movement
         if (playerMovement != null)
