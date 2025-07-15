@@ -32,6 +32,11 @@ public class PlayerUICountdown : MonoBehaviour
             int minutes = Mathf.FloorToInt(time / 60f);
             int seconds = Mathf.FloorToInt(time % 60f);
             countdownTimer.text = $"{minutes:00}:{seconds:00}";
+
+            if (time <= 60f)
+            {
+                countdownTimer.color = Color.red;
+            }
         }
     }
 }

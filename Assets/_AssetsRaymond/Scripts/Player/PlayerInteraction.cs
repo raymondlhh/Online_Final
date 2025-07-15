@@ -91,6 +91,8 @@ public class PlayerInteraction : MonoBehaviour
             if (isHidden)
             {
                 photonView.RPC("RPC_Unhide", RpcTarget.All, currentHideZone.UnHideSpot.position);
+                HideManager.instance.SetLocalUIVisibility(true);
+                HideManager.instance.SetLocalUIVisibility2(false);
 
             }
             else
@@ -99,6 +101,8 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     Debug.Log("Hiding at: " + currentHideZone.HideSpot.position);
                     photonView.RPC("RPC_Hide", RpcTarget.All, currentHideZone.HideSpot.position);
+                    HideManager.instance.SetLocalUIVisibility(false);
+                    HideManager.instance.SetLocalUIVisibility2(true);
                 }
                 else
                 {
@@ -287,14 +291,15 @@ public class PlayerInteraction : MonoBehaviour
         else
             currentHideZone = null;
 
-        if(isHidden)
+        if (inArea)
         {
-            HideManager.instance.SetLocalUIVisibility(inArea);
-        }else if(!isHidden)
-        {
-            HideManager.instance.SetLocalUIVisibility2(inArea);
+            // Show appropriate UI depending on hidden state
+            if (!isHidden)
+                HideManager.instance.SetLocalUIVisibility(true);  
+            else
+                HideManager.instance.SetLocalUIVisibility2(true); 
         }
-        
+
     }
 
     public void SetSpinTriggerState(bool inArea)
