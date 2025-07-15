@@ -1,11 +1,12 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.AI;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PhotonView))]
-public class Villager : MonoBehaviour
+public class Villager : MonoBehaviourPun, IPunObservable
 {
     public enum VillagerType
     {
@@ -35,6 +36,11 @@ public class Villager : MonoBehaviour
     [SerializeField] private float patrolRadius = 10f;
     [SerializeField] private float waypointReachDistance = 1f;
     public PatrolPath patrolPath; // Optional patrol path for walking type
+
+    [Header("Network Settings")]
+    [SerializeField] private float networkUpdateRate = 20f; // Updates per second
+    [SerializeField] private float positionThreshold = 0.1f; // Minimum distance change to send update
+    [SerializeField] private float rotationThreshold = 5f; // Minimum rotation change to send update
     
     private PhotonView photonView;
     private Rigidbody rb;
@@ -72,6 +78,22 @@ public class Villager : MonoBehaviour
     private AudioSource audioSource;
     private bool hasPlayedScream = false;
 
+    // Network synchronization variables
+    private Vector3 networkPosition;
+    private Quaternion networkRotation;
+    private Vector3 lastSentPosition;
+    private Quaternion lastSentRotation;
+    private float lastNetworkUpdateTime;
+    private bool isInitialized = false;
+
+    // Animation synchronization variables
+    private bool networkIsWalking;
+    private bool networkIsRunning;
+    private bool networkIsCrouching;
+    private bool lastSentIsWalking;
+    private bool lastSentIsRunning;
+    private bool lastSentIsCrouching;
+
     void Awake()
     {
         photonView = GetComponent<PhotonView>();
@@ -103,6 +125,12 @@ public class Villager : MonoBehaviour
             }
             SetupNavAgent();
         }
+
+        // Initialize network variables
+        networkPosition = transform.position;
+        networkRotation = transform.rotation;
+        lastSentPosition = transform.position;
+        lastSentRotation = transform.rotation;
     }
 
     void Start()
@@ -118,10 +146,22 @@ public class Villager : MonoBehaviour
         {
             startPosition = transform.position;
             SetNewWaypoint();
-            StartCoroutine(PatrolRoutine());
             
-            // Start with walking animation for walking villages
-            UpdateAnimationState(true, false);
+            // Only master client controls AI behavior
+            if (PhotonNetwork.IsMasterClient)
+            {
+                StartCoroutine(PatrolRoutine());
+                // Start with walking animation for walking villages
+                UpdateAnimationState(true, false);
+            }
+            else
+            {
+                // Non-master clients disable NavMeshAgent to prevent conflicts
+                if (navAgent != null)
+                {
+                    navAgent.enabled = false;
+                }
+            }
         }
         else
         {
@@ -129,8 +169,13 @@ public class Villager : MonoBehaviour
             startPosition = transform.position;
         }
         
-        // Start player detection
-        StartCoroutine(PlayerDetectionRoutine());
+        // Only master client handles player detection
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(PlayerDetectionRoutine());
+        }
+        
+        isInitialized = true;
     }
 
     private void SetupNavAgent()
@@ -160,7 +205,7 @@ public class Villager : MonoBehaviour
             Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
             currentWaypoint = startPosition + new Vector3(randomCircle.x, 0, randomCircle.y);
         }
-        if (navAgent != null && !isRunningFromPlayer)
+        if (navAgent != null && !isRunningFromPlayer && PhotonNetwork.IsMasterClient)
         {
             navAgent.SetDestination(currentWaypoint);
         }
@@ -168,7 +213,7 @@ public class Villager : MonoBehaviour
 
     private IEnumerator PatrolRoutine()
     {
-        while (villagerType == VillagerType.Walking && !isRunningFromPlayer)
+        while (villagerType == VillagerType.Walking && !isRunningFromPlayer && PhotonNetwork.IsMasterClient)
         {
             if (navAgent != null && navAgent.remainingDistance <= waypointReachDistance)
             {
@@ -184,7 +229,7 @@ public class Villager : MonoBehaviour
 
     private IEnumerator PlayerDetectionRoutine()
     {
-        while (true)
+        while (PhotonNetwork.IsMasterClient)
         {
             CheckForNearbyPlayers();
             yield return new WaitForSeconds(0.5f); // Check every 0.5 seconds
@@ -251,7 +296,10 @@ public class Villager : MonoBehaviour
             if (villagerType == VillagerType.Standing && !hasReactedToPlayer)
             {
                 if (animator != null)
+                {
                     animator.SetBool("isCrouching", true);
+                    networkIsCrouching = true; // Store for network sync
+                }
                 hasReactedToPlayer = true;
                 return;
             }
@@ -384,7 +432,7 @@ public class Villager : MonoBehaviour
     private IEnumerator RunningBehavior()
     {
         Debug.Log("[Village] RunningBehavior coroutine started.");
-        while (isRunningFromPlayer)
+        while (isRunningFromPlayer && PhotonNetwork.IsMasterClient)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, playerLayerMask);
             bool chasedPlayerInvisible = true;
@@ -451,10 +499,23 @@ public class Villager : MonoBehaviour
     /// <param name="isRunning">Whether the village is currently running</param>
     private void UpdateAnimationState(bool isWalking, bool isRunning)
     {
-        if (animator != null)
+        if (animator == null) return;
+
+        if (PhotonNetwork.IsMasterClient)
         {
+            // Master client: set animation parameters and store for network sync
             animator.SetBool(IS_WALKING_PARAM, isWalking);
             animator.SetBool(IS_RUNNING_PARAM, isRunning);
+            
+            // Store values for network synchronization
+            networkIsWalking = isWalking;
+            networkIsRunning = isRunning;
+        }
+        else
+        {
+            // Non-master client: use network-synchronized animation parameters
+            animator.SetBool(IS_WALKING_PARAM, networkIsWalking);
+            animator.SetBool(IS_RUNNING_PARAM, networkIsRunning);
         }
     }
 
@@ -516,6 +577,140 @@ public class Villager : MonoBehaviour
         hasSeenPlayer = false;
         isReturningToStart = false;
         Debug.Log("[Village] ReturnToStartPosition coroutine ended.");
+    }
+
+    // Update method for network synchronization
+    void Update()
+    {
+        // Handle network synchronization for non-master clients
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            // Smoothly interpolate to network position with better smoothing
+            if (isInitialized)
+            {
+                // Use smoother interpolation with damping
+                float interpolationSpeed = Mathf.Clamp(networkUpdateRate * Time.deltaTime, 0.01f, 0.5f);
+                
+                // Calculate distance to target
+                float distanceToTarget = Vector3.Distance(transform.position, networkPosition);
+                
+                // Only interpolate if we're not too close to avoid jitter
+                if (distanceToTarget > 0.01f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, networkPosition, interpolationSpeed);
+                }
+                
+                // Smooth rotation interpolation
+                float rotationDistance = Quaternion.Angle(transform.rotation, networkRotation);
+                if (rotationDistance > 0.1f)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, networkRotation, interpolationSpeed);
+                }
+            }
+            
+            // Update animation state for non-master clients
+            if (animator != null)
+            {
+                animator.SetBool(IS_WALKING_PARAM, networkIsWalking);
+                animator.SetBool(IS_RUNNING_PARAM, networkIsRunning);
+                animator.SetBool("isCrouching", networkIsCrouching);
+            }
+            return;
+        }
+    }
+
+    // Network synchronization
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // Only send updates if there are significant changes to reduce network spam
+            bool shouldSendUpdate = false;
+            
+            // Check if position has changed significantly
+            float positionChange = Vector3.Distance(transform.position, lastSentPosition);
+            if (positionChange > positionThreshold)
+            {
+                shouldSendUpdate = true;
+                lastSentPosition = transform.position;
+            }
+            
+            // Check if rotation has changed significantly
+            float rotationChange = Quaternion.Angle(transform.rotation, lastSentRotation);
+            if (rotationChange > rotationThreshold)
+            {
+                shouldSendUpdate = true;
+                lastSentRotation = transform.rotation;
+            }
+            
+            // Check if animation parameters have changed
+            if (networkIsWalking != lastSentIsWalking ||
+                networkIsRunning != lastSentIsRunning ||
+                networkIsCrouching != lastSentIsCrouching)
+            {
+                shouldSendUpdate = true;
+                lastSentIsWalking = networkIsWalking;
+                lastSentIsRunning = networkIsRunning;
+                lastSentIsCrouching = networkIsCrouching;
+            }
+            
+            // Send data if there are significant changes
+            if (shouldSendUpdate)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+                
+                // Send velocity if we have a NavMeshAgent
+                Vector3 velocity = Vector3.zero;
+                if (navAgent != null && navAgent.enabled)
+                {
+                    velocity = navAgent.velocity;
+                }
+                stream.SendNext(velocity);
+                
+                // Send state information
+                stream.SendNext(isRunningFromPlayer);
+                stream.SendNext(hasSeenPlayer);
+                
+                // Send animation parameters
+                stream.SendNext(networkIsWalking);
+                stream.SendNext(networkIsRunning);
+                stream.SendNext(networkIsCrouching);
+            }
+        }
+        else
+        {
+            // Network villager, receive data
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
+            Vector3 velocity = (Vector3)stream.ReceiveNext();
+            bool runningFromPlayer = (bool)stream.ReceiveNext();
+            bool seenPlayer = (bool)stream.ReceiveNext();
+            
+            // Receive animation parameters
+            networkIsWalking = (bool)stream.ReceiveNext();
+            networkIsRunning = (bool)stream.ReceiveNext();
+            networkIsCrouching = (bool)stream.ReceiveNext();
+            
+            // Apply improved lag compensation
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            if (lag > 0.1f) // Only compensate for significant lag
+            {
+                networkPosition += velocity * lag;
+            }
+            
+            // Update local state for non-master clients
+            isRunningFromPlayer = runningFromPlayer;
+            hasSeenPlayer = seenPlayer;
+            
+            // Update animation state for non-master clients
+            if (animator != null)
+            {
+                animator.SetBool(IS_WALKING_PARAM, networkIsWalking);
+                animator.SetBool(IS_RUNNING_PARAM, networkIsRunning);
+                animator.SetBool("isCrouching", networkIsCrouching);
+            }
+        }
     }
 
     // Visualize the detection radius and angle in the editor

@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
+using Photon.Realtime;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class GuardMovement : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+public class GuardMovement : MonoBehaviourPun, IPunObservable
 {
     public enum PatrolType
     {
@@ -30,6 +33,11 @@ public class GuardMovement : MonoBehaviour
     [SerializeField] private float waypointWaitTime = 2f;
     public PatrolPath patrolPath; // Optional patrol path for walking type
 
+    [Header("Network Settings")]
+    [SerializeField] private float networkUpdateRate = 20f; // Updates per second
+    [SerializeField] private float positionThreshold = 0.1f; // Minimum distance change to send update
+    [SerializeField] private float rotationThreshold = 5f; // Minimum rotation change to send update
+
     private NavMeshAgent navMeshAgent;
     private Animator animator;
     public Transform targetPlayer { get; private set; }
@@ -42,12 +50,38 @@ public class GuardMovement : MonoBehaviour
     private Coroutine patrolCoroutine;
     private bool isWaitingAtWaypoint = false;
 
+    // Network synchronization variables
+    private Vector3 networkPosition;
+    private Quaternion networkRotation;
+    private Vector3 lastSentPosition;
+    private Quaternion lastSentRotation;
+    private float lastNetworkUpdateTime;
+    private bool isInitialized = false;
+
+    // Animation synchronization variables
+    private float networkHorizontal;
+    private float networkVertical;
+    private bool networkIsRunning;
+    private bool lastSentIsRunning;
+    private float lastSentHorizontal;
+    private float lastSentVertical;
+
+    // Attack animation synchronization variables
+    private bool networkIsGunAttacking;
+    private bool networkIsSwordAttacking;
+    private bool lastSentIsGunAttacking;
+    private bool lastSentIsSwordAttacking;
+
+    // Smoothing buffer for reducing jitter
+    private Vector3[] positionBuffer = new Vector3[3];
+    private int bufferIndex = 0;
+
     // Decoy distraction logic
     private Transform distractionTarget = null;
     public void SetDistractionTarget(Transform distraction)
     {
         distractionTarget = distraction;
-        if (navMeshAgent != null)
+        if (navMeshAgent != null && photonView.IsMine)
         {
             navMeshAgent.SetDestination(distractionTarget.position);
         }
@@ -70,6 +104,12 @@ public class GuardMovement : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         guardAudio = GetComponent<GuardAudio>();
+        
+        // Initialize network variables
+        networkPosition = transform.position;
+        networkRotation = transform.rotation;
+        lastSentPosition = transform.position;
+        lastSentRotation = transform.rotation;
     }
 
     // Start is called before the first frame update
@@ -85,18 +125,32 @@ public class GuardMovement : MonoBehaviour
 
         startPosition = transform.position;
 
-        if (patrolType == PatrolType.PatrolPath && patrolPath != null && patrolPath.waypoints.Count > 0)
+        // Only the master client controls AI behavior
+        if (PhotonNetwork.IsMasterClient)
         {
-            currentPatrolIndex = 0;
-            currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
-            navMeshAgent.SetDestination(currentWaypoint);
-            StartCoroutine(PatrolRoutine());
+            if (patrolType == PatrolType.PatrolPath && patrolPath != null && patrolPath.waypoints.Count > 0)
+            {
+                currentPatrolIndex = 0;
+                currentWaypoint = patrolPath.waypoints[currentPatrolIndex].position;
+                navMeshAgent.SetDestination(currentWaypoint);
+                StartCoroutine(PatrolRoutine());
+            }
+            else // RandomPatrol
+            {
+                SetNewRandomWaypoint();
+                StartCoroutine(PatrolRoutine());
+            }
         }
-        else // RandomPatrol
+        else
         {
-            SetNewRandomWaypoint();
-            StartCoroutine(PatrolRoutine());
+            // Non-master clients disable NavMeshAgent to prevent conflicts
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.enabled = false;
+            }
         }
+        
+        isInitialized = true;
     }
 
     private void SetupNavAgent()
@@ -115,6 +169,37 @@ public class GuardMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Handle network synchronization for non-master clients
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            // Smoothly interpolate to network position with better smoothing
+            if (isInitialized)
+            {
+                // Use smoother interpolation with damping
+                float interpolationSpeed = Mathf.Clamp(networkUpdateRate * Time.deltaTime, 0.01f, 0.5f);
+                
+                // Calculate distance to target
+                float distanceToTarget = Vector3.Distance(transform.position, networkPosition);
+                
+                // Only interpolate if we're not too close to avoid jitter
+                if (distanceToTarget > 0.01f)
+                {
+                    transform.position = Vector3.Lerp(transform.position, networkPosition, interpolationSpeed);
+                }
+                
+                // Smooth rotation interpolation
+                float rotationDistance = Quaternion.Angle(transform.rotation, networkRotation);
+                if (rotationDistance > 0.1f)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, networkRotation, interpolationSpeed);
+                }
+            }
+            
+            // Update animator for non-master clients
+            UpdateAnimator();
+            return;
+        }
+
         // Add a safety check to ensure the agent is on the NavMesh before proceeding.
         if (!navMeshAgent.isOnNavMesh)
         {
@@ -270,28 +355,52 @@ public class GuardMovement : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
-    
-
 
     void UpdateAnimator()
     {
-        // Get the world-space velocity of the agent
-        Vector3 velocity = navMeshAgent.velocity;
-        
-        // Transform the world velocity to the guard's local space
-        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+        if (animator == null) return;
 
-        // Normalize the local velocity to get values between -1 and 1 for the blend tree
-        float horizontal = localVelocity.x / navMeshAgent.speed;
-        float vertical = localVelocity.z / navMeshAgent.speed;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Master client: calculate and send animation parameters
+            // Get the world-space velocity of the agent
+            Vector3 velocity = navMeshAgent.velocity;
+            
+            // Transform the world velocity to the guard's local space
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
 
-        // Set the float values in the animator
-        animator.SetFloat("Horizontal", horizontal);
-        animator.SetFloat("Vertical", vertical);
+            // Normalize the local velocity to get values between -1 and 1 for the blend tree
+            float horizontal = localVelocity.x / navMeshAgent.speed;
+            float vertical = localVelocity.z / navMeshAgent.speed;
 
-        // The IsRunning bool is still useful for transitions between idle and moving states
-        bool isRunning = velocity.sqrMagnitude > 0.1f;
-        animator.SetBool("IsRunning", isRunning);
+            // Set the float values in the animator
+            animator.SetFloat("Horizontal", horizontal);
+            animator.SetFloat("Vertical", vertical);
+
+            // The IsRunning bool is still useful for transitions between idle and moving states
+            bool isRunning = velocity.sqrMagnitude > 0.1f;
+            animator.SetBool("IsRunning", isRunning);
+
+            // Get current attack animation states from animator
+            bool isGunAttacking = animator.GetBool("IsGunAttacking");
+            bool isSwordAttacking = animator.GetBool("IsSwordAttacking");
+
+            // Store values for network synchronization
+            networkHorizontal = horizontal;
+            networkVertical = vertical;
+            networkIsRunning = isRunning;
+            networkIsGunAttacking = isGunAttacking;
+            networkIsSwordAttacking = isSwordAttacking;
+        }
+        else
+        {
+            // Non-master client: use network-synchronized animation parameters
+            animator.SetFloat("Horizontal", networkHorizontal);
+            animator.SetFloat("Vertical", networkVertical);
+            animator.SetBool("IsRunning", networkIsRunning);
+            animator.SetBool("IsGunAttacking", networkIsGunAttacking);
+            animator.SetBool("IsSwordAttacking", networkIsSwordAttacking);
+        }
     }
 
     public bool AgentHasStopped()
@@ -299,6 +408,100 @@ public class GuardMovement : MonoBehaviour
         // Check if the agent is on the NavMesh, has reached its stopping distance, and has a very low velocity.
         if (!navMeshAgent.isOnNavMesh) return false;
         return !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && navMeshAgent.velocity.sqrMagnitude < 0.1f;
+    }
+
+    // Network synchronization
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // Only send updates if there are significant changes to reduce network spam
+            bool shouldSendUpdate = false;
+            
+            // Check if position has changed significantly
+            float positionChange = Vector3.Distance(transform.position, lastSentPosition);
+            if (positionChange > positionThreshold)
+            {
+                shouldSendUpdate = true;
+                lastSentPosition = transform.position;
+            }
+            
+            // Check if rotation has changed significantly
+            float rotationChange = Quaternion.Angle(transform.rotation, lastSentRotation);
+            if (rotationChange > rotationThreshold)
+            {
+                shouldSendUpdate = true;
+                lastSentRotation = transform.rotation;
+            }
+            
+            // Check if animation parameters have changed
+            if (Mathf.Abs(networkHorizontal - lastSentHorizontal) > 0.1f ||
+                Mathf.Abs(networkVertical - lastSentVertical) > 0.1f ||
+                networkIsRunning != lastSentIsRunning ||
+                networkIsGunAttacking != lastSentIsGunAttacking ||
+                networkIsSwordAttacking != lastSentIsSwordAttacking)
+            {
+                shouldSendUpdate = true;
+                lastSentHorizontal = networkHorizontal;
+                lastSentVertical = networkVertical;
+                lastSentIsRunning = networkIsRunning;
+                lastSentIsGunAttacking = networkIsGunAttacking;
+                lastSentIsSwordAttacking = networkIsSwordAttacking;
+            }
+            
+            // Send data if there are significant changes
+            if (shouldSendUpdate)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(transform.rotation);
+                stream.SendNext(navMeshAgent.velocity);
+                stream.SendNext(targetPlayer != null);
+                
+                // Send animation parameters
+                stream.SendNext(networkHorizontal);
+                stream.SendNext(networkVertical);
+                stream.SendNext(networkIsRunning);
+                stream.SendNext(networkIsGunAttacking);
+                stream.SendNext(networkIsSwordAttacking);
+            }
+        }
+        else
+        {
+            // Network guard, receive data
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
+            Vector3 velocity = (Vector3)stream.ReceiveNext();
+            bool hasTarget = (bool)stream.ReceiveNext();
+            
+            // Receive animation parameters
+            networkHorizontal = (float)stream.ReceiveNext();
+            networkVertical = (float)stream.ReceiveNext();
+            networkIsRunning = (bool)stream.ReceiveNext();
+            networkIsGunAttacking = (bool)stream.ReceiveNext();
+            networkIsSwordAttacking = (bool)stream.ReceiveNext();
+            
+            // Apply improved lag compensation
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            if (lag > 0.1f) // Only compensate for significant lag
+            {
+                networkPosition += velocity * lag;
+            }
+            
+            // Add to smoothing buffer for non-master clients
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                positionBuffer[bufferIndex] = networkPosition;
+                bufferIndex = (bufferIndex + 1) % positionBuffer.Length;
+                
+                // Calculate smoothed position
+                Vector3 smoothedPosition = Vector3.zero;
+                for (int i = 0; i < positionBuffer.Length; i++)
+                {
+                    smoothedPosition += positionBuffer[i];
+                }
+                networkPosition = smoothedPosition / positionBuffer.Length;
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
