@@ -320,7 +320,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [PunRPC]
-    public void RPC_FloatPlayer(float duration)
+    public void RPC_Float(float duration)
     {
         StartCoroutine(FloatEffect(duration));
     }

@@ -329,7 +329,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1409162869533246, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
       insertIndex: -1
       addedObject: {fileID: 835626236}
+    - targetCorrespondingSourceObject: {fileID: 1409162869533246, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 835626238}
+    - targetCorrespondingSourceObject: {fileID: 1409162869533246, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 835626239}
   m_SourcePrefab: {fileID: 100100000, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
+--- !u!95 &818576633 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95830614879774386, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
+  m_PrefabInstance: {fileID: 818576632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &835626232 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1409162869533246, guid: ac4d114fc766db44f8bd7f2fb0eba2de, type: 3}
@@ -348,8 +359,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  floatTargetY: 5
-  floatStartY: 10
+  floatTargetY: 2
+  floatStartY: 5
   floatDownSpeed: 2
   moveSpeed: 3
 --- !u!114 &835626236
@@ -367,7 +378,56 @@ MonoBehaviour:
   attackRadius: 10
   cooldownTime: 5
   floatDuration: 2
-  floatAnimator: {fileID: 0}
+  floatAnimator: {fileID: 818576633}
+--- !u!54 &835626238
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835626232}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &835626239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835626232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &872995298
 PrefabInstance:
   m_ObjectHideFlags: 0

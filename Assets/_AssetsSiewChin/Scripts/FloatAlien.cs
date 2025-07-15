@@ -23,8 +23,6 @@ public class FloatAlien : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        OnDrawGizmosSelected();
-
         bool foundTargetToAttack = false;
 
         Collider[] hitPlayers = Physics.OverlapSphere(transform.position, attackRadius);
@@ -57,11 +55,5 @@ public class FloatAlien : MonoBehaviourPunCallbacks
             isCurrentlyAttacking = false;
             floatAnimator.SetBool("isAttacking", false);
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }
