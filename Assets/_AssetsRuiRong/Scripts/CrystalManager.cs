@@ -10,6 +10,8 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     public int totalCrystals = 3;
     private int crystalsCollected = 0;
 
+    public bool AllCollected = false;
+
     private List<PlayerUICrystal> playerUIs = new List<PlayerUICrystal>();
 
     private void Awake()
@@ -60,6 +62,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
 
         if (crystalsCollected >= totalCrystals)
         {
+            AllCollected = true;
             Debug.Log("All crystals collected! Starting countdown...");
             CountdownManager.Instance.StartCountdown();
         }

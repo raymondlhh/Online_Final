@@ -24,6 +24,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private bool isFireSTriggerArea = false;
 
+    private bool isOnBoardTriggerArea = false;
+
+    private bool isStartTriggerArea = false;
+
     public bool isIgnited = false;
 
     private GameObject currentTarget;
@@ -177,6 +181,27 @@ public class PlayerInteraction : MonoBehaviour
                 currentFireSZoneTrigger.TryIgniteFromUI();
             }
         }
+
+        if(isOnBoardTriggerArea)
+        {
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                Debug.Log("Player Press F");
+                SpaceShipManager.Instance.AssignPlayerToSeat(photonView.ViewID);
+            }
+        }
+
+        if(isStartTriggerArea)
+        {
+            if (Input.GetKey(KeyCode.F))
+            {
+                StartSpaceShip.Instance.FillProgressBarUpdate(); 
+            }
+            else if (Input.GetKeyUp(KeyCode.F))
+            {
+                StartSpaceShip.Instance.ResetProgressBar(); 
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -275,6 +300,16 @@ public class PlayerInteraction : MonoBehaviour
     public void SetSpinTriggerState(bool inArea)
     {
         isSpinTriggerArea = inArea;
+    }
+
+    public void SetOnBoardTriggerState(bool inArea)
+    {
+        isOnBoardTriggerArea = inArea;
+    }
+
+    public void SetStartTriggerState(bool inArea)
+    {
+        isStartTriggerArea = inArea;
     }
 
     void ClearHighlight()

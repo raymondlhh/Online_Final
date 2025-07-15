@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SpaceShip : MonoBehaviour
 {
     public Animator shipAnimator;
     public bool StartShip = false;
+    public string nextSceneName;
+
+    public static SpaceShip Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,5 +38,17 @@ public class SpaceShip : MonoBehaviour
         {
             shipAnimator.enabled = true;
         }
+
+        StartCoroutine("LoadNextScene", 5f);
+    }
+
+    public void StartShipAnimation()
+    {
+        StartShip = true;
+    }
+
+    public void LoadNextScene()
+    {
+        PhotonNetwork.LoadLevel(nextSceneName); // Load next scene
     }
 }

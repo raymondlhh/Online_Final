@@ -11,16 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_AssetsRaymond/Scenes/CurrentUsed/ChooseCharacterScene.unity
     guid: 15d130754edb2314a9ffcb9c95f5cf75
-  - enabled: 0
+  - enabled: 1
+    path: Assets/_AssetsRuiRong/Scenes/EgyptLevel.unity
+    guid: da77829b57f0b57408ef012c22257889
+  - enabled: 1
     path: Assets/_AssetsSiewChin/Scenes/AlienEnemyTest.unity
     guid: 926ee96983096d646b082cb9cf9abe86
-  - enabled: 1
+  - enabled: 0
     path: Assets/_AssetsRaymond/Scenes/CurrentUsed/TestCharactersScene.unity
     guid: a87bdbb1df35e814d971aa3aeb800488
   - enabled: 0
     path: Assets/_AssetsRuiRong/Scenes/GameMechanicsTest.unity
     guid: 95e5aaa2e9ef6ae4b8a4b5c01b93e1d8
-  - enabled: 1
-    path: Assets/_AssetsRuiRong/Scenes/EgyptLevel.unity
-    guid: da77829b57f0b57408ef012c22257889
   m_configObjects: {}

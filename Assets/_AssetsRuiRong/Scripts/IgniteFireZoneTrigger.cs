@@ -14,6 +14,7 @@ public class IgniteFireZoneTrigger : MonoBehaviour
     void Start()
     {
         fireTorch = GetComponent<FireTorch>();
+        FirePressUI.SetActive(false);
     }
 
     // Update is called once per frame
