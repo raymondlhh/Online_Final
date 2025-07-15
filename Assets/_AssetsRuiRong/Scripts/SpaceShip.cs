@@ -49,6 +49,6 @@ public class SpaceShip : MonoBehaviour
 
     public void LoadNextScene()
     {
-        PhotonNetwork.LoadLevel(nextSceneName); // Load next scene
+        //PhotonNetwork.LoadLevel(nextSceneName); // Load next scene
     }
 }
