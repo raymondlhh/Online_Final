@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using ExitGames.Client.Photon;
 
 public class ChooseCharacterManager : MonoBehaviour
 {
@@ -138,7 +137,11 @@ public class ChooseCharacterManager : MonoBehaviour
     {
         // Load the next scene or do whatever is needed to start the game
         // Example:
-        PhotonNetwork.LoadLevel(SceneName);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(SceneName);
+        }
+            
     }
 
     // Call this to update all ReadyUI objects in the scene
