@@ -7,6 +7,7 @@ public class HideZoneTrigger : MonoBehaviour
 {
     public Transform HideSpot;
     public Transform UnHideSpot;
+
     
     // Start is called before the first frame update
     void Start()
