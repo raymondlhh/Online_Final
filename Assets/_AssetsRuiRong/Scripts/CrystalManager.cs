@@ -10,7 +10,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     public int totalCrystals = 3;
     private int crystalsCollected = 0;
 
-    public bool AllCollected = false;
+    public bool AllCollected = true;
 
     private List<PlayerUICrystal> playerUIs = new List<PlayerUICrystal>();
 

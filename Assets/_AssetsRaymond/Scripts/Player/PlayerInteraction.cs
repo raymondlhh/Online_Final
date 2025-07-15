@@ -197,11 +197,11 @@ public class PlayerInteraction : MonoBehaviour
 
         if(isStartTriggerArea)
         {
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.Q))
             {
                 StartSpaceShip.Instance.FillProgressBarUpdate(); 
             }
-            else if (Input.GetKeyUp(KeyCode.F))
+            else if (Input.GetKeyUp(KeyCode.Q))
             {
                 StartSpaceShip.Instance.ResetProgressBar(); 
             }
@@ -295,9 +295,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             // Show appropriate UI depending on hidden state
             if (!isHidden)
-                HideManager.instance.SetLocalUIVisibility(true);  
+                HideManager.instance.SetLocalUIVisibility(inArea);  
             else
-                HideManager.instance.SetLocalUIVisibility2(true); 
+                HideManager.instance.SetLocalUIVisibility2(inArea); 
         }
 
     }

@@ -44,7 +44,9 @@ public class HideZoneTrigger : MonoBehaviour
             {
                 PlayerInteraction interaction = other.GetComponent<PlayerInteraction>();
                 interaction.SetHideTriggerState(false, null);
-                
+                HideManager.instance.SetLocalUIVisibility(false);
+
+
             }
         }
     }
