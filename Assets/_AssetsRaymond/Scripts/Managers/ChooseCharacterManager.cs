@@ -132,20 +132,14 @@ public class ChooseCharacterManager : MonoBehaviour
         return true;
     }
 
-    void Awake()
-    {
-        PhotonNetwork.AutomaticallySyncScene = true;
-    }
-
     // Called by host to start the game
     public void OnHostStartGame()
     {
         // Load the next scene or do whatever is needed to start the game
         // Example:
-        if (PhotonNetwork.IsMasterClient)
-        {
+        
             PhotonNetwork.LoadLevel(SceneName);
-        }
+        
             
     }
 

@@ -50,6 +50,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             if (photonView.IsMine)
             {
                 // Local player: see only FP_View and FP_PlayerUI
+                Debug.Log("Hihi i am testing");
                 playerVisibility.SetFirstPersonVisibility(true);
                 playerVisibility.SetThirdPersonVisibility(false);
                 if (playerMovementController != null)
