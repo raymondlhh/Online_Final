@@ -76,11 +76,24 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        health = startHealth;
+        
         animator = GetComponent<Animator>();
         movementController = GetComponent<PlayerMovement>();
         playerShoot = GetComponent<PlayerAttack>();
         skillDetails = GetComponentsInChildren<BlackHoleSkill>();
+
+        // Determine health based on PersistentPlayerData
+        if (PersistentPlayerData.SavedHealth < 0f)
+        {
+            // First time (no saved health), use startHealth
+            health = startHealth;
+        }
+        else
+        {
+            // Carry over from previous scene
+            health = PersistentPlayerData.WasDead ? 1f : PersistentPlayerData.SavedHealth;
+        }
+
         UpdateHealthBars();
 
         if (isLocalPlayer)
@@ -183,6 +196,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
     public void RegainHealthRPC()
     {
         health = startHealth;
+        PersistentPlayerData.SavedHealth = health;
+        PersistentPlayerData.WasDead = false;
         UpdateHealthBars();
     }
 
@@ -245,6 +260,10 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             {
                 deadPanel.SetActive(true);
             }
+
+            PersistentPlayerData.WasDead = true;
+            PersistentPlayerData.SavedHealth = 0f;
+
             // Enable spectator mode
             SpectateRandomAlivePlayer();
         }

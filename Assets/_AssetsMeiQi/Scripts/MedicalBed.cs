@@ -70,6 +70,8 @@ public class MedicalBed : MonoBehaviourPun
         player.transform.rotation = lieDownPoint.rotation;
 
         StartMoveSequence();
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        playerHealth.RegainHealth();
 
         yield return new WaitForSeconds(7f);
 

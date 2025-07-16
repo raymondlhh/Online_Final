@@ -73933,9 +73933,11 @@ GameObject:
   - component: {fileID: 700128330}
   - component: {fileID: 700128329}
   - component: {fileID: 700128328}
+  - component: {fileID: 700128332}
+  - component: {fileID: 700128331}
   m_Layer: 0
   m_Name: SM_Bld_Wall_Door_01
-  m_TagString: Untagged
+  m_TagString: SubLevelDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73949,7 +73951,7 @@ Transform:
   m_GameObject: {fileID: 700128326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4999924, y: 2.87, z: -0.0000030947456}
+  m_LocalPosition: {x: -2.4999924, y: 0, z: -0.0000030947456}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74027,6 +74029,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700128326}
   m_Mesh: {fileID: 4300002, guid: d15e6ce658984be4dba714b6201bc4d3, type: 3}
+--- !u!114 &700128331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700128326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d998e039fc9e7640b3d099a294c7878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveAmount: 2.5
+  moveSpeed: 2
+  isOpen: 0
+--- !u!114 &700128332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700128326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 15
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &700980249
 GameObject:
   m_ObjectHideFlags: 0
@@ -156960,7 +156999,7 @@ MonoBehaviour:
   MedicalBed_UI: {fileID: 1018073107}
   ChooseLevel_UI: {fileID: 1886400681}
   Level_UI: {fileID: 456772177}
-  SceneName: EgyptLevel
+  SceneName: AlienEnemyTest
 --- !u!1 &1443856246
 GameObject:
   m_ObjectHideFlags: 0

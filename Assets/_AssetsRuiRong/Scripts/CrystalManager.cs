@@ -23,7 +23,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        AllCollected = true;
     }
 
     // Update is called once per frame

@@ -12,11 +12,13 @@ public class StartSpaceShip : MonoBehaviour
     public GameObject seat1ProgressUI;
     public float fillTime = 5f;
     public Slider progressBar;
+    //public string nextSceneName = "SubLevel";
 
 
 
     private float fillAmount = 0f;
     private bool isFilling = false;
+    private bool hasLoadedScene = false;
 
 
 
@@ -36,7 +38,7 @@ public class StartSpaceShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFilling)
+        if (isFilling && !hasLoadedScene)
         {
             fillAmount += Time.deltaTime;
             progressBar.value = fillAmount / fillTime;
@@ -44,10 +46,11 @@ public class StartSpaceShip : MonoBehaviour
             if (fillAmount >= fillTime)
             {
                 isFilling = false;
+                hasLoadedScene = true;
                 Debug.Log("Progress complete. Starting ship animation.");
                 SpaceShip.Instance.StartShipAnimation();
                 seat1ProgressUI.SetActive(false);
-                //PhotonNetwork.LoadLevel(nextSceneName); // Load next scene
+                //StartCoroutine(LoadSceneAfterDelay(6f));
             }
         }
     }
@@ -71,5 +74,10 @@ public class StartSpaceShip : MonoBehaviour
         isFilling = false;
         fillAmount = 0f;
         progressBar.value = 0f;
+        hasLoadedScene = false;
+
     }
+
+    
+
 }
