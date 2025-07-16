@@ -87,11 +87,13 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             // First time (no saved health), use startHealth
             health = startHealth;
+            // Save the initial health
+            PersistentPlayerData.SavedHealth = health;
         }
         else
         {
-            // Carry over from previous scene
-            health = PersistentPlayerData.WasDead ? 1f : PersistentPlayerData.SavedHealth;
+            // Carry over from previous scene - use the saved health directly
+            health = PersistentPlayerData.SavedHealth;
         }
 
         UpdateHealthBars();
@@ -134,6 +136,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         health = Mathf.Max(0, health); // Prevent negative health
         Debug.Log($"Player {photonView.Owner.NickName} took damage. Health: {health}");
 
+        // Save health to persistent data for scene transitions
+        if (photonView.IsMine)
+        {
+            PersistentPlayerData.SavedHealth = health;
+        }
+
         UpdateHealthBars();
 
         if (health <= 0f)
@@ -162,6 +170,12 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         health -= _damage;
         health = Mathf.Max(0, health); // Prevent negative health
         Debug.Log($"Player {photonView.Owner.NickName} took AI damage. Health: {health}");
+
+        // Save health to persistent data for scene transitions
+        if (photonView.IsMine)
+        {
+            PersistentPlayerData.SavedHealth = health;
+        }
 
         UpdateHealthBars();
 
@@ -690,6 +704,8 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
             if (health > 0)
             {
                 health = 0;
+                // Save health to persistent data for scene transitions
+                PersistentPlayerData.SavedHealth = health;
                 UpdateHealthBars();
                 Die();
                 // Show the deadPanel if not already in game over

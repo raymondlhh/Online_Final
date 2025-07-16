@@ -135,6 +135,8 @@ public class ChooseCharacterManager : MonoBehaviour
     // Called by host to start the game
     public void OnHostStartGame()
     {
+        // Reset persistent data when starting a new game
+        PersistentPlayerData.ResetData();
         // Load the next scene or do whatever is needed to start the game
         // Example:
         

@@ -79,6 +79,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     public void OnStartGameClicked()
     {
+        // Reset persistent data when starting a new game
+        PersistentPlayerData.ResetData();
         ActivatePanel(Login_UI_Panel.name);
         GameTitle.SetActive(true);
     }

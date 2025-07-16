@@ -174,6 +174,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void OnStartGameButtonClicked()
     {
         PlayButtonClickSound();
+        // Reset persistent data when starting a new game
+        PersistentPlayerData.ResetData();
         if (PhotonNetwork.IsMasterClient)
         {
             ActivatePanel(LoadingPanel.name);
