@@ -16,7 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private bool isHideTriggerArea = false;
     private bool isHidden = false;
-    private Renderer[] renderers;
+    
     private CapsuleCollider capsuleCollider;
     private PlayerMovement playerMovement;
 
@@ -52,7 +52,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             enabled = false;
         }
-        renderers = GetComponentsInChildren<Renderer>();
+       //renderers = GetComponentsInChildren<Renderer>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         playerMovement = GetComponent<PlayerMovement>();
     }

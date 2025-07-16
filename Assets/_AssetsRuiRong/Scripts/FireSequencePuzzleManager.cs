@@ -50,6 +50,7 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
         {
             //Debug.Log("Wrong fire lit. Resetting...");
             ResetAllFires();
+            StartCoroutine(ShowWrongUIForSeconds(3f));
         }
     }
 
@@ -74,5 +75,12 @@ public class FireSequencePuzzleManager : MonoBehaviourPunCallbacks
         {
             doorAnimator.enabled = true; // Could also trigger door animator here
         }
+    }
+
+    IEnumerator ShowWrongUIForSeconds(float seconds)
+    {
+        WrongUI.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        WrongUI.SetActive(false);
     }
 }

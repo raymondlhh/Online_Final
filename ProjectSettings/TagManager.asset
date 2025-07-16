@@ -8,6 +8,8 @@ TagManager:
   - Villager
   - DeadMark
   - Crystal
+  - SubLevelDoor
+  - MedicalBed
   layers:
   - Default
   - TransparentFX
