@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_AssetsMeiQi/Scenes/SubLevel.unity
     guid: 6aecc4415dcc26b489f0cd45a61826e3
-  - enabled: 0
+  - enabled: 1
     path: Assets/_AssetsRuiRong/Scenes/EgyptLevel.unity
     guid: da77829b57f0b57408ef012c22257889
   - enabled: 0

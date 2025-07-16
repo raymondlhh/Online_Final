@@ -5,6 +5,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.Burst.CompilerServices;
+using Photon.Realtime;
 
 public class SubLevelInteraction : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class SubLevelInteraction : MonoBehaviour
     }
 
     private bool ActivateScript = false;
+    private bool isChooseLevel = false;
+    private bool isChoosing = false;
 
     private GameObject currentTarget;
 
@@ -44,64 +47,109 @@ public class SubLevelInteraction : MonoBehaviour
     {
         if (!photonView.IsMine) return;
 
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 2f))
+        if (ActivateScript)
         {
-            if (hit.collider.CompareTag("SubLevelDoor"))
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 2f))
             {
-                currentTarget = hit.collider.gameObject;
-                var doorScript = currentTarget.GetComponent<OpenDoorSubLevel>();
+                if (hit.collider.CompareTag("SubLevelDoor"))
+                {
+                    currentTarget = hit.collider.gameObject;
+                    var doorScript = currentTarget.GetComponent<OpenDoorSubLevel>();
 
-                if (doorScript.IsOpen())
-                {
-                    SubLevelManager.Instance.ShowCloseUI();
-                }
-                else
-                {
-                    SubLevelManager.Instance.ShowOpenUI();
-                }
-
-                // Open door on F press
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    PhotonView doorPV = currentTarget.GetComponent<PhotonView>();
-                    if (doorPV != null)
+                    if (doorScript.IsOpen())
                     {
-                        doorPV.RPC("RPC_TriggerDoor", RpcTarget.AllBuffered);
-                    }
-                }
-                return;
-            }
-
-            if(hit.collider.CompareTag("MedicalBed"))
-            {
-                currentTarget = hit.collider.gameObject;
-                Debug.Log("Hit MedicalBed!");
-                SubLevelManager.Instance.ShowMedicalUI();
-
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    PhotonView bedView = currentTarget.GetComponent<PhotonView>();
-                    if (bedView != null)
-                    {
-                        Debug.Log("Found!");
-                        bedView.RPC("RPC_LieDown", RpcTarget.AllBuffered, photonView.ViewID);
+                        SubLevelManager.Instance.ShowCloseUI();
                     }
                     else
                     {
-                        Debug.Log("Not Found!");
+                        SubLevelManager.Instance.ShowOpenUI();
                     }
-                }
-                return;
-            }
 
-            
+                    // Open door on F press
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        PhotonView doorPV = currentTarget.GetComponent<PhotonView>();
+                        if (doorPV != null)
+                        {
+                            doorPV.RPC("RPC_TriggerDoor", RpcTarget.AllBuffered);
+                        }
+                    }
+                    return;
+                }
+
+                if (hit.collider.CompareTag("MedicalBed"))
+                {
+                    currentTarget = hit.collider.gameObject;
+                    Debug.Log("Hit MedicalBed!");
+                    SubLevelManager.Instance.ShowMedicalUI();
+
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+                        PhotonView bedView = currentTarget.GetComponent<PhotonView>();
+                        if (bedView != null)
+                        {
+                            Debug.Log("Found!");
+                            bedView.RPC("RPC_LieDown", RpcTarget.AllBuffered, photonView.ViewID);
+                        }
+                        else
+                        {
+                            Debug.Log("Not Found!");
+                        }
+                    }
+                    return;
+                }
+
+
+            }
+            // If not looking at door, hide UI
+            currentTarget = null;
+            SubLevelManager.Instance.HideUI();
+
+            if(isChooseLevel)
+            {
+                if(Input.GetKeyDown(KeyCode.F))
+                {
+                    
+                    PlayerMovement moveScript = GetComponent<PlayerMovement>();
+                    if (!isChoosing)
+                    {
+                        SubLevelManager.Instance.ShowLevelUI(false);
+                        SubLevelManager.Instance.ShowChooseLevelUI(true);
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                        if (moveScript != null)
+                        {
+                            moveScript.CanMove = false;
+                            moveScript.CanLook = false;
+                        }
+                        isChoosing= true;
+                    }else if(isChoosing)
+                    {
+                        SubLevelManager.Instance.ShowChooseLevelUI(false);
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                        isChoosing = false;
+                        if (moveScript != null)
+                        {
+                            moveScript.CanMove = true;
+                            moveScript.CanLook = true;
+                        }
+                    }
+                    
+                }
+               
+
+            }
         }
-        // If not looking at door, hide UI
-        currentTarget = null;
-        SubLevelManager.Instance.HideUI();
-       
         
+    }
+
+    public void SetChooseLevelUI(bool inArea)
+    {
+        isChooseLevel = inArea;
+        Debug.Log("SetChooseLevelUI called. inArea: " + inArea);
+        SubLevelManager.Instance.ShowLevelUI(inArea);
     }
 }
