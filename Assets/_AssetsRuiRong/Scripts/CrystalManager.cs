@@ -24,6 +24,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     void Start()
     {
         AllCollected = true;
+        crystalsCollected = 0;
     }
 
     // Update is called once per frame
