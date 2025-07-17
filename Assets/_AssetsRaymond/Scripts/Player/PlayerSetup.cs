@@ -45,7 +45,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             playerVisibility.SetFirstPersonVisibility(false);
             playerVisibility.SetThirdPersonVisibility(true);
         }
-        else if ((scene == "TestCharactersScene" || scene == "EgyptLevel" || scene == "EmpireLevel" || scene == "AlienEnemyTest" || scene == "SubLevel" && playerVisibility != null))
+        else if (playerVisibility != null)
         {
             if (photonView.IsMine)
             {
@@ -87,10 +87,13 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {
             FP_Name.text = photonView.Owner.NickName;
             // In TestCharactersScene, EgyptLevel, or Test, always set FP_Name color to white
-            if (scene == "TestCharactersScene" || scene == "EgyptLevel" || scene == "EmpireLevel" || scene == "AlienEnemyTest" || scene == "SubLevel")
-                FP_Name.color = Color.white;
-            else
+            if (scene == "ChooseCharacterScene")
+            {
                 FP_Name.color = photonView.IsMine ? Color.green : Color.white;
+            }   
+            else
+                FP_Name.color = Color.white;
+                
             // Only show FP_Name for local player and not in ChooseCharacterScene
             FP_Name.gameObject.SetActive(photonView.IsMine && scene != "ChooseCharacterScene");
         }
