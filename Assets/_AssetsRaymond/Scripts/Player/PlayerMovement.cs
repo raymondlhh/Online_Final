@@ -323,6 +323,7 @@ public class PlayerMovement : MonoBehaviour
     public void RPC_Float(float duration)
     {
         StartCoroutine(FloatEffect(duration));
+        CanMove = false;
     }
 
     IEnumerator FloatEffect(float duration)
@@ -334,6 +335,42 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, 2f, rb.velocity.z);
             yield return new WaitForSeconds(duration);
             rb.useGravity = true;
+            CanMove = true;
         }
+    }
+
+    [PunRPC]
+    public void RPC_Slow(float duration)
+    {
+        StartCoroutine(SlowEffect(duration));
+    }
+
+    IEnumerator SlowEffect(float duration)
+    {
+        //Slow down the speed
+        float originalWalkSpeed = walkSpeed;
+        float originalRunSpeed = runSpeed;
+
+        // Slow down to half speed (adjust the multiplier if needed)
+        walkSpeed *= 0.5f;
+        runSpeed *= 0.5f;
+        yield return new WaitForSeconds(duration);
+        //Back to original speed
+        walkSpeed = originalWalkSpeed;
+        runSpeed = originalRunSpeed;
+    }
+
+    [PunRPC]
+    public void RPC_Freeze(float duration)
+    {
+        StartCoroutine(FreezeEffect(duration));
+        CanMove = false;
+    }
+
+    IEnumerator FreezeEffect(float duration)
+    {
+        CanMove = false;
+        yield return new WaitForSeconds(duration);
+        CanMove = true;
     }
 }

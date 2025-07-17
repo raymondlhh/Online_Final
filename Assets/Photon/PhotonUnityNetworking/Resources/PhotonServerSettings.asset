@@ -118,6 +118,8 @@ MonoBehaviour:
   - RPC_StartShipAnimation
   - RPC_TriggerDoor
   - RPC_LieDown
+  - RPC_Slow
+  - RPC_Freeze
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -12,7 +12,6 @@ public class FloatAlien : MonoBehaviourPunCallbacks
     public Animator floatAnimator;
 
     private float lastAttackTime;
-    private bool isCurrentlyAttacking = false;
 
     void Start()
     {
@@ -23,8 +22,6 @@ public class FloatAlien : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        bool foundTargetToAttack = false;
-
         Collider[] hitPlayers = Physics.OverlapSphere(transform.position, attackRadius);
 
         foreach (var hit in hitPlayers)
@@ -32,28 +29,18 @@ public class FloatAlien : MonoBehaviourPunCallbacks
             if (hit.CompareTag("Player") && Time.time >= lastAttackTime + cooldownTime)
             {
                 Debug.Log("Collide with player!");
-
+                
                 PhotonView targetPV = hit.GetComponent<PhotonView>();
                 if (targetPV != null)
                 {
+                    floatAnimator.SetTrigger("isAttacking");
                     targetPV.RPC("RPC_Float", targetPV.Owner, floatDuration);
                     lastAttackTime = Time.time;
-                    foundTargetToAttack = true;
+
                     break;
                 }
             }
         }
 
-        // Handle Animator isAttacking state
-        if (foundTargetToAttack && !isCurrentlyAttacking)
-        {
-            isCurrentlyAttacking = true;
-            floatAnimator.SetBool("isAttacking", true);
-        }
-        else if (!foundTargetToAttack && isCurrentlyAttacking)
-        {
-            isCurrentlyAttacking = false;
-            floatAnimator.SetBool("isAttacking", false);
-        }
     }
 }

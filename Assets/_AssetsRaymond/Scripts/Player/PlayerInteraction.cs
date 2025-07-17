@@ -333,6 +333,9 @@ public class PlayerInteraction : MonoBehaviour
         transform.position = hidePos;
         isHidden = true;
 
+        gameObject.layer = LayerMask.NameToLayer("CloakedPlayer");
+        SetLayerRecursively(transform, LayerMask.NameToLayer("CloakedPlayer"));
+
         //foreach (Renderer rend in renderers)
         //    rend.enabled = false;
 
@@ -359,13 +362,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         isHidden = false;
         transform.position = unhidePos;
-        // Enable visuals
-        //foreach (Renderer rend in renderers)
-        //{
-        //    rend.enabled = true;
-        //}
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        SetLayerRecursively(transform, LayerMask.NameToLayer("Player"));
 
-        // Enable movement
         if (playerMovement != null)
         {
             playerMovement.CanMove = true;
@@ -377,5 +376,15 @@ public class PlayerInteraction : MonoBehaviour
         // Enable collider
         if (capsuleCollider != null)
             capsuleCollider.enabled = true;
+    }
+
+    void SetLayerRecursively(Transform obj, int newLayer)
+    {
+        obj.gameObject.layer = newLayer;
+
+        foreach (Transform child in obj)
+        {
+            SetLayerRecursively(child, newLayer);
+        }
     }
 } 

@@ -156999,7 +156999,7 @@ MonoBehaviour:
   MedicalBed_UI: {fileID: 1018073107}
   ChooseLevel_UI: {fileID: 1886400681}
   Level_UI: {fileID: 456772177}
-  SceneName: AlienEnemyTest
+  SceneName: EmpireLevel
 --- !u!1 &1443856246
 GameObject:
   m_ObjectHideFlags: 0
@@ -232598,14 +232598,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187248543503411}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7660445, y: 0, z: 0, w: 0.64278764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 2.53687, z: -0.05764507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6507199095482262390}
   m_Father: {fileID: 4786188851116727170}
-  m_LocalEulerAnglesHint: {x: -100, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8386331478687747929
 BoxCollider:
   m_ObjectHideFlags: 0

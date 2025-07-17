@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
 {
@@ -13,6 +14,7 @@ public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
     [Header("Gate Animation")]
     public Animator GateAnimator;
     private bool gateOpened = false;
+    string scene;
 
     void Awake()
     {
@@ -25,6 +27,7 @@ public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
         {
             GateAnimator.enabled = false; // Disable animator at the start
         }
+        scene = SceneManager.GetActiveScene().name;
     }
 
     public void RegisterLitFire(FireTorch fire)
@@ -37,6 +40,7 @@ public class SixFirePuzzleManager : MonoBehaviourPunCallbacks
             Debug.Log("Try call the Open Gate function!");
             photonView.RPC("RPC_OpenDoor", RpcTarget.All);
         }
+        
     }
 
     public void UnregisterLitFire(FireTorch fire)

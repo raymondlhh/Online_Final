@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+using UnityEditor.SearchService;
 
 public class FireTorch : MonoBehaviourPunCallbacks
 {
@@ -12,6 +14,7 @@ public class FireTorch : MonoBehaviourPunCallbacks
     private float timer = 0f;
 
     public GameObject fire;
+    string scene;
 
     //void Awake()
     //{
@@ -21,6 +24,7 @@ public class FireTorch : MonoBehaviourPunCallbacks
     void Start()
     {
         fire.SetActive(false);
+        scene = SceneManager.GetActiveScene().name;
     }
 
 
@@ -60,14 +64,15 @@ public class FireTorch : MonoBehaviourPunCallbacks
             // Add visual fire effect here (e.g., particle system)
             Debug.Log("RPC_Ignite: Trying to register fire to SixFirePuzzleManager.");
 
-            if (SixFirePuzzleManager.Instance != null)
-            {
-                SixFirePuzzleManager.Instance.RegisterLitFire(this);
-            }
-            else
-            {
-                Debug.LogError("SixFirePuzzleManager.Instance is NULL on this client!");
-            }
+                if (SixFirePuzzleManager.Instance != null)
+                {
+                    SixFirePuzzleManager.Instance.RegisterLitFire(this);
+                }
+                else
+                {
+                    Debug.LogError("SixFirePuzzleManager.Instance is NULL on this client!");
+                }
+
         }
     }
 
@@ -79,7 +84,9 @@ public class FireTorch : MonoBehaviourPunCallbacks
             timer = 0f;
             fire.SetActive(false);
             // Add extinguish effect here
-            SixFirePuzzleManager.Instance.UnregisterLitFire(this);
+
+                SixFirePuzzleManager.Instance.UnregisterLitFire(this);
+            
         }
     }
 

@@ -10,15 +10,14 @@ public class AlienMovement : MonoBehaviourPunCallbacks
     public float floatStartY = 20f;
     public float floatDownSpeed = 2f;
     public float moveSpeed = 3f;
+    public float stopDistance = 1f;
 
     private bool hasDescended = false;
 
+
     void Start()
     {
-        // Only the Master Client controls alien behavior
-        //if (!PhotonNetwork.IsMasterClient) return;
-
-        // Start from high position
+        
         Vector3 pos = transform.position;
         transform.position = new Vector3(pos.x, floatStartY, pos.z);
 
@@ -54,17 +53,23 @@ public class AlienMovement : MonoBehaviourPunCallbacks
         Transform closestPlayer = GetClosestPlayer();
         if (closestPlayer == null) return;
 
-        // Maintain float height while moving towards player XZ
-        Vector3 targetPos = new Vector3(closestPlayer.position.x, floatTargetY, closestPlayer.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        Vector3 alienXZ = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 playerXZ = new Vector3(closestPlayer.position.x, 0, closestPlayer.position.z);
+        float distance = Vector3.Distance(alienXZ, playerXZ);
 
 
-        // Face the player (optional)
-        Vector3 lookDirection = targetPos - transform.position;
-        if (lookDirection != Vector3.zero)
+        if (distance > stopDistance)
         {
-            Quaternion rot = Quaternion.LookRotation(lookDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, 5f * Time.deltaTime);
+            Vector3 targetPos = new Vector3(closestPlayer.position.x, floatTargetY, closestPlayer.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+
+            // Face the player (optional)
+            Vector3 directionToPlayer = closestPlayer.position - transform.position;
+if (directionToPlayer != Vector3.zero)
+{
+    Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+}
         }
     }
 
