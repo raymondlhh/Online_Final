@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
-using UnityEditor.SearchService;
+// using UnityEditor.SearchService;
 
 public class FireTorch : MonoBehaviourPunCallbacks
 {
