@@ -59,7 +59,7 @@ public class SpaceShip : MonoBehaviourPunCallbacks
         // Start coroutine only on the MasterClient to load scene after animation
         if (PhotonNetwork.IsMasterClient)
         {
-            StartCoroutine(LoadNextSceneAfterDelay(5f)); // Adjust time to match animation
+            StartCoroutine(LoadNextSceneAfterDelay(12f)); // Adjust time to match animation
         }
     }
 

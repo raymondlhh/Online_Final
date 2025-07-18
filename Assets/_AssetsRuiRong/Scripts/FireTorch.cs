@@ -9,7 +9,7 @@ public class FireTorch : MonoBehaviourPunCallbacks
 {
     public static FireTorch instance;
     
-    private float extinguishTime = 100f;
+    private float extinguishTime = 10f;
     private bool isLit = false;
     private float timer = 0f;
 
