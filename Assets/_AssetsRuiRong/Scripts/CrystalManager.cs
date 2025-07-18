@@ -10,7 +10,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     public int totalCrystals = 3;
     private int crystalsCollected = 0;
 
-    public bool AllCollected = true;
+    public bool AllCollected = false;
 
     private List<PlayerUICrystal> playerUIs = new List<PlayerUICrystal>();
 
@@ -23,7 +23,7 @@ public class CrystalManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        AllCollected = true;
+        AllCollected = false;
         crystalsCollected = 0;
     }
 

@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class SpawnAlienEnemy : MonoBehaviour
 {
-    public GameObject AlienEnemy;
+    public GameObject AlienEnemy1;
+    public GameObject AlienEnemy2;
+    public GameObject AlienEnemy3;
     
     // Start is called before the first frame update
     void Start()
     {
-        AlienEnemy.SetActive(false);
+        AlienEnemy1.SetActive(false);
+        AlienEnemy2.SetActive(false);
+        AlienEnemy3.SetActive(false);
     }
 
     // Update is called once per frame
@@ -25,7 +29,9 @@ public class SpawnAlienEnemy : MonoBehaviour
         {
             if(CrystalManager.Instance.AllCollected)
             {
-                AlienEnemy.SetActive(true);
+                AlienEnemy1.SetActive(true);
+                AlienEnemy2.SetActive(true);
+                AlienEnemy3.SetActive(true);
             }
         }
     }
